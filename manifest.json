@@ -1,0 +1,27 @@
+{
+    "short_name": "Map",
+    "name": "Map",
+    "icons": [
+      {
+        "src": "./images/maps.webp",
+        "type": "image/png",
+        "sizes": "500x500"
+      },
+      {
+        "src": "./images/maps.webp",
+        "type": "image/png",
+        "sizes": "500x500"
+      },
+      {
+        "src": "./images/maps.webp",
+        "type": "image/png",
+        "sizes": "500x500"
+      }
+    ],
+    "start_url": "./",
+    "background_color": "#FFFFFF",
+    "display": "standalone",
+    "theme_color": "#FFFFFF",
+    "description": "Map",
+    "orientation": "portrait"
+  }

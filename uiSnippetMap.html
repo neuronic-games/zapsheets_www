@@ -1,0 +1,145 @@
+<header id="page-header" class="game_header pt-4" style="display: none;">
+    <div class="container">
+        <div class="game_logo" onclick="">
+            <img src="images/icon_map.png?version=1.7" alt="" class="img-fluid mr-3" width="60"/>
+            <img src="images/zapsheets.png?version=1.7" alt="" class="img-fluid" width="250"/>
+        </div>
+        <h1 class="h2 header_title mt-md-5 mt-4 font-poppins">Maps and Events</h1>
+    </div>
+    <p id="versionId" class="versionContiner"></p>
+</header>
+  
+<!-- List / Slideshow View Start -->
+<div class="container mt-2 mb-5">
+    <div class="row">
+        <div class="col-md-12" class="cardListHolder">
+        <div id="cardList" class="cardList"></div>
+        </div>
+        <div id="mainAppContainer" class="mainContainer text-uppercase">
+        <div id="defaultBG" class="defaultBGImageContainer">
+            <img id="defaultBGImage" class="defaultBGImg" src="" alt="" />
+        </div>
+        <div id="topSlider" class="slideshowContainer">
+            <div id="related_events" class="related_events"></div>
+            <div class="sliderOutline"></div>
+            <p id="slideLoading" class="slideLoading">Loading Event Slides..</p>
+        </div>
+        <div class="uiSplitter">
+            <div id="directoryContainer" class="directory"></div>
+            <div id="blankContainer" class="blankContainer"></div>
+            <div id="mapContainer" class="map">
+            <div id="versionMapInfo" class="versionMap"></div>
+            <div id="sliderDate" class="timeContainer">10:30 AM</div>
+            <div class="mapAreaHolder">
+                <img id="defaultMapImageHolder" src="" alt="" referrerpolicy="no-referrer" />
+                <img id="mapImageHolder" src="" alt="" onload="CheckImgLoaded();" referrerpolicy="no-referrer" />
+                <img id="kioskImageHolder" src="" alt="" referrerpolicy="no-referrer" />
+                <img id="textImageHolder" src="" alt="" referrerpolicy="no-referrer" />
+                <!-- <p id="loadingMap">LOADING MAP..</p> -->
+            </div>
+            </div>
+
+            <div id="languageToggle" class="languageToggle">
+            <p id="langEng" onclick="setActiveLanguage(event, 'eng');">ENGLISH</p> | <p id="langSpa" onclick="setActiveLanguage(event, 'spa');">SPANISH</p>
+            </div>
+
+        </div>
+
+        </div>
+        <div id="spinningLoader" class="text-center loader-spinner-text" style="display: none;">
+            <h4 id="loadingTxt">Loading Map Assets..<br></h4>
+        </div>
+
+        <div id="splashScreenSection" style="display: flex;
+            flex-direction: row;
+            justify-content: center;
+            height: 100vh;
+            width: 100%;
+            flex-wrap: nowrap; z-index: 0;">
+            <img id="loadingScreenImg" src="./images/maps@300x.webp" style="z-index: 1059;" alt="" onContextMenu="return false;" >
+        </div>
+        <div id="loaderPre" class="spinner-box">
+            
+            <div id="preloaderCircle" class="circle-border" style="top: 75vh;
+            position: absolute; display: none;">
+                <div class="circle-core"></div>
+            </div>
+
+            <div id="preLoader"></div>
+
+            <img id="noConnectionStart" src="./images/floristry_mobile_sym_no_conn.webp"  style="position: absolute; display: none; width: 9vh; top: 20vh;"/>
+            
+            <!-- <img id="slowConnectionStart" src="./images/conn_good.png"  style="position: absolute; display: none; width: 7vh; top: 20vh !important;"/> -->
+            <!-- <img id="slowConnectionStart" src="./images/conn_no_new.png"  style="position: absolute; display: none; width: 11vh; height: 11vh; top:17vh !important;"/> -->
+             
+            <img src="./images/conn_no_new.png"  style="position: absolute; display: none; width: 8vh; height: 8vh; top:18.5vh !important;"/>
+            <img id="slowConnectionStart" src="./images/conn_good_new.png"  style="position: absolute; display: block; width: 8vh; height: 8vh; top:18.5vh !important;"/>
+            
+
+            <div id="versionText" style="position: absolute;
+                top: 71vh;
+                left: 50%;
+                width: 89%;
+                font-size: 2.5vh;
+                text-align: center;
+                color: #E2E792;
+                display: block;
+                text-shadow: 0 0 3px #683F97, 0 0 3px rgb(104, 95, 95);;
+                transform: translate(-50%, 0%); font-family: AcuminVariableConcept; line-height: 2.6vh; font-weight: 600;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer id="page-footer" class="game_footer mt-auto pb-4" style="position: absolute; bottom: 0vh; width: 100%; display: none;">
+    <div class="container">
+        <div class="copyright text-center text-light"><!-- © 2023 zsheets 2023 All Right Reserved --></div>
+    </div>
+</footer>
+
+<div id="splashScreen" class="splashHolder" onclick="HideSplashScreen();">
+    <img id="splashImg" referrerpolicy="no-referrer" alt="" />
+</div>
+
+<div id="eventScreen" class="splashEventHolder" >
+    <div id="eventDataContainer" class="eventDataContainer">
+        <div>
+        <p class="directoryView" onclick="HideEventScreen();">VIEW DIRECTORY</p>
+        <div class="eventSection">
+            <p id="eventTitle" style="user-select: none;">TALENT SHOW</p>
+            <p id="eventTimeLoc" class="eventTimeLocation">2:00 PM - LIBRARY</p>
+            <p id="eventDesc" class="eventDescription">This is Talent show text. This is Talent show text. This is Talent show text. This is Talent show text. This is Talent show text</p>
+            <div id="sponsoredHolder">
+            <p id="sponsorText" class="sponsorTextContainer">SPONSORED BY</p>
+            <p id="eventsSponsor" class="sponsorTitle">CHAMPION ENERGY SERVICES</p>
+            </div>
+            <div id="tagContainer" class="tagContainer">
+            <div id="ageContainer" class="tagListContainer"><div class="eventTag"></div><div id="eventsAge" class="tagTitle">ALL AGES</div></div>
+            <div id="etagContainer" class="tagListContainer"><div class="eventTag"></div><div id="eventsTag" class="tagTitle">DROP IN</div></div>
+            </div>
+            <div id="eventLocationContainer" class="eventLocationContainer">
+            <p id="whereText">WHERE:</p>
+            <div class="mapLocationContainer">
+                <img id="eventLocationIcon" src="images/map/location.png" alt="" class="eventLocationIcon" />
+                <p id="eventsLocation" class="eventLocation">ECOSTATION</p>
+            </div>
+            </div>
+        </div>
+        </div>
+        <div id="barCodeBlock" class="barCodeBlock">
+        <div class="eventMapView"></div>
+        <div class="qrcodeGen" id="slide_barcode"></div>
+
+        </div>
+    </div>
+
+    <div id="eventImageBlock" class="eventImageBlock">
+        <img id="eventImg" referrerpolicy="no-referrer" alt="" />
+    </div>
+    <div id="locationmapImageHolder">
+        <img id="defaultLocationMapImageHolder" src="" alt="" referrerpolicy="no-referrer" />
+        <img id="locationMap" src="" alt="" referrerpolicy="no-referrer" />
+        <img id="kioskLocationImageHolder" src="" alt="" referrerpolicy="no-referrer" />
+        <img id="textLocationImageHolder" src="" alt="" referrerpolicy="no-referrer" />
+    </div>
+</div>
