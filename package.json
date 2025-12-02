@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "frontend-dependencies": "^2.0.1"
+  },
+  "frontendDependencies": {
+    "target": "static/",
+    "packages": {
+      "jquery": {
+        "version": "3.5.1",
+        "src": "dist/jquery.min.js"
+      },
+      "slick-carousel": {
+        "version": "^1.8.1",
+        "src": "slick/slick.js"
+      }
+    }
+  },
+  "scripts": {
+    "postinstall": "node ./node_modules/frontend-dependencies/index.js"
+  }
+}

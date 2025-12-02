@@ -1,5 +1,16 @@
-/sheets/
+# Private data
 **/credentials.json
 /.env
+
+# Application data
+/sheets/
 /log/
+
+# PHP packages
 /vendor/
+
+# Javascript packages
+/node_modules/
+
+# Frontend Javascript packages
+/static/
