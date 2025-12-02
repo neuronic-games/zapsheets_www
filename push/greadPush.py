@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 # Credentials [Keys etc]
-credFileName = "credentials.json"
+credFileName = "../credentials.json"
 mServiceAccount = gspread.service_account(filename=credFileName)
 mGoogleSheetId = sys.argv[1].split('sheetname')[0]
 
