@@ -1,4 +1,6 @@
 <?php 
+    require "../dotEnv.php";
+
     /* header('Content-Type: text/html; charset=ISO-8859-1'); */
     /*
     Arguments from index file
@@ -9,7 +11,7 @@
 
     // Local Testing
     $python_file_name = "gread.py "; 
-    $python_execution = "python ".$python_file_name .$sheetId .'sheetname' .$sheet; 
+    $python_execution = $_ENV['PYTHON'] . ' ' . $python_file_name .$sheetId .'sheetname' .$sheet; 
     $output = shell_exec($python_execution); 
     echo $output;   
     

@@ -1,4 +1,7 @@
 <?php
+
+    require "../dotEnv.php";
+
     // Getting spreadsheet Id from script app
     // header('Content-Type: text/html; charset=ISO-8859-1');
     
@@ -22,20 +25,12 @@
         // And update version.json file place on the server under the 
         // spreadsheet id folder name
 
-        // For local testing
-        /* $sheetName = 'Settings';
-        $python_file_name = "greadPush.py "; 
-        $python_execution = "python ".$python_file_name .$spreadsheetId .'sheetname' .$sheetName .'dateString' .$dateStr; 
-        $versionNum = shell_exec($python_execution);
-        $versionNum = str_replace("\r\n","",$versionNum); */
-        //echo $versionNum;
-
         /////////////////////////////////////////////////////////////
-        // For Server
         $sheetName = 'Settings';
-        $py_command = escapeshellcmd('source /home/zapsheets/virtualenv/public_html/steps/3.11/bin/python3 greadPush.py ' .$spreadsheetId .'sheetname' .$sheetName .'dateString' .$dateStr); 
+        $py_command = escapeshellcmd($_ENV['PYTHON'] . ' greadPush.py ' .$spreadsheetId .'sheetname' .$sheetName .'dateString' .$dateStr); 
         $versionNum = shell_exec($py_command);
         $versionNum = str_replace("\r\n","", $versionNum);
+        //echo $versionNum;
         /////////////////////////////////////////////////////////////
 
         // Now update version so that the running app looks for updated version
@@ -64,7 +59,7 @@
         /////////////////////////////////////////////////////////////
         // For Server
         $sheetName = $sheet;
-        $py_command = escapeshellcmd('source /home/zapsheets/virtualenv/public_html/steps/3.11/bin/python3 gread.py ' .$spreadsheetId .'sheetname' .$sheetName); 
+        $py_command = escapeshellcmd($_ENV['PYTHON'] . ' gread.py ' .$spreadsheetId .'sheetname' .$sheetName); 
         $settingsData = shell_exec($py_command);
         /////////////////////////////////////////////////////////////
         
@@ -83,7 +78,7 @@
         /////////////////////////////////////////////////////////////
         // For Server
         $sheetName = $sheet;
-        $py_command = escapeshellcmd('source /home/zapsheets/virtualenv/public_html/steps/3.11/bin/python3 gread.py ' .$spreadsheetId .'sheetname' .$sheetName); 
+        $py_command = escapeshellcmd($_ENV['PYTHON'] . ' gread.py ' .$spreadsheetId .'sheetname' .$sheetName); 
         $directoryData = shell_exec($py_command);
         /////////////////////////////////////////////////////////////
 
@@ -102,7 +97,7 @@
         /////////////////////////////////////////////////////////////
         // For Server
         $sheetName = $sheet;
-        $py_command = escapeshellcmd('source /home/zapsheets/virtualenv/public_html/steps/3.11/bin/python3 gread.py ' .$spreadsheetId .'sheetname' .$sheetName); 
+        $py_command = escapeshellcmd($_ENV['PYTHON'] . ' gread.py ' .$spreadsheetId .'sheetname' .$sheetName); 
         $eventsData = shell_exec($py_command);
         /////////////////////////////////////////////////////////////
        
@@ -112,16 +107,10 @@
     } else if ($sheet == 'Kiosks') {
         $jsonFile = "../sheets/" . $spreadsheetId . "/kiosks.json";
 
-        // For Local
-        /* $sheetName = $sheet;
-        $python_file_name = "gread.py "; 
-        $python_execution = "python ".$python_file_name .$spreadsheetId .'sheetname' .$sheetName; 
-        $kiosksData = shell_exec($python_execution); */
-
         /////////////////////////////////////////////////////////////
         // For Server
         $sheetName = $sheet;
-        $py_command = escapeshellcmd('source /home/zapsheets/virtualenv/public_html/steps/3.11/bin/python3 gread.py ' .$spreadsheetId .'sheetname' .$sheetName); 
+        $py_command = escapeshellcmd($_ENV['PYTHON'] . ' gread.py ' .$spreadsheetId .'sheetname' .$sheetName); 
         $kiosksData = shell_exec($py_command);
         /////////////////////////////////////////////////////////////
        
