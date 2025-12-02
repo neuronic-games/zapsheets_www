@@ -4,7 +4,7 @@
 
 1. Clone the repository, e.g. `git clone git@github.com:neuronic-games/zapsheets_www.git`
 2. Install PHP, Python, Python Virtualenv, PHP Composer
-3. Make a Python virtualenv, install `gspread`
+3. Make a Python virtualenv, activate it, run `pip install -r requirements.txt` to install `gspread`
 4. Run `composer install` to install `phpdotenv`
 5. Get `credentials.json` and a sheet ID from other team members
 6. Launch a local PHP server, `php -S 0.0.0.0:8000`
