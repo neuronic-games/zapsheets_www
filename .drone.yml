@@ -1,0 +1,18 @@
+---
+kind: pipeline
+name: deploy to site
+steps:
+  - name: php syntax check
+    image: php:8.4.15-cli
+    commands:
+      - for f in $(find /drone -name '*.php'); do php -l "$f"; done
+  - name: run playwright tests
+    image: php:8.4.15-cli
+    commands:
+      - apt update && apt install --no-install-recommends -y python3-pip chromium nodejs npm
+      - cd /bin && curl https://getcomposer.org/installer | php
+      - composer.phar install
+      - npx -y playwright install --with-deps chromium
+      - pip install -r requirements.txt --break-system-packages
+      - php -S 0.0.0.0:8000 &
+      - composer.phar test
