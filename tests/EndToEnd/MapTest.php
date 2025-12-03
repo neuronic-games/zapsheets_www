@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DependsExternal;
 use function Playwright\Testing\expect;
 
 require_once __DIR__ . '/../helpers/TestHelper.php';
@@ -9,6 +10,7 @@ require_once __DIR__ . '/../helpers/TestHelper.php';
  */
 class MapTest extends TestHelper
 {
+    #[DependsExternal('PushTest', 'testPushAll')]
     public function testIndex(): void
     {
         $this->navigateTo('/?id=' . $_ENV['TEST_SPREADSHEET_ID']);

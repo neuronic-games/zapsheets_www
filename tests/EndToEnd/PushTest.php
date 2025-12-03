@@ -9,7 +9,7 @@ require_once __DIR__ . '/../helpers/TestHelper.php';
  */
 class PushTest extends TestHelper
 {
-    public function testIndex(): void
+    public function testPushAll(): void
     {
         $this->navigateTo('/push/?id=' . $_ENV['TEST_SPREADSHEET_ID']);
 
