@@ -10,7 +10,11 @@ steps:
     image: php:8.4.15-cli
     commands:
       - apt update && apt install --no-install-recommends -y python3-pip chromium nodejs npm
-      - cd /bin && curl https://getcomposer.org/installer | php
+      - cd /bin 
+      - curl https://getcomposer.org/installer | php
+      - cd -
+      # - cd /drone
+      - ls 
       - composer.phar install
       - npx -y playwright install --with-deps chromium
       - pip install -r requirements.txt --break-system-packages
