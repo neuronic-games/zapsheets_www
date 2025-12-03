@@ -4,3 +4,6 @@
 /.env.testing
 /log/
 /vendor/
+/tests/.phpunit.cache
+/.php-cs-fixer.cache
+/tests/screenshots/
