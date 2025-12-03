@@ -12,5 +12,6 @@ steps:
     image: neuronicgames/zapsheets-dev
     commands:
       - pwd && ls
+      - composer.phar install
       - php -S 0.0.0.0:8000 &
       - composer.phar test
