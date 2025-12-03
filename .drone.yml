@@ -1,13 +1,16 @@
 ---
 kind: pipeline
 name: lint & test
+workspace:
+  path: /app
 steps:
   - name: php syntax check
     image: neuronicgames/zapsheets-dev
     commands:
-      - for f in $(find /drone -name '*.php'); do php -l "$f"; done
+      - for f in $(find /app -name '*.php'); do php -l "$f"; done
   - name: run playwright tests
     image: neuronicgames/zapsheets-dev
     commands:
+      - pwd && ls
       - php -S 0.0.0.0:8000 &
       - composer.phar test
