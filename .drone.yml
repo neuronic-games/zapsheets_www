@@ -3,19 +3,11 @@ kind: pipeline
 name: lint & test
 steps:
   - name: php syntax check
-    image: php:8.4.15-cli
+    image: neuronicgames/zapsheets-dev
     commands:
       - for f in $(find /drone -name '*.php'); do php -l "$f"; done
   - name: run playwright tests
-    image: php:8.4.15-cli
+    image: neuronicgames/zapsheets-dev
     commands:
-      - apt update && apt install --no-install-recommends -y python3-pip chromium nodejs npm unzip
-      - cd /bin 
-      - curl https://getcomposer.org/installer | php
-      - cd -
-      - ls && pwd
-      - composer.phar install
-      - npx -y playwright install --with-deps chromium
-      - pip install -r requirements.txt --break-system-packages
       - php -S 0.0.0.0:8000 &
       - composer.phar test
