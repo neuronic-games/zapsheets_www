@@ -1,5 +1,5 @@
 /sheets/
-**/credentials.json
+**/credentials.json*
 /.env
 /.env.testing
 /log/
