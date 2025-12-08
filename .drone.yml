@@ -13,8 +13,11 @@ steps:
     environment:
       TEST_SPREADSHEET_ID:
         from_secret: test_spreadsheet_id
+      GOOGLE_CREDENTIALS:
+        from_secret: google_credentials
     commands:
       - cp .env.example .env
+      - echo "$GOOGLE_CREDENTIALS" >> credentials.json
       - composer.phar install
       - composer.phar serve &
       - geckodriver &
