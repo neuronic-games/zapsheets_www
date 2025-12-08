@@ -10,6 +10,9 @@ steps:
       - for f in $(find /app -name '*.php'); do php -l "$f"; done
   - name: run end-to-end tests
     image: neuronicgames/zapsheets-dev
+    environment:
+      TEST_SPREADSHEET_ID:
+        from_secret: test_spreadsheet_id
     commands:
       - composer.phar install
       - composer.phar serve &
