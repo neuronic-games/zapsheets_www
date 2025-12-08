@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\Attributes\DependsExternal;
-use function Playwright\Testing\expect;
+use Facebook\WebDriver\WebDriverBy;
 
 require_once __DIR__ . '/../helpers/TestHelper.php';
 
@@ -17,16 +17,24 @@ class MapTest extends TestHelper
 
         $this->waitForElement("#defaultScreen", 5 * 1000);
 
-        $this->page->locator("#directoryContainer")->waitFor(['state' => 'visible']);
+        $this->driver->wait(20)->until(
+            function($driver) {
+                $directoryContainer = $driver->findElements(WebDriverBy::id("directoryContainer"));
+                $spinningLoader = $driver->findElements(WebDriverBy::id("spinningLoader"));
+                $splashScreen = $driver->findElements(WebDriverBy::id("splashScreen"));
+                
+                return count($directoryContainer) > 0 && 
+                       $directoryContainer[0]->isDisplayed() &&
+                       (count($spinningLoader) === 0 || !$spinningLoader[0]->isDisplayed()) &&
+                       (count($splashScreen) === 0 || !$splashScreen[0]->isDisplayed());
+            }
+        );
 
-        $this->page->locator("#spinningLoader")->waitFor(['state' => 'hidden']);
+        $mapListElement = $this->waitForElement("#mapListContainer", 20 * 1000);
+        $mapListText = $mapListElement->getText();
+        
+        $this->assertStringContainsString("Admissions", $mapListText);
 
-        $this->page->locator("#splashScreen")->waitFor(['state' => 'hidden']);
-
-        expect($this->page->locator("#mapListContainer div div:first-child"))
-          ->withTimeout(20 * 1000)
-          ->toContainText("Admissions");
-
-        $this->page->screenshot(getScreenshotPath(get_class($this) . '::MapTest'));
+        $this->takeScreenshot(getScreenshotPath(get_class($this) . '::MapTest'));
     }
 }

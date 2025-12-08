@@ -1,77 +1,94 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Playwright\Playwright;
+use Facebook\WebDriver\Remote\DesiredCapabilities;
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverExpectedCondition;
+use Facebook\WebDriver\Firefox\FirefoxOptions;
+use Facebook\WebDriver\Firefox\FirefoxDriver;
 
 /**
- * Base class for E2E tests using Playwright
+ * Base class for E2E tests using php-webdriver with geckodriver
  */
 abstract class TestHelper extends TestCase
 {
-    protected $context;
-    protected $page;
+    protected $driver;
     protected $baseUrl;
-    
+
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->baseUrl = getTestServerUrl();
-        
-        // Initialize Playwright
-        $options = PLAYWRIGHT_BROWSER_OPTIONS;
-        $this->context = Playwright::chromium([
-            'headless' => $options['headless'],
-            'slowMo' => 0
-        ]);
-        
-        $this->page = $this->context->newPage();
-        
-        // Set viewport size
-        $this->page->setViewportSize($options['viewport']['width'], $options['viewport']['height']);
-        
-        // Set default timeout
-        // Note: Playwright PHP may have different method for timeout
+
+        // Initialize WebDriver with geckodriver
+        $options = WEBDRIVER_BROWSER_OPTIONS;
+
+        // Set up Firefox options
+        $firefoxOptions = new FirefoxOptions();
+        if ($options['headless']) {
+            $firefoxOptions->addArguments(['-headless']);
+        }
+
+        // Set capabilities for Firefox
+        $capabilities = DesiredCapabilities::firefox();
+        $capabilities->setCapability(FirefoxOptions::CAPABILITY, $firefoxOptions);
+
+        // Create WebDriver instance using geckodriver directly
+        // This avoids the need for Selenium Server
+        $this->driver = FirefoxDriver::start($capabilities);
+
+        // Set window size
+        $this->driver->manage()->window()->setSize(
+            new \Facebook\WebDriver\WebDriverDimension(
+                $options['viewport']['width'],
+                $options['viewport']['height']
+            )
+        );
+
+        // Set implicit wait
+        $this->driver->manage()->timeouts()->implicitlyWait(10);
     }
-    
+
     protected function tearDown(): void
     {
         // Take screenshot on test failure
         if (method_exists($this, 'getStatus') && $this->getStatus() === \PHPUnit\Runner\BaseTestRunner::STATUS_FAILURE) {
             $screenshotPath = getScreenshotPath(get_class($this) . '::' . $this->getName());
-            $this->page->screenshot(['path' => $screenshotPath]);
+            $this->driver->takeScreenshot($screenshotPath);
             echo "Screenshot saved to: $screenshotPath";
         }
-        
-        // Clean up Playwright resources
-        if ($this->page) {
-            $this->page->close();
+
+        // Clean up WebDriver resources
+        if ($this->driver) {
+            $this->driver->quit();
         }
-        
-        if ($this->context) {
-            $this->context->close();
-        }
-        
+
         parent::tearDown();
     }
-    
+
     /**
      * Navigate to a URL and wait for it to load
      */
     protected function navigateTo($path)
     {
         $url = rtrim($this->baseUrl, '/') . '/' . ltrim($path, '/');
-        $this->page->goto($url);
+        $this->driver->get($url);
     }
-    
+
     /**
      * Wait for an element to be visible
      */
     protected function waitForElement($selector, $timeout = 5000)
     {
-        return $this->page->waitForSelector($selector, ['timeout' => $timeout]);
+        $by = $this->getBySelector($selector);
+        $this->driver->wait($timeout / 1000)->until(
+            WebDriverExpectedCondition::visibilityOfElementLocated($by)
+        );
+        return $this->driver->findElement($by);
     }
-    
+
     /**
      * Click on an element
      */
@@ -80,46 +97,92 @@ abstract class TestHelper extends TestCase
         $element = $this->waitForElement($selector);
         $element->click();
     }
-    
+
     /**
      * Type text into an input field
      */
     protected function typeText($selector, $text)
     {
         $element = $this->waitForElement($selector);
-        $element->fill($text);
+        $element->sendKeys($text);
     }
-    
+
     /**
      * Get text content of an element
      */
     protected function getElementText($selector)
     {
         $element = $this->waitForElement($selector);
-        return $element->textContent();
+        return $element->getText();
     }
-    
+
     /**
      * Wait for page to fully load
      */
     protected function waitForPageLoad()
     {
-        $this->page->waitForLoadState('networkidle');
+        $this->driver->wait()->until(
+            WebDriverExpectedCondition::jsReturnsTrue("return document.readyState === 'complete'")
+        );
     }
-    
+
     /**
      * Check if element exists
      */
     protected function elementExists($selector)
     {
-        return $this->page->locator($selector)->count() > 0;
+        $by = $this->getBySelector($selector);
+        $elements = $this->driver->findElements($by);
+        return count($elements) > 0;
     }
-    
+
     /**
      * Wait for navigation to complete
      */
     protected function waitForNavigation()
     {
-        $this->page->waitForLoadState();
+        $this->waitForPageLoad();
+    }
+
+    /**
+     * Convert CSS selector to WebDriverBy object
+     */
+    private function getBySelector($selector)
+    {
+        // Handle simple CSS selectors
+        if (strpos($selector, '#') === 0) {
+            // ID selector
+            $id = substr($selector, 1);
+            return WebDriverBy::id($id);
+        } elseif (strpos($selector, '.') === 0) {
+            // Class selector
+            $class = substr($selector, 1);
+            return WebDriverBy::className($class);
+        } else {
+            // Default to CSS selector
+            return WebDriverBy::cssSelector($selector);
+        }
+    }
+
+    /**
+     * Wait for element to be hidden
+     */
+    protected function waitForElementHidden($selector, $timeout = 5000)
+    {
+        $by = $this->getBySelector($selector);
+        $this->driver->wait($timeout / 1000)->until(
+            WebDriverExpectedCondition::invisibilityOfElementLocated($by)
+        );
+    }
+
+    /**
+     * Take a screenshot
+     */
+    protected function takeScreenshot($filename = null)
+    {
+        $path = $filename ?: getScreenshotPath(get_class($this) . '::' . $this->getName());
+        $this->driver->takeScreenshot($path);
+        return $path;
     }
 }
+

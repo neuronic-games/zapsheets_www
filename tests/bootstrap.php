@@ -41,14 +41,16 @@ foreach ($testDirs as $dir) {
 
 // Helper function for test server URL
 if (!function_exists('getTestServerUrl')) {
-    function getTestServerUrl() {
+    function getTestServerUrl()
+    {
         return $_ENV['TEST_SERVER_URL'] ?? 'http://localhost:8000';
     }
 }
 
 // Helper function for screenshot path
 if (!function_exists('getScreenshotPath')) {
-    function getScreenshotPath($testName) {
+    function getScreenshotPath($testName)
+    {
         $screenshotDir = __DIR__ . '/screenshots';
         if (!is_dir($screenshotDir)) {
             mkdir($screenshotDir, 0777, true);
@@ -57,13 +59,13 @@ if (!function_exists('getScreenshotPath')) {
     }
 }
 
-// Configure Playwright browser options
-if (!defined('PLAYWRIGHT_BROWSER_OPTIONS')) {
-    define('PLAYWRIGHT_BROWSER_OPTIONS', [
-        'headless' => true, // Set to false for debugging
+// Configure Selenium WebDriver options with geckodriver
+if (!defined('WEBDRIVER_BROWSER_OPTIONS')) {
+    define('WEBDRIVER_BROWSER_OPTIONS', [
+        'headless' => false, // Set to false for debugging
         'timeout' => 30000,
         'viewport' => ['width' => 1280, 'height' => 720],
-        'ignoreHTTPSErrors' => true,
+        'browser' => 'firefox',
     ]);
 }
 

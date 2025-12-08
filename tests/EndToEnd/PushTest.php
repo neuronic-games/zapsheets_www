@@ -1,11 +1,11 @@
 <?php
 
-use function Playwright\Testing\expect;
+use Facebook\WebDriver\WebDriverBy;
 
 require_once __DIR__ . '/../helpers/TestHelper.php';
 
 /**
- * Test main application functionality
+ * Test push interface functionality
  */
 class PushTest extends TestHelper
 {
@@ -13,10 +13,18 @@ class PushTest extends TestHelper
     {
         $this->navigateTo('/push/?id=' . $_ENV['TEST_SPREADSHEET_ID']);
 
-        expect($this->page->locator("#loadingTxt"))
-          ->withTimeout(2 * 60 * 1000) // 2 minutes
-          ->toContainText("All data published");
+        $this->driver->wait(180)->until(
+            function ($driver) {
+                $loadingElements = $driver->findElements(WebDriverBy::id("loadingTxt"));
+                if (count($loadingElements) === 0) {
+                    return false;
+                }
 
-        $this->page->screenshot(getScreenshotPath(get_class($this) . '::PushTest'));
+                $loadingText = $loadingElements[0]->getText();
+                return strpos($loadingText, "All data published") !== false;
+            }
+        );
+
+        $this->takeScreenshot(getScreenshotPath(get_class($this) . '::PushTest'));
     }
 }
