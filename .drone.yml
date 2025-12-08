@@ -8,7 +8,7 @@ steps:
     image: neuronicgames/zapsheets-dev
     commands:
       - for f in $(find /app -name '*.php'); do php -l "$f"; done
-  - name: run playwright tests
+  - name: run end-to-end tests
     image: neuronicgames/zapsheets-dev
     commands:
       - composer.phar install
