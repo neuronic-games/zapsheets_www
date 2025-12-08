@@ -9,7 +9,10 @@
     "minimum-stability": "dev",
     "prefer-stable": false,
     "scripts": {
-        "server": "php -S 0.0.0.0:8000",
+        "server": [
+          "Composer\\Config::disableProcessTimeout",
+          "php -S 0.0.0.0:8000"
+        ],
         "test-e2e": "cd tests && ../vendor/bin/phpunit"
     }
 }
