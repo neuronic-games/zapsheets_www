@@ -17,7 +17,7 @@ steps:
         from_secret: google_credentials
     commands:
       - cp .env.example .env
-      - echo "$GOOGLE_CREDENTIALS" >> credentials.json
+      - echo "$GOOGLE_CREDENTIALS" | base64 -d >> credentials.json
       - composer.phar install
       - composer.phar serve &
       - geckodriver &
