@@ -18,6 +18,7 @@ steps:
     commands:
       - cp .env.example .env
       - echo "$GOOGLE_CREDENTIALS" >> credentials.json
+      - cat credentials.json
       - composer.phar install
       - composer.phar serve &
       - geckodriver &
