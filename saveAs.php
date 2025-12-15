@@ -34,7 +34,7 @@
   //$dir = './images/map/cacheImages/';
   
   $target = "live";
-  $rootFolder = "../sheets/" . $sheet_Id . "/" . $target;
+  $rootFolder = "./sheets/" . $spreadsheetId . "/" . $target;
    
   $dir = $rootFolder . '/cacheImages/';
   
@@ -46,8 +46,10 @@
   /* if (!file_exists('./images/map/cacheImages/')) {
     mkdir('./images/map/cacheImages/', 0777, true);
   } */
-  if (!file_exists($rootFolder . '/cacheImages/')) {
-    mkdir($rootFolder . '/cacheImages/', 0777, true);
+  $folder = $rootFolder . '/cacheImages/';
+  echo ">>>>> Creating " . $folder;
+  if (!file_exists($folder)) {
+    mkdir($folder, 0777, true);
   }
 
 
@@ -72,6 +74,7 @@
 
         //if (!file_exists($dir . $file_name)) {
 
+        echo ">>>>>" . $dir . $file_name;
         if(!empty($url)) {
           $content = file_get_contents($url);
           $output = file_put_contents($dir . $file_name, $content);

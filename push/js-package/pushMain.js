@@ -2311,8 +2311,9 @@ function CheckImageStatus() {
                     } else {
                         //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                         if(imgid != '') {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
+                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgPath + '.png</font><br>'
                             updateInfoTextView()
+                            debugger;
                         }
                     }
                 })
