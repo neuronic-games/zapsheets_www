@@ -31,17 +31,12 @@
   // Initialize directory name where 
   // file will be save 
   //$dir = './images/map/cacheImages/';
-  $dir = './sheets/' . $spreadsheetId . '/cacheImages/';
   
+  $target = "live";
+  $rootFolder = "../sheets/" . $spreadsheetId . "/" . $target;
   
-  //$dir = 'C:/Users/Legion/Documents/Neuronic/liveImages/'; 
-  //$dir = 'C:/map_cacheImages/'; 
-
-  /* if (!file_exists('./images/map/cacheImages/')) {
-    mkdir('./images/map/cacheImages/', 0777, true);
-  } */
- if (!file_exists('./sheets/' . $spreadsheetId . '/cacheImages/')) {
-    mkdir('./sheets/' . $spreadsheetId . '/cacheImages/', 0777, true);
+  if (!file_exists($rootFolder . '/cacheImages')) {
+    mkdir($rootFolder. '/cacheImages', 0777, true);
   }
 
 

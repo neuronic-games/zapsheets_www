@@ -344,6 +344,10 @@ function updateInfoTextView() {
  * function used to get the app provate data from sheet
  */
 function getGamesPrivateData() {
+  
+    let target = "live"
+    let rootFolder = "../sheets/" + sheet_Id + "/" + target
+
     setTimeout(function() {
     // iOS Fix
     var cookiesStat = checkCookieStatus();
@@ -367,7 +371,7 @@ function getGamesPrivateData() {
 
             var directoryRequest = $.ajax({ 
                 //url: "sheets/" + sheet_Id + "/directory.json?version=" + currentSheetVersion,
-                url: "./sheets/" + sheet_Id + "/directory.json?version=" + UIVersion, 
+                url: rootFolder + "/directory.json?version=" + UIVersion, 
                 cache: true,
                 type: 'GET',
                 dataType: "text",
@@ -411,7 +415,7 @@ function getGamesPrivateData() {
         }
         updateInfoTextView()
         var directoryRequest = $.ajax({ 
-        url: "./sheets/" + sheet_Id + "/directory.json?version=" + UIVersion,
+        url: rootFolder + "/directory.json?version=" + UIVersion,
         cache: true,
         type: 'GET',
         dataType: "text",
@@ -454,6 +458,10 @@ function getGamesSettingData() {
     //console.log("GET SETTINGS DATA")
     // showing message
     //return
+  
+    let target = "live"
+    let rootFolder = "../sheets/" + sheet_Id + "/" + target
+
     document.getElementById("loadingTxt").innerHTML += "Checking Settings..<br>"
     updateInfoTextView()
     setTimeout(function() {
@@ -490,39 +498,23 @@ function getGamesSettingData() {
                                 if(window.navigator.onLine == true) {
                                     if (row["Value"].includes("https://drive.google.com")) {
                                         imgid = row["Value"].split('https://drive.google.com')[1].split('/')[3];
-                                        //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                                        // Prev
-                                        /* imgPath = 'images/map/cacheImages/' + imgid + ".png?version=" + currentSheetVersion; */
-                                        imgPath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
+                                        imgPath = rootFolder + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
 
                                     } else {
                                         let name = row["Value"].split('/')
                                         let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                                        //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                                        // Prev
-                                        /* let imagePath = 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                                        let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                                        let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                                         imgPath = imagePath;
                                     }
                                 } else {
                                     if (row["Value"].includes("https://drive.google.com")) {
                                         imgid = row["Value"].split('https://drive.google.com')[1].split('/')[3];
-                                        //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                                        // Prev
-                                        /* imgPath = 'images/map/cacheImages/' + imgid + ".png?version=" + currentSheetVersion */
-                                        imgPath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + ".png?version=" + UIVersion
+                                        imgPath = rootFolder + '/cacheImages/' + imgid + ".png?version=" + UIVersion
                                     } else {
                                         let name = row["Value"].split('/')
                                         let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                                        //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                                        // Prev
-                                        /* let imagePath = 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                                        let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                                        let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                                         imgPath = imagePath;
                                     }
@@ -530,7 +522,7 @@ function getGamesSettingData() {
                                 if(imgPath == '') {
                                     let name = row["Value"].split('/')
                                     let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                                     splash_img = imagePath
                                 } else {
@@ -618,7 +610,7 @@ function getGamesSettingData() {
                 //console.log("IN REFRESH")
                 var settingRequest = $.ajax({ 
                     //url: 'sheets/' + sheet_Id + "/settings.json?version=" + currentSheetVersion,
-                    url: './sheets/' + sheet_Id + "/settings.json?version=" + UIVersion,
+                    url: rootFolder + "/settings.json?version=" + UIVersion,
                     cache: true,
                     type: 'GET',
                     dataType: "text",
@@ -665,39 +657,23 @@ function getGamesSettingData() {
                                     if(window.navigator.onLine == true) {
                                         if (row["Value"].includes("https://drive.google.com")) {
                                             imgid = row["Value"].split('https://drive.google.com')[1].split('/')[3];
-                                            //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                                            // Prev
-                                            /* imgPath = 'images/map/cacheImages/' + imgid + ".png?version=" + currentSheetVersion; */
-                                            imgPath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
+                                            imgPath = rootFolder + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
 
                                         } else {
                                             let name = row["Value"].split('/')
                                             let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                                            //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                                            // Prev
-                                            /* let imagePath = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999); */
-                                            let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion
+                                            let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion
 
                                             imgPath = imagePath;
                                         }
                                     } else {
                                         if (row["Value"].includes("https://drive.google.com")) {
                                             imgid = row["Value"].split('https://drive.google.com')[1].split('/')[3];
-                                            //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                                            // Prev
-                                            /* imgPath = 'images/map/cacheImages/' + imgid + ".png?version=" + currentSheetVersion */
-                                            imgPath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + ".png?version=" + UIVersion
+                                            imgPath = rootFolder + '/cacheImages/' + imgid + ".png?version=" + UIVersion
                                         } else {
                                             let name = row["Value"].split('/')
                                             let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                                            //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                                            // Prev
-                                            /* let imagePath = 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                                            let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                                            let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                                             imgPath = imagePath;
                                         }
@@ -705,10 +681,7 @@ function getGamesSettingData() {
                                     if(imgPath == '') {
                                         let name = row["Value"].split('/')
                                         let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                                        //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                                        
-                                        let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                                        let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                                         splash_img = imagePath
                                     } else {
@@ -848,6 +821,9 @@ function getGamesSettingData() {
  * function to get kiosk data from the spreadsheet
  */
 function getMapKioskData() {
+    let target = "live"
+    let rootFolder = "../sheets/" + sheet_Id + "/" + target
+
     //console.log("Now try to load kiosk data")
     document.getElementById("loadingTxt").innerHTML += "Checking Kiosks..<br>"
     updateInfoTextView()
@@ -865,7 +841,7 @@ function getMapKioskData() {
                 }
                 updateInfoTextView()
                 var kioskRequest = $.ajax({ 
-                    url: "./sheets/" + sheet_Id + "/kiosks.json?version=" + UIVersion, 
+                    url: rootFolder + "/kiosks.json?version=" + UIVersion, 
                     cache: true,
                     type: 'GET',
                     dataType: "text",
@@ -907,7 +883,7 @@ function getMapKioskData() {
             }
             updateInfoTextView()
             var kioskRequest = $.ajax({ 
-                url: "./sheets/" + sheet_Id + "/kiosks.json?version=" + UIVersion,
+                url: rootFolder + "/kiosks.json?version=" + UIVersion,
                 cache: true, 
                 type: 'GET',
                 dataType: "text",
@@ -1100,6 +1076,9 @@ isJSONData = str => {
  * Check user passed params authenticity
  */
 function checkUserQueryString() {
+    let target = "live"
+    let rootFolder = "../sheets/" + sheet_Id + "/" + target
+
     setTimeout(function() {
     let messageBody = ""
     if(sheet_Id == "") {
@@ -1182,11 +1161,7 @@ function checkUserQueryString() {
                             if(window.navigator.onLine == true) {
                                 if (row["Value"].includes("https://drive.google.com")) {
                                     imgid = row["Value"].split('https://drive.google.com')[1].split('/')[3];
-                                    // './sheets/' + sheet_Id + '/cacheImages/'
-
-                                    // Prev
-                                    /* imgPath = 'images/map/cacheImages/' + imgid + ".png?version=" + currentSheetVersion; */
-                                    imgPath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
+                                    imgPath = rootFolder + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
 
                                 } else {
                                     let name = row["Value"].split('/')
@@ -1194,26 +1169,19 @@ function checkUserQueryString() {
 
                                     // Prev
                                     /* let imagePath = 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
                                     imgPath = imagePath;
                                 }
                             } else {
                                 //imgPath = "./images/earshot-games_splash.png";
                                 if (row["Value"].includes("https://drive.google.com")) {
                                     imgid = row["Value"].split('https://drive.google.com')[1].split('/')[3];
-                                    // './sheets/' + sheet_Id + '/cacheImages/'
-
-                                    // Prev
-                                    /* imgPath = "images/map/cacheImages/" + imgid + ".png?version=" + currentSheetVersion */
-                                    imgPath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + ".png?version=" + UIVersion
+                                    imgPath = rootFolder + '/cacheImages/' + imgid + ".png?version=" + UIVersion
 
                                 } else {
                                     let name = row["Value"].split('/')
                                     let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-
-                                    // Prev
-                                    /* let imagePath = "images/map/cacheImages/" + imageName + "?version=" + currentSheetVersion; */
-                                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                                     imgPath = imagePath;
                                 }
@@ -1223,7 +1191,7 @@ function checkUserQueryString() {
                                 let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
 
                                 
-                                let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                                let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                                 splash_img = imagePath
                             } else {
@@ -1336,7 +1304,7 @@ function checkUserQueryString() {
             setTimeout(function() {
                 //alert(sheet_Id)
                 var eventRequest = $.ajax({
-                url: './sheets/' + sheet_Id + "/events.json?version=" + UIVersion, 
+                url: rootFolder + "/events.json?version=" + UIVersion, 
                 cache: true,
                 type: 'GET',
                 dataType: "text",
@@ -1400,7 +1368,7 @@ function checkUserQueryString() {
 
             setTimeout(function() {
             var eventRequest = $.ajax({
-                url: "./sheets/" + sheet_Id + "/events.json?version=" + UIVersion, 
+                url: rootFolder + "/events.json?version=" + UIVersion, 
                 cache: true,
                 type: 'GET',
                 dataType: "text",
@@ -2016,30 +1984,12 @@ function setActiveMenu(event, menuIndex) {
         // Previous
         if (privateDataList[menuIndex]['Map Image'].includes("https://drive.google.com")) {
             imgid = privateDataList[menuIndex]['Map Image'].split('https://drive.google.com')[1].split('/')[3];
-            //imgPath = "https://drive.google.com/thumbnail?id=" + imgid + "&sz=w3500";
-            //imgPath = "images/map/cacheImages/" + imgid + ".png?version=" + Math.random(99999999999);
-            // './sheets/' + sheet_Id + '/cacheImages/'
-            // Prev
-            /* imgPath = window.navigator.onLine == true && cacheFirst == false ? "images/map/cacheImages/" + imgid + ".png?version=" + currentSheetVersion : "images/map/cacheImages/" + imgid + ".png?version=" + currentSheetVersion; */
-            imgPath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
-
-            //document.getElementById('mapImageHolder').src = imgPath
+            imgPath = rootFolder + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
         } else {
-            // Prev
-            //imgPath = privateDataList[menuIndex]['Map Image'];
             let name =  privateDataList[menuIndex]['Map Image'].split('/')
             let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-            // New Changes
-            //let imagePath = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-            // './sheets/' + sheet_Id + '/cacheImages/'
-
-            // Prev
-            /* let imagePath =  window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : "images/map/cacheImages/" + imageName + "?version=" + currentSheetVersion; */
-            let imagePath =  './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
-
-            // New
+            let imagePath =  rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
             imgPath = imagePath
-            //document.getElementById('mapImageHolder').src = imgPath
         }
         if(privateDataList[menuIndex]['Map Image'] != '') {
             document.getElementById('mapImageHolder').style.display = 'block'
@@ -2592,24 +2542,13 @@ function CreateFirstUIScreen() {
                     //console.log(kioskDataList[i].Image)
                     if (kioskDataList[i].Image.includes("https://drive.google.com")) {
                         let imgid = kioskDataList[i].Image.split('https://drive.google.com')[1].split('/')[3];
-                        // Cache Image
-                        //kiosk_Image = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999);
-                        // './sheets/' + sheet_Id + '/cacheImages/'
-
-                        // Prev
-                        /* kiosk_Image = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                        kiosk_Image = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
+                        kiosk_Image = rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
 
                     } else {
                         // Cache Image
                         let name = kioskDataList[i].Image.split('/')
                         let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                        // New Changes
-                        //kiosk_Image = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-
-                        // Prev
-                        /* kiosk_Image = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                        kiosk_Image = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                        kiosk_Image = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
                     }
                     //document.getElementById('kioskImageHolder').src = kioskDataList[i].Image 
                     document.getElementById('kioskImageHolder').src = kiosk_Image
@@ -2624,19 +2563,12 @@ function CreateFirstUIScreen() {
                     if (row['Value'].includes("https://drive.google.com")) {
                         let imgid = row['Value'].split('https://drive.google.com')[1].split('/')[3];
                         // Cache Image
-                        //text_Image = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999);
-                        // Prev
-                        /* text_Image = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                        text_Image = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
+                        text_Image = rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
                     } else {
                         // Cache Image
                         let name = row['Value'].split('/')
                         let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                        // New Changes
-                        //text_Image = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-                        // Prev
-                        /* text_Image = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                        text_Image = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                        text_Image = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
                     }
                 }
                 document.getElementById('textImageHolder').src = text_Image
@@ -2653,6 +2585,8 @@ function CreateFirstUIScreen() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 function showBackgroundImage() {
+    let target = "live"
+    let rootFolder = "../sheets/" + sheet_Id + "/" + target
     let defBGImgPath = ''
     //if(window.navigator.onLine == true) {
         $.each(settingDataList, function (index_setting, row_setting) {
@@ -2660,32 +2594,13 @@ function showBackgroundImage() {
                 if(row_setting['Value'] != '') {
                     if (row_setting['Value'].includes("https://drive.google.com")) {
                         let imgid = row["Value"].split('https://drive.google.com')[1].split('/')[3];
-                        //let imgPath = "https://drive.google.com/thumbnail?id=" + imgid + "&sz=w3500";
-                        //let imagePath = 'images/map/cacheImages/' + imgid + ".png?version=" + Math.random(99999999999);
-                        // './sheets/' + sheet_Id + '/cacheImages/'
-
-                        // Prev
-                        /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + ".png?version=" + currentSheetVersion : "images/map/cacheImages/" + imgid + ".png?version=" + currentSheetVersion; */
-                        let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
+                        let imagePath = rootFolder + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
 
                         defBGImgPath = imagePath;
                     } else {
                         let name = row_setting['Value'].split('/')
                         let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                        
-                        // New Changes
-                        //let imagePath = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-
-                        // Prev
-                        /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-
-                        let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
-
-                        //console.log('images/map/cacheImages/' + imageName, " imagePath")
-
-                        // Actual
-                        //defBGImgPath = row_setting['Value']
-                        // New
+                        let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
                         defBGImgPath = imagePath
                     }
                 }
@@ -2721,34 +2636,13 @@ function showBackgroundImage() {
             if(row_setting['Value'] != '') {
                 if (row_setting['Value'].includes("https://drive.google.com")) {
                     let imgid = row["Value"].split('https://drive.google.com')[1].split('/')[3];
-                    //let imgPath = "https://drive.google.com/thumbnail?id=" + imgid + "&sz=w3500";
-                    //let imagePath = 'images/map/cacheImages/' + imgid + ".png?version=" + Math.random(99999999999);
-                    // './sheets/' + sheet_Id + '/cacheImages/'
-
-                    // Prev
-                    /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + ".png?version=" + currentSheetVersion : "images/map/cacheImages/" + imgid + ".png?version=" + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
+                    let imagePath = rootFolder+ '/cacheImages/' + imgid + ".png?version=" + UIVersion;
 
                     defImgPath = imagePath;
                 } else {
                     let name = row_setting['Value'].split('/')
                     let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                    
-                    // New Changes
-                    //let imagePath = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-                    // './sheets/' + sheet_Id + '/cacheImages/'
-
-                    // Prev
-                    /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
-
-
-                    //console.log('images/map/cacheImages/' + imageName, " imagePath")
-
-                    // Actual
-                    //defBGImgPath = row_setting['Value']
-                    // New
+                    let imagePath = rootFolder+ '/cacheImages/' + imageName + "?version=" + UIVersion;
                     defImgPath = imagePath
                 }
             }
@@ -2879,18 +2773,9 @@ function UpdateUIBasedOnActiveLanguage() {
             let defImgPath = 'images/map/zapsheets_map_map-main.png'
             $.each(settingDataList, function (index_setting, row_setting) {
                 if(row_setting['Name'] == 'DefaultMapImage') {
-                    // Prev
-                    //defImgPath = row_setting['Value']
                     let name =  row_setting['Value'].split('/')
                     let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                    // New Changes
-                    //let imagePath = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-                    // './sheets/' + sheet_Id + '/cacheImages/'
-
-                    // Prev
-                    /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
-                    // New
+                    let imagePath = rootFolder+ '/cacheImages/' + imageName + "?version=" + UIVersion;
                     defImgPath = imagePath
                 }
             })
@@ -3048,13 +2933,7 @@ function UpdateUIBasedOnActiveLanguage() {
                     //defImgPath = row_setting['Value ES']
                     let name =  row_setting['Value ES'].split('/')
                     let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                    // New Changes
-                    //let imagePath = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-                    // './sheets/' + sheet_Id + '/cacheImages/'
-
-                    // Prev
-                    /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                     // New
                     defImgPath = imagePath
@@ -3073,15 +2952,7 @@ function UpdateUIBasedOnActiveLanguage() {
                     //defBGImgPath = row_setting['Value ES']
                     let name = row_setting['Value ES'].split('/')
                     let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                    
-                    // New Changes
-                    //let imagePath = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-                    // './sheets/' + sheet_Id + '/cacheImages/'
-
-                    // Prev
-                    /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                     //console.log('images/map/cacheImages/' + imageName, " imagePath")
 
@@ -4174,24 +4045,17 @@ function checkAndLoadAppScreenOnceReady() {
 function PreloadAllToCache() {
     //var dailyEvent = eventsDataList; //filterAllEventsBasedOnDayTime();
     var imgLoaded = 0
+    let target = 'live'
+    let rootFolder = './sheets/' + sheet_Id + "/" + live
+    
     $.each(settingDataList, function (index_setting, row_setting) {
         if(row_setting['Name'] == 'BackgroundImage') {
             if(row_setting['Value'] != '') {
                 if (row_setting['Value'].includes("https://drive.google.com")) {
                     let imgid = row["Value"].split('https://drive.google.com')[1].split('/')[3];
                     let imgPath = "https://drive.google.com/thumbnail?id=" + imgid + "&sz=w3500";
-                    // Cache Image
-                    /* let bgImage = new Image();
-                    bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
 
-                    //let imagePath = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999);
-                    //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                    // Prev
-                    /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
-
-                    //let isExists = checkIfImageExists('images/map/cacheImages/' + imgid)
                     checkIfImageExists(imagePath, (isExists) => {
                         if(isExists) {
                             //console.log('Caching '  + imgid + '.png')
@@ -4222,7 +4086,7 @@ function PreloadAllToCache() {
 
                     // Prev
                     /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
                     
                     /* let bgImage = new Image();
                     bgImage.src = imagePath */
@@ -4260,7 +4124,7 @@ function PreloadAllToCache() {
 
                     // Prev
                     /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
 
                     /* let bgImage = new Image();
                     bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
@@ -4296,7 +4160,7 @@ function PreloadAllToCache() {
 
                     // Prev
                     /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                    /*  let bgImage = new Image();
                     bgImage.src = imagePath */
@@ -4338,7 +4202,7 @@ function PreloadAllToCache() {
 
                     // Prev
                     /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
 
                     //let isExists = checkIfImageExists('images/map/cacheImages/' + imgid)
                     checkIfImageExists(imagePath, (isExists) => {
@@ -4370,7 +4234,7 @@ function PreloadAllToCache() {
 
                     // Prev
                     /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                     /* let bgImage = new Image();
                     bgImage.src = imagePath; */
@@ -4408,7 +4272,7 @@ function PreloadAllToCache() {
 
                     // Prev
                     /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
 
 
                     /* let bgImage = new Image();
@@ -4444,7 +4308,7 @@ function PreloadAllToCache() {
 
                     // Prev
                     /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                     /* let bgImage = new Image();
                     bgImage.src = imagePath */
@@ -4484,7 +4348,7 @@ function PreloadAllToCache() {
 
                     // Prev
                     /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
 
                    /*  let bgImage = new Image();
                     bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
@@ -4520,7 +4384,7 @@ function PreloadAllToCache() {
 
                     // Prev
                     /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
 
                     /* let bgImage = new Image();
@@ -4558,7 +4422,7 @@ function PreloadAllToCache() {
 
                     // Prev
                     /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
 
                     /* let bgImage = new Image();
                     bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
@@ -4594,7 +4458,7 @@ function PreloadAllToCache() {
 
                     // Prev
                     /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                     /* let bgImage = new Image();
                     bgImage.src = imagePath */
@@ -4632,7 +4496,7 @@ function PreloadAllToCache() {
 
                     // Prev
                     /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
 
                     /* let bgImage = new Image();
                     bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
@@ -4668,7 +4532,7 @@ function PreloadAllToCache() {
 
                     // Prev
                     /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                     /* let bgImage = new Image();
                     bgImage.src = imagePath */
@@ -4704,7 +4568,7 @@ function PreloadAllToCache() {
 
                     // Prev
                     /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
 
                     /* let bgImage = new Image();
                     bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
@@ -4740,7 +4604,7 @@ function PreloadAllToCache() {
 
                     // Prev
                     /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                     /* let bgImage = new Image();
                     bgImage.src = imagePath */
@@ -4783,7 +4647,7 @@ function PreloadAllToCache() {
 
                 // Prev
                 /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
+                let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
 
                 /* let bgImage = new Image();
                 bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
@@ -4819,7 +4683,7 @@ function PreloadAllToCache() {
 
                 // Prev
                 /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                 /* let mapImage = new Image();
                 //console.log(imagePath, " MAP Image>>>>>")
@@ -4861,7 +4725,7 @@ function PreloadAllToCache() {
 
                 // Prev
                 /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
+                let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
 
                /*  let bgImage = new Image();
                 bgImage.src = 'images/map/cacheImages/' + imgid + '.png?vesion=' + Math.random(99999999999); */
@@ -4896,7 +4760,7 @@ function PreloadAllToCache() {
 
                 // Prev
                 /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
 
                /*  let bgImage = new Image();
@@ -4933,7 +4797,7 @@ function PreloadAllToCache() {
 
                 // Prev
                 /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
+                let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
 
                 /* let bgImage = new Image();
                 bgImage.src = 'images/map/cacheImages/' + imgid + '.png?vesion=' + Math.random(99999999999); */
@@ -4968,7 +4832,7 @@ function PreloadAllToCache() {
 
                 // Prev
                 /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                 /* let bgImage = new Image();
                 bgImage.src = imagePath */
@@ -5006,7 +4870,7 @@ function PreloadAllToCache() {
 
                 // Prev
                 /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
+                let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
 
                 /* let bgImage = new Image();
                 bgImage.src = 'images/map/cacheImages/' + imgid + '.png?vesion=' + Math.random(99999999999); */
@@ -5041,7 +4905,7 @@ function PreloadAllToCache() {
 
                 // Prev
                 /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                 /* let bgImage = new Image();
                 bgImage.src = imagePath */
@@ -5186,6 +5050,8 @@ function PreloadAllToCache() {
 } */
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 function downloadImagesLocally(urlString) {
+    let target = "live"
+    let rootFolder = "../sheets/" + sheet_Id + "/" + target
     if(window.navigator.onLine == false) {return}
     var downloadRequest = $.ajax({
         url: 'saveAs.php?version=' + UIVersion, 
@@ -5317,25 +5183,13 @@ function downloadImagesLocally(urlString) {
                         //console.log(kioskDataList[i].Image)
                         if (kioskDataList[i].Image.includes("https://drive.google.com")) {
                             let imgid = kioskDataList[i].Image.split('https://drive.google.com')[1].split('/')[3];
-                            // Cache Image
-                            //kiosk_Image = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999);
-                            //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                            // Prev
-                            /* kiosk_Image = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                            kiosk_Image = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
+                            kiosk_Image = rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
 
                         } else {
                             // Cache Image
                             let name = kioskDataList[i].Image.split('/')
                             let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                            // New Changes
-                            //kiosk_Image = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-                            //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                            // Prev
-                            /* kiosk_Image = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                            kiosk_Image = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                            kiosk_Image = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                         }
                         //document.getElementById('kioskImageHolder').src = kioskDataList[i].Image 
@@ -5350,25 +5204,13 @@ function downloadImagesLocally(urlString) {
                         if(row['Value'] != '') {
                         if (row['Value'].includes("https://drive.google.com")) {
                             let imgid = row['Value'].split('https://drive.google.com')[1].split('/')[3];
-                            // Cache Image
-                            //text_Image = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999);
-                            //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                            // Prev
-                            /* text_Image =  window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                            text_Image =  './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
+                            text_Image =  rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
 
                         } else {
                             // Cache Image
                             let name = row['Value'].split('/')
                             let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                            // New Changes
-                            //text_Image = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-                            //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                            // Prev
-                            /* text_Image =  window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                            text_Image =  './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+\                            text_Image =  rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                         }
                     }
@@ -5642,24 +5484,13 @@ function onItemClick(event, itemObject, index) {
             let imagePath = ''
             if (eventImageURL.includes("https://drive.google.com")) {
                 imgid = eventImageURL.split('https://drive.google.com')[1].split('/')[3];
-                //imgPath = "https://drive.google.com/thumbnail?id=" + imgid + "&sz=w3500";
-                //imagePath = "images/map/cacheImages/" + imgid + ".png?version=" + Math.random(99999999999);
-                // './sheets/' + sheet_Id + '/cacheImages/'
-
-                // Prev
-                /* imagePath = window.navigator.onLine == true && cacheFirst == false ? "images/map/cacheImages/" + imgid + ".png?version=" + currentSheetVersion : "images/map/cacheImages/" + imgid + ".png?version=" + currentSheetVersion; */
-                imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
+                imagePath = rootFolder + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
 
             } else {
                 //let name = JSON.parse(decodeURIComponent(itemObject)).Image.split('/')
                 let name = eventImageURL.split('/')
                 let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                //imagePath = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-                // './sheets/' + sheet_Id + '/cacheImages/'
-
-                // Prev
-                /* imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
             }
 
             // New
@@ -5796,24 +5627,14 @@ function onItemClick(event, itemObject, index) {
                             if(activeLanguage == 'eng') {
                                 let name = row_setting['Value'].split('/')
                                 let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                                //let imagePath = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-                                // './sheets/' + sheet_Id + '/cacheImages/'
-
-                                // Prev
-                                /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                                let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+\                                let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                                 defImgPath = imagePath
                             } else {
                                 // Prev
                                 let name = row_setting['Value ES'].split('/')
                                 let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                                //let imagePath = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-                                // './sheets/' + sheet_Id + '/cacheImages/'
-
-                                // Prev
-                                /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                                let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                                let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
                                 // New
                                 defImgPath = imagePath
                             }
@@ -5827,23 +5648,12 @@ function onItemClick(event, itemObject, index) {
                     let imagePath = ''
                     if (eventImageURL.includes("https://drive.google.com")) {
                         imgid = eventImageURL.split('https://drive.google.com')[1].split('/')[3];
-                        //imgPath = "https://drive.google.com/thumbnail?id=" + imgid + "&sz=w3500";
-                        //imagePath = "images/map/cacheImages/" + imgid + ".png?version=" + Math.random(99999999999);
-                        // './sheets/' + sheet_Id + '/cacheImages/'
-
-                        // Prev
-                        /* imagePath = window.navigator.onLine == true && cacheFirst == false ? "images/map/cacheImages/" + imgid + ".png?version=" + currentSheetVersion : "images/map/cacheImages/" + imgid + ".png?version=" + currentSheetVersion; */
-                        imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
+                        imagePath = rootFolder + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
 
                     } else {
                         let name = eventImageURL.split('/')
                         let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                        //imagePath = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-                        // './sheets/' + sheet_Id + '/cacheImages/'
-
-                        // Prev
-                        /* imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                        imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                        imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
                         
                     }
                     if(eventImageURL != '') {
@@ -5903,24 +5713,14 @@ function onItemClick(event, itemObject, index) {
                             if (kioskDataList[i].Image.includes("https://drive.google.com")) {
                                 let imgid = kioskDataList[i].Image.split('https://drive.google.com')[1].split('/')[3];
                                 // Cache Image
-                                //kiosk_Image = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999);
-                                // './sheets/' + sheet_Id + '/cacheImages/'
-
-                                // Prev
-                                /* kiosk_Image = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                                kiosk_Image = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
+                                kiosk_Image = rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
 
                             } else {
                                 // Cache Image
                                 let name = kioskDataList[i].Image.split('/')
                                 let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
                                 // New Changes
-                                //kiosk_Image = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-                                // './sheets/' + sheet_Id + '/cacheImages/'
-
-                                // Prev
-                                /* kiosk_Image = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                                kiosk_Image = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                                kiosk_Image = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                             }
                             document.getElementById('kioskLocationImageHolder').src = kiosk_Image
@@ -5935,24 +5735,14 @@ function onItemClick(event, itemObject, index) {
                                 if (row['Value'].includes("https://drive.google.com")) {
                                     let imgid = row['Value'].split('https://drive.google.com')[1].split('/')[3];
                                     // Cache Image
-                                    //text_Image = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999);
-                                    // './sheets/' + sheet_Id + '/cacheImages/'
-
-                                    // Prev
-                                    /* text_Image = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion : 'images/map/cacheImages/' + imgid + '.png?version=' + currentSheetVersion; */
-                                    text_Image = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
+                                    text_Image = rootFolder + '/cacheImages/' + imgid + '.png?version=' + UIVersion;
 
                                 } else {
                                     // Cache Image
                                     let name = row['Value'].split('/')
                                     let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
                                     // New Changes
-                                    //text_Image = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-                                    // './sheets/' + sheet_Id + '/cacheImages/'
-
-                                    // Prev
-                                    /* text_Image = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                                    text_Image = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                                    text_Image = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
                                 }
                             }
                             document.getElementById('textLocationImageHolder').src = text_Image
@@ -7206,10 +6996,12 @@ function renderQRCode(element, qrText){
  * loadSettingsData
  */
 function loadSettingsData() {
+    let target = "live"
+    let rootFolder = "../sheets/" + sheet_Id + "/" + target
     //console.log("CALL SJ ON LIVE")
     if(window.navigator.onLine == true) {
         var settingRequest = $.ajax({ 
-            url: './sheets/' + sheet_Id + "/settings.json?version=" + UIVersion,
+            url: rootFolder + "/settings.json?version=" + UIVersion,
             cache: false, 
             type: 'GET',
             dataType: "text",
@@ -7268,7 +7060,9 @@ function fetchSheetDetailsPeriodically() {
         systemMemoryUsed = ''
     } */
    //console.log('checking periodically....', pollTime)
-   systemMemoryUsed = ''
+    let target = "live"
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target
+    let systemMemoryUsed = ''
     let periodicTimer = setTimeout(function() {
         let kiosk_location = ''
         let sheet_version = ''
@@ -7282,7 +7076,7 @@ function fetchSheetDetailsPeriodically() {
             /* getCurrentVersion(); */
             cacheFirst = false;
             var pushRequest = $.ajax({
-                url: "./sheets/" + sheet_Id + "/pushstatus.json?version=" + Math.random(), 
+                url: rootFolder + "/pushstatus.json?version=" + Math.random(), 
                 cache: true,
                 type: 'GET',
                 dataType: "text",
@@ -7291,7 +7085,7 @@ function fetchSheetDetailsPeriodically() {
                     //console.log(pushStatus, " pushStatus")
                     // Get the app version
                     var versionRequest = $.ajax({
-                        url: './sheets/' + sheet_Id + '/version.json?version=' + Math.random(), 
+                        url: rootFolder + '/version.json?version=' + Math.random(), 
                         cache: true,
                         type: 'GET',
                         dataType: "text",
@@ -7502,23 +7296,11 @@ function enableAppScreen() {
             if(window.navigator.onLine == true) {
                 if (row["Value"].includes("https://drive.google.com")) {
                     imgid = row["Value"].split('https://drive.google.com')[1].split('/')[3];
-                    //imgPath = "https://drive.google.com/thumbnail?id=" + imgid + "&sz=w3500";
-                    //imgPath = 'images/map/cacheImages/' + imgid + ".png?version=" + Math.random(99999999999);
-                    //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                    // Prev
-                    /* imgPath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + ".png?version=" + currentSheetVersion : 'images/map/cacheImages/' + imgid + ".png?version=" + currentSheetVersion; */
-                    imgPath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
+                    imgPath = rootFolder + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
                 } else {
                     let name = row["Value"].split('/')
                     let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                    // New Changes
-                    //let imagePath = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-                    //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                    // Prev
-                    /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                     imgPath = imagePath;
                 }
@@ -7526,25 +7308,12 @@ function enableAppScreen() {
                 //imgPath = "./images/earshot-games_splash.png";
                 if (row["Value"].includes("https://drive.google.com")) {
                     imgid = row["Value"].split('https://drive.google.com')[1].split('/')[3];
-                    //imgPath = "https://drive.google.com/thumbnail?id=" + imgid + "&sz=w3500";
-                    //imgPath = 'images/map/cacheImages/' + imgid + ".png?version=" + Math.random(99999999999);
-                    //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                    // Prev
-                    /* imgPath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imgid + ".png?version=" + currentSheetVersion : "images/map/cacheImages/" + imgid + ".png?version=" + currentSheetVersion; */
-                    imgPath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
+                    imgPath = rootFolder + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
 
                 } else {
                     let name = row["Value"].split('/')
                     let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                    // New Changes
-                    //let imagePath = 'images/map/cacheImages/' + imageName + "?version=" + Math.random(99999999999);
-                    //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                    // Prev
-                    /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-
-                    let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                     imgPath = imagePath;
                 }
@@ -7552,12 +7321,7 @@ function enableAppScreen() {
             if(imgPath == '') {
                 let name = row["Value"].split('/')
                 let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                //let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
-
-                // Prev
-                /* let imagePath = window.navigator.onLine == true && cacheFirst == false ? 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion : 'images/map/cacheImages/' + imageName + "?version=" + currentSheetVersion; */
-
-                let imagePath = './sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                 //splash_img = row["Value"]
                 splash_img = imagePath
@@ -7728,10 +7492,12 @@ function savePublishedStateToServer(_value) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 function ReloadCurrentData() {
+    let target = "live"
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target
     //console.log("Getting game setting data")
     //if(window.navigator.onLine == true) {
         var ReadCurrentData = $.ajax({
-            url: "./sheets/" + sheet_Id + "/version.json?version=" + UIVersion,
+            url: rootFolder + "/version.json?version=" + UIVersion,
             cache: true,
             type: 'GET',
             dataType: "text",
@@ -7956,6 +7722,8 @@ function ReloadDateInBackground(sheetVersion) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 function CheckServerDataAvailable() {
+    let target = "live"
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target
     savePublishedStateToServer('true')
     let pushStatus = getPublishedStateToServer();
     //const cTimer = setTimeout(function() {
@@ -7964,7 +7732,7 @@ function CheckServerDataAvailable() {
         //if(window.navigator.onLine == true) {
             // Get the app version
             var checkServerData = $.ajax({
-                url: "./sheets/" + sheet_Id + "/version.json?version=" + UIVersion,
+                url: rootFolder + "/version.json?version=" + UIVersion,
                 cache: true,
                 type: 'GET',
                 dataType: "text",

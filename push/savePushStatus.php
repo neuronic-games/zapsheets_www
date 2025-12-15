@@ -4,8 +4,11 @@
     $statusValue = $_POST['value'] != '' ? $_POST['value'] : 'false';
 
     if($spreadsheetId != '') {
+      	$target = "live";
+      	$rootFolder = "../sheets/" . $spreadsheetId . "/" . $target;
+      
         // Get current stored version id to respective spreadsheet named folder;
-        $jsonFile = "../sheets/" . $spreadsheetId . "/pushstatus.json";
+        $jsonFile = $rootFolder . "/pushstatus.json";
 
         // Check if the folder is not exists then create one and 
         // create the version.json file there with default value (0.0)
