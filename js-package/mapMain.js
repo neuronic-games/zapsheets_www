@@ -1914,6 +1914,8 @@ function MakeEventNormal(event) {
  * @returns 
  */
 function setActiveMenu(event, menuIndex) {
+    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+
     if(event != null) {
         if (event.cancelable) event.preventDefault();
     }
@@ -7449,7 +7451,7 @@ function getPublishedStateToServer() {
         var getPushFromServer = $.ajax({
             url: 'getPushStatus.php?version=' + currentSheetVersion, 
             type:'POST', 
-            data:{'id' : sheet_Id}, 
+            data:{'id' : sheet_Id, 'target' : target}, 
             cache: false,
             success: function (response) {
                 let status = response;

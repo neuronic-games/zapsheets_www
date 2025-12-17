@@ -965,7 +965,7 @@ function savePublishedStateToServer(_value) {
     var saveRequest = $.ajax({
         url: 'savePushStatus.php?version=' + Math.random(), 
         type:'POST', 
-        data:{'id' : sheet_Id, 'value' : _value}, 
+        data:{'id' : sheet_Id, 'target' : target , 'value' : _value}, 
         cache: false, 
        /*  async: false, */
         success: function (response) {
