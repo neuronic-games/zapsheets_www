@@ -345,8 +345,8 @@ function updateInfoTextView() {
  */
 function getGamesPrivateData() {
   
-    let target = "live"
-    let rootFolder = "../sheets/" + sheet_Id + "/" + target
+    let target = "live";
+    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
 
     setTimeout(function() {
     // iOS Fix
@@ -2241,6 +2241,9 @@ function filterDirectoryDataByGroup() {
  */
 function CreateFirstUIScreen() {
 
+    let target = "live";
+    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+
     // For new layout
     // Hide slick slider
     //console.log(activeLayout, " .....")
@@ -2569,6 +2572,7 @@ function CreateFirstUIScreen() {
                         let name = row['Value'].split('/')
                         let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
                         text_Image = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                        console.log(">>>>>>" + text_Image);
                     }
                 }
                 document.getElementById('textImageHolder').src = text_Image
@@ -4044,9 +4048,9 @@ function checkAndLoadAppScreenOnceReady() {
 //////////////////////////////////////////////////////////////////////////////////////
 function PreloadAllToCache() {
     //var dailyEvent = eventsDataList; //filterAllEventsBasedOnDayTime();
-    var imgLoaded = 0
-    let target = 'live'
-    let rootFolder = './sheets/' + sheet_Id + "/" + live
+    var imgLoaded = 0;
+    let target = 'live';
+    let rootFolder = './sheets/' + sheet_Id + "/" + target;
     
     $.each(settingDataList, function (index_setting, row_setting) {
         if(row_setting['Name'] == 'BackgroundImage') {
@@ -5210,7 +5214,7 @@ function downloadImagesLocally(urlString) {
                             // Cache Image
                             let name = row['Value'].split('/')
                             let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-\                            text_Image =  rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                            text_Image =  rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                         }
                     }
@@ -5627,7 +5631,7 @@ function onItemClick(event, itemObject, index) {
                             if(activeLanguage == 'eng') {
                                 let name = row_setting['Value'].split('/')
                                 let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-\                                let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                                let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
 
                                 defImgPath = imagePath
                             } else {
@@ -7263,6 +7267,10 @@ function saveInfoToLog(appVersion, polltimeString, sheetTitle, sheetVersion, kio
  * enableAppScreen
  */
 function enableAppScreen() {
+
+    let target = "live";
+    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+
     //console.log("AAAAA")
     if(isToggle == true) {return}
     //console.log("Enable App Screen")

@@ -1760,8 +1760,8 @@ function cacheImage(tag, row_setting, rootFolder) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 function CheckImageStatus() {
-    let target = "live"
-	let rootFolder = "../sheets/" + sheet_Id + "/" + target
+    let target = "live";
+	let rootFolder = "../sheets/" + sheet_Id + "/" + target;
   
     //var dailyEvent = eventsDataList; //filterAllEventsBasedOnDayTime();
     $.each(settingDataList, function (index_setting, row_setting) {
@@ -2035,7 +2035,7 @@ function CheckImageStatus() {
                     // Cache Image
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = '../images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
-                    let imagePath = rootFolder +  + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
 
                    /*  let bgImage = new Image();
                     bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
@@ -2066,7 +2066,7 @@ function CheckImageStatus() {
                     // New Changes
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
-                    let imagePath = rootFolder +  + '/cacheImages/' + imageName + "?version=" + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
 
                     /* let bgImage = new Image();
                     bgImage.src = imagePath */
@@ -2098,7 +2098,7 @@ function CheckImageStatus() {
                     // Cache Image
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = '../images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
-                    let imagePath = rootFolder +  + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
 
                     /* let bgImage = new Image();
                     bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
@@ -2129,7 +2129,7 @@ function CheckImageStatus() {
                     // New Changes
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
-                    let imagePath = rootFolder +  + '/cacheImages/' + imageName + "?version=" + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
 
                     /* let bgImage = new Image();
                     bgImage.src = imagePath */
@@ -2162,7 +2162,7 @@ function CheckImageStatus() {
                     // Cache Image
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = '../images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
-                    let imagePath = rootFolder +  + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
 
                     /* let bgImage = new Image();
                     bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
@@ -2193,7 +2193,7 @@ function CheckImageStatus() {
                     // New Changes
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
-                    let imagePath = rootFolder +  + '/cacheImages/' + imageName + "?version=" + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
 
                     /* let bgImage = new Image();
                     bgImage.src = imagePath */
@@ -2224,7 +2224,7 @@ function CheckImageStatus() {
                     // Cache Image
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
-                    let imagePath = rootFolder +  + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
 
 
                     /* let bgImage = new Image();
@@ -2256,7 +2256,7 @@ function CheckImageStatus() {
                     // New Changes
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
-                    let imagePath = rootFolder +  + '/cacheImages/' + imageName + "?version=" + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
 
                     /* let bgImage = new Image();
                     bgImage.src = imagePath */
@@ -2294,7 +2294,7 @@ function CheckImageStatus() {
                 // Cache Image
                 // './sheets/' + sheet_Id + '/cacheImages/'
                 //let imagePath = '../images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
-                let imagePath = rootFolder +  + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+                let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
 
                 /* let bgImage = new Image();
                 bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */

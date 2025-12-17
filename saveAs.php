@@ -47,7 +47,6 @@
     mkdir('./images/map/cacheImages/', 0777, true);
   } */
   $folder = $rootFolder . '/cacheImages/';
-  echo ">>>>> Creating " . $folder;
   if (!file_exists($folder)) {
     mkdir($folder, 0777, true);
   }
@@ -74,7 +73,6 @@
 
         //if (!file_exists($dir . $file_name)) {
 
-        echo ">>>>>" . $dir . $file_name;
         if(!empty($url)) {
           $content = file_get_contents($url);
           $output = file_put_contents($dir . $file_name, $content);
