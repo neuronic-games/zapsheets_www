@@ -70,7 +70,7 @@ var settingVersion = 0
 // Controller version
 let controllerVerion = 5
 let appDataLoaded = false;
-let homeLoader = ''
+//let homeLoader = ''
 ///////////////////////////////////////////////////////////////////////////////////////////
 // Getting current App version (version.js)
 function getCurrentLiveVersion() {
