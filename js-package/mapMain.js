@@ -345,7 +345,6 @@ function updateInfoTextView() {
  */
 function getGamesPrivateData() {
   
-    let target = "live";
     let rootFolder = "../sheets/" + sheet_Id + "/" + target;
 
     setTimeout(function() {
@@ -459,8 +458,7 @@ function getGamesSettingData() {
     // showing message
     //return
   
-    let target = "live"
-    let rootFolder = "../sheets/" + sheet_Id + "/" + target
+  let rootFolder = "../sheets/" + sheet_Id + "/" + target;
 
     document.getElementById("loadingTxt").innerHTML += "Checking Settings..<br>"
     updateInfoTextView()
@@ -821,8 +819,7 @@ function getGamesSettingData() {
  * function to get kiosk data from the spreadsheet
  */
 function getMapKioskData() {
-    let target = "live"
-    let rootFolder = "../sheets/" + sheet_Id + "/" + target
+    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
 
     //console.log("Now try to load kiosk data")
     document.getElementById("loadingTxt").innerHTML += "Checking Kiosks..<br>"
@@ -960,7 +957,8 @@ $(document).ready(function() {
     // Fetch Machin info
     //getMLocalMachinInformation()
     ////////////////////////////////////////////////////////
-    sheet_Id = (getUrlVars()["id"]) ? getUrlVars()["id"].split('/')[0] : '1lFYIcS_jQHjSN4hyjbxc1NFkbc6vBqmPueFiLUMYPlc';
+    sheet_Id = getUrlVars()["id"];
+    target = getUrlVars()["target"] ? getUrlVars()["target"] : 'live';
     setVersion_Id = (getUrlVars()["publish_id"]) ? getUrlVars()["publish_id"].split('/')[0] : 'undefined';
     getKiosk_Num = (getUrlVars()["kiosk"]) ? getUrlVars()["kiosk"].split('/')[0] : '1';
     ////////////////////////////////////////////////////////
@@ -1076,8 +1074,7 @@ isJSONData = str => {
  * Check user passed params authenticity
  */
 function checkUserQueryString() {
-    let target = "live"
-    let rootFolder = "../sheets/" + sheet_Id + "/" + target
+    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
 
     setTimeout(function() {
     let messageBody = ""
@@ -2241,7 +2238,6 @@ function filterDirectoryDataByGroup() {
  */
 function CreateFirstUIScreen() {
 
-    let target = "live";
     let rootFolder = "../sheets/" + sheet_Id + "/" + target;
 
     // For new layout
@@ -2589,8 +2585,7 @@ function CreateFirstUIScreen() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 function showBackgroundImage() {
-    let target = "live"
-    let rootFolder = "../sheets/" + sheet_Id + "/" + target
+    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
     let defBGImgPath = ''
     //if(window.navigator.onLine == true) {
         $.each(settingDataList, function (index_setting, row_setting) {
@@ -4049,7 +4044,6 @@ function checkAndLoadAppScreenOnceReady() {
 function PreloadAllToCache() {
     //var dailyEvent = eventsDataList; //filterAllEventsBasedOnDayTime();
     var imgLoaded = 0;
-    let target = 'live';
     let rootFolder = './sheets/' + sheet_Id + "/" + target;
     
     $.each(settingDataList, function (index_setting, row_setting) {
@@ -5054,8 +5048,7 @@ function PreloadAllToCache() {
 } */
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 function downloadImagesLocally(urlString) {
-    let target = "live"
-    let rootFolder = "../sheets/" + sheet_Id + "/" + target
+    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
     if(window.navigator.onLine == false) {return}
     var downloadRequest = $.ajax({
         url: 'saveAs.php?version=' + UIVersion, 
@@ -7000,8 +6993,7 @@ function renderQRCode(element, qrText){
  * loadSettingsData
  */
 function loadSettingsData() {
-    let target = "live"
-    let rootFolder = "../sheets/" + sheet_Id + "/" + target
+    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
     //console.log("CALL SJ ON LIVE")
     if(window.navigator.onLine == true) {
         var settingRequest = $.ajax({ 
@@ -7064,8 +7056,7 @@ function fetchSheetDetailsPeriodically() {
         systemMemoryUsed = ''
     } */
    //console.log('checking periodically....', pollTime)
-    let target = "live"
-    let rootFolder = "./sheets/" + sheet_Id + "/" + target
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target;
     let systemMemoryUsed = ''
     let periodicTimer = setTimeout(function() {
         let kiosk_location = ''
@@ -7268,7 +7259,6 @@ function saveInfoToLog(appVersion, polltimeString, sheetTitle, sheetVersion, kio
  */
 function enableAppScreen() {
 
-    let target = "live";
     let rootFolder = "../sheets/" + sheet_Id + "/" + target;
 
     //console.log("AAAAA")
@@ -7500,8 +7490,7 @@ function savePublishedStateToServer(_value) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 function ReloadCurrentData() {
-    let target = "live"
-    let rootFolder = "./sheets/" + sheet_Id + "/" + target
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target;
     //console.log("Getting game setting data")
     //if(window.navigator.onLine == true) {
         var ReadCurrentData = $.ajax({
@@ -7730,8 +7719,7 @@ function ReloadDateInBackground(sheetVersion) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 function CheckServerDataAvailable() {
-    let target = "live"
-    let rootFolder = "./sheets/" + sheet_Id + "/" + target
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target;
     savePublishedStateToServer('true')
     let pushStatus = getPublishedStateToServer();
     //const cTimer = setTimeout(function() {

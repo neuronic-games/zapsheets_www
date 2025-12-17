@@ -155,7 +155,8 @@ let settingDataList = []
  * variable to store the init urlvars
  */
 var sheet_Id = (getUrlVars()["id"]) ? getUrlVars()["id"].split('/')[0] : '';
-var isPreloadImages = (document.location.search.substr(1).split('&')[1] != '' && document.location.search.substr(1).split('&')[1] != undefined) ? document.location.search.substr(1).split('&')[1] : 'download_images';
+var no_image = getUrlVars()["no_image"] ? true : false;
+var target = getUrlVars()["target"] ? getUrlVars()["target"] : 'live';
 
 //var setVersion_Id = (getUrlVars()["set_version"]) ? getUrlVars()["set_version"].split('/')[0] : 'undefined';
 var setVersion_Id = (getUrlVars()["publish_id"]) ? getUrlVars()["publish_id"].split('/')[0] : 'undefined';
@@ -212,7 +213,7 @@ function UpdateAppVersion() {
                 var updateRequest = $.ajax({
                     url: 'pushSheet.php?version=' + Math.random(), 
                     type:'POST', 
-                    data:{'id' : sheet_Id, 'sheetname' : '', 'date_string' : date_str}, 
+                    data:{'id' : sheet_Id, 'target' : target, 'sheetname' : '', 'date_string' : date_str}, 
                     cache: false, 
                     // async: false,
                     success: function (response) {
@@ -262,7 +263,7 @@ function getSettingsDataFromSheet() {
         var updateRequest = $.ajax({
             url: 'pushSheet.php?version=' + Math.random(), 
             type:'POST', 
-            data:{'id' : sheet_Id, 'sheetname' : 'Settings'}, 
+            data:{'id' : sheet_Id, 'target' : target, 'sheetname' : 'Settings'}, 
             cache: false, 
            /*  async: false, */
             success: function (response) {
@@ -272,8 +273,7 @@ function getSettingsDataFromSheet() {
                 updateInfoTextView() */
                 //document.getElementById('defaultBGImage').style.display = 'none'
 
-                let target = "live"
-            	  let rootFolder = "../sheets/" + sheet_Id + "/" + target
+                let rootFolder = "../sheets/" + sheet_Id + "/" + target;
               
                 setTimeout(function() {
                     //let currentDate = new Date();
@@ -402,7 +402,7 @@ function getDirectoryDataFromSheet() {
         var updateRequest = $.ajax({
             url: 'pushSheet.php?version=' + Math.random(), 
             type:'POST', 
-            data:{'id' : sheet_Id, 'sheetname' : 'Directory'}, 
+            data:{'id' : sheet_Id, 'target' : target, 'sheetname' : 'Directory'}, 
             cache: false, 
            /*  async: false, */
             success: function (response) {
@@ -411,8 +411,7 @@ function getDirectoryDataFromSheet() {
                 updateInfoTextView()
                 //document.getElementById('defaultBGImage').style.display = 'none'
 
-                let target = "live"
-            	  let rootFolder = "../sheets/" + sheet_Id + "/" + target
+                let rootFolder = "../sheets/" + sheet_Id + "/" + target;
               
                 setTimeout(function() {
                     let currentDate = new Date();
@@ -511,7 +510,7 @@ function getEventsDataFromSheet() {
         var updateRequest = $.ajax({
             url: 'pushSheet.php?version=' + Math.random(), 
             type:'POST', 
-            data:{'id' : sheet_Id, 'sheetname' : 'Events'}, 
+            data:{'id' : sheet_Id, 'target' : target, 'sheetname' : 'Events'}, 
             cache: false, 
            /*  async: false, */
             success: function (response) {
@@ -521,8 +520,7 @@ function getEventsDataFromSheet() {
                 updateInfoTextView()
                 //document.getElementById('defaultBGImage').style.display = 'none'
 
-                let target = "live"
-            	  let rootFolder = "../sheets/" + sheet_Id + "/" + target
+            	let rootFolder = "../sheets/" + sheet_Id + "/" + target;
                 
                 setTimeout(function() {
                     let currentDate = new Date();
@@ -859,7 +857,7 @@ function getKiosksDataFromSheet() {
         var updateRequest = $.ajax({
             url: 'pushSheet.php?version=' + Math.random(), 
             type:'POST', 
-            data:{'id' : sheet_Id, 'sheetname' : 'Kiosks'}, 
+            data:{'id' : sheet_Id, 'target' : target, 'sheetname' : 'Kiosks'}, 
             cache: false, 
            /*  async: false, */
             success: function (response) {
@@ -868,8 +866,7 @@ function getKiosksDataFromSheet() {
                 updateInfoTextView()
                 //document.getElementById('defaultBGImage').style.display = 'none'
 
-                let target = "live"
-            	  let rootFolder = "../sheets/" + sheet_Id + "/" + target
+            	let rootFolder = "../sheets/" + sheet_Id + "/" + target;
               
                 setTimeout(function() {
                     let currentDate = new Date();
@@ -919,15 +916,8 @@ function getKiosksDataFromSheet() {
                             //console.log(privateDataList) */
                             //////////////////////////////////////////////////////////////////////////////
 
-                            if(isPreloadImages == 'download_images') {
-                                // Message to info log
-                                document.getElementById("loadingTxt").innerHTML += "Getting images..<br>Please wait..<br>"
-                                updateInfoTextView()
-                                // Preload All Images
-                                PreloadAllImagesToServer();
-
-                            } else {
-                                /* window.ldb.set(sheet_Id.toString() + '_published', 'true') */
+                            if(no_image) {
+                                // Do not publish images
                                 document.getElementById("loadingTxt").innerHTML += "All data published.<br>"
                                 updateInfoTextView()
 
@@ -935,6 +925,13 @@ function getKiosksDataFromSheet() {
 
                                 // Call PHP to save data to the json file
                                 savePublishedStateToServer('true');
+
+                            } else {
+                                // Message to info log
+                                document.getElementById("loadingTxt").innerHTML += "Getting images..<br>Please wait..<br>"
+                                updateInfoTextView()
+                                // Preload All Images
+                                PreloadAllImagesToServer();
 
                             }
                             //////////////////////////////////////////////////////////////////////////////
@@ -1276,7 +1273,7 @@ window.addEventListener('load', (event) => {
     //console.log(globalStatus, " check Status ")
     //console.log(isPreloadImages, " check Image download option")
     // Show Push Title
-    document.getElementById('pushTitle').innerHTML = isPreloadImages == 'download_images' ? 'Publish All Content' : 'Publish Only Text'
+    document.getElementById('pushTitle').innerHTML = no_image ? 'Publish Only Text' : 'Publish All Content';
 
     //return
 
@@ -1441,7 +1438,7 @@ function downloadImagesLocally(urlString) {
     var saveRequest = $.ajax({
         url: '../saveAs.php?version=' + Math.random(), 
         type:'POST', 
-        data:{'imgURL' : urlString, 'id' : sheet_Id}, 
+        data:{'target' : target, 'imgURL' : urlString, 'id' : sheet_Id}, 
         cache: false, 
        /*  async: false, */
         success: function (response) {
@@ -1609,7 +1606,7 @@ function pushVersionToServer() {
         var updateRequest = $.ajax({
             url: 'pushSheet.php?version=' + Math.random(), 
             type:'POST', 
-            data:{'id' : sheet_Id, 'sheetname' : 'Server', 'nVersion' : newVersion}, 
+            data:{'id' : sheet_Id, 'target' : target, 'sheetname' : 'Server', 'nVersion' : newVersion}, 
             cache: false, 
             // async: false,
             success: function (response) {
@@ -1760,7 +1757,6 @@ function cacheImage(tag, row_setting, rootFolder) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 function CheckImageStatus() {
-    let target = "live";
 	let rootFolder = "../sheets/" + sheet_Id + "/" + target;
   
     //var dailyEvent = eventsDataList; //filterAllEventsBasedOnDayTime();

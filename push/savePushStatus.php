@@ -1,10 +1,10 @@
 <?php
     // Getting spreadsheet Id from script app
     $spreadsheetId = $_POST['id'];
+    $target = $_POST['target'];
     $statusValue = $_POST['value'] != '' ? $_POST['value'] : 'false';
 
     if($spreadsheetId != '') {
-      	$target = "live";
       	$rootFolder = "../sheets/" . $spreadsheetId . "/" . $target;
       
         // Get current stored version id to respective spreadsheet named folder;

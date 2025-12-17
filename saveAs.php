@@ -4,6 +4,7 @@
 
   $url = $_POST['imgURL'];
   $spreadsheetId = $_POST['id'];
+  $target = $_POST['target'];
 
   //$urls = explode(',', $_POST['imgURL']);
   //$imageNames = explode(',', $_POST['imageName']);
@@ -33,7 +34,6 @@
   // file will be save 
   //$dir = './images/map/cacheImages/';
   
-  $target = "live";
   $rootFolder = "./sheets/" . $spreadsheetId . "/" . $target;
    
   $dir = $rootFolder . '/cacheImages/';

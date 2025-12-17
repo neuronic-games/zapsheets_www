@@ -3,6 +3,7 @@
   //$url =  'https://www.dropbox.com/scl/fi/56x7232ergtv5c176qr53/cmh_wayfinding_bg.png?rlkey=dah8xxansk2syozv5nskewr5n&dl=1'; //'https://media.geeksforgeeks.org/wp-content/uploads/gfg-40.png'; 
 
   $url = $_POST['imgURL'];
+  $target = $_POST['target'];
 
   //$urls = explode(',', $_POST['imgURL']);
   //$imageNames = explode(',', $_POST['imageName']);
@@ -32,7 +33,6 @@
   // file will be save 
   //$dir = './images/map/cacheImages/';
   
-  $target = "live";
   $rootFolder = "../sheets/" . $spreadsheetId . "/" . $target;
   
   if (!file_exists($rootFolder . '/cacheImages')) {

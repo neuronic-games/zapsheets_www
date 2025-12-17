@@ -4,7 +4,7 @@
         mkdir($jsonFile, 0777, true);
     } */
    
-    $target = "live";
+    $target = $_POST['target'];
 	  $rootFolder = "../sheets/" . $sheet_Id . "/" . $target;
     
     $jsonFile = $rootFolder . '/pushstatus.json';

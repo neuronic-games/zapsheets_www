@@ -7,7 +7,7 @@
     
     $spreadsheetId = $_POST['id'];
     $sheet = $_POST['sheetname'];
-	$target = "live";
+	$target = $_POST['target'] ? $_POST['target'] : "live";
 	$rootFolder = "../sheets/" . $spreadsheetId . "/" . $target;
 
     if($sheet == '') {
