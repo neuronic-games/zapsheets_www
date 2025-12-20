@@ -7125,8 +7125,13 @@ function fetchSheetDetailsPeriodically() {
                                         kiosk_location = kioskDataList[index_kiosk].Location
                                     } 
                                 })
+
+                                document.getElementById("loadingTxt").innerHTML += 'Target: ' + target + '<br>'
+                                updateInfoTextView()
+
                                 document.getElementById("loadingTxt").innerHTML += 'App Version: ' + _version + '<br>'
                                 updateInfoTextView()
+                                
                                 let currentDate = new Date();
                                 document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('MM/DD/YYYY HH:mm:ss').toLocaleString() + "<br>"
                                 updateInfoTextView()
@@ -7509,6 +7514,9 @@ function ReloadCurrentData() {
                 currentVersion = "New"
                 loadType = 'refresh'
                 document.getElementById("loadingTxt").innerHTML = 'Loading Map Assets..<br>'
+                updateInfoTextView()
+
+                document.getElementById("loadingTxt").innerHTML += 'Target: ' + target + '<br>'
                 updateInfoTextView()
 
                 document.getElementById("loadingTxt").innerHTML = 'App Version: ' + _version + '<br>'

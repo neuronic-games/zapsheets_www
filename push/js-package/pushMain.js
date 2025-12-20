@@ -345,6 +345,8 @@ function getSettingsDataFromSheet() {
                                     }
                                 })
 
+                                document.getElementById("loadingTxt").innerHTML += 'Target: ' + target + '<br>'
+                                updateInfoTextView()
 
                                 document.getElementById("loadingTxt").innerHTML += "App Version: " + Number(_version).toFixed(1) + "<br>"
                                 updateInfoTextView()
