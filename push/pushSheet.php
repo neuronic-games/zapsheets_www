@@ -7,18 +7,20 @@
     
     $spreadsheetId = $_POST['id'];
     $sheet = $_POST['sheetname'];
+	$target = $_POST['target'] ? $_POST['target'] : "live";
+	$rootFolder = "../sheets/" . $spreadsheetId . "/" . $target;
 
     if($sheet == '') {
 
         $dateStr = $_POST['date_string'];
 
         // Get current stored version id to respective spreadsheet named folder;
-        $jsonFile = "../sheets/" . $spreadsheetId . "/version.json";
+        $jsonFile = $rootFolder . "/version.json";
 
         // Check if the folder is not exists then create one and 
         // create the version.json file there with default value (0.0)
         if (!file_exists($jsonFile)) {
-            mkdir("../sheets/" . $spreadsheetId, 0777, true);
+            mkdir($rootFolder, 0777, true);
         }
 
         // Call python to get the current spreadsheet version
@@ -48,7 +50,7 @@
         // Return Message to console
         echo $versionNum;
     } else if($sheet == 'Settings') {
-        $jsonFile = "../sheets/" . $spreadsheetId . "/settings.json";
+        $jsonFile = $rootFolder . "/settings.json";
 
         // For Local
         /* $sheetName = $sheet;
@@ -67,7 +69,7 @@
         $output = file_put_contents($jsonFile, $settingsData); 
         echo 'Publishing settings data to server';
     } else if ($sheet == 'Directory') {
-        $jsonFile = "../sheets/" . $spreadsheetId . "/directory.json";
+        $jsonFile = $rootFolder . "/directory.json";
 
         // For Local
         /* $sheetName = $sheet;
@@ -86,7 +88,7 @@
         $output = file_put_contents($jsonFile, $directoryData); 
         echo 'Publishing directory data to server';
     } else if ($sheet == 'Events') {
-        $jsonFile = "../sheets/" . $spreadsheetId . "/events.json";
+        $jsonFile = $rootFolder . "/events.json";
 
         // For Local
         /* $sheetName = $sheet;
@@ -105,7 +107,7 @@
         $output = file_put_contents($jsonFile, $eventsData); 
         echo 'Publishing events data to server';
     } else if ($sheet == 'Kiosks') {
-        $jsonFile = "../sheets/" . $spreadsheetId . "/kiosks.json";
+        $jsonFile = $rootFolder . "/kiosks.json";
 
         /////////////////////////////////////////////////////////////
         // For Server
@@ -119,7 +121,7 @@
         echo 'Publishing kiosk data to server';
     } else if($sheet == 'Server') {
         $updatedVersion = $_POST['nVersion'];
-        $jsonFile = "../sheets/" . $spreadsheetId . "/version.json";
+        $jsonFile = $rootFolder . "/version.json";
         $data = array('version' => ($updatedVersion));
         $json_object = json_encode($data);
         $output = file_put_contents($jsonFile, $json_object); 

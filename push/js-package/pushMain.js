@@ -155,7 +155,8 @@ let settingDataList = []
  * variable to store the init urlvars
  */
 var sheet_Id = (getUrlVars()["id"]) ? getUrlVars()["id"].split('/')[0] : '';
-var isPreloadImages = (document.location.search.substr(1).split('&')[1] != '' && document.location.search.substr(1).split('&')[1] != undefined) ? document.location.search.substr(1).split('&')[1] : 'download_images';
+var no_image = getUrlVars()["no_image"] ? true : false;
+var target = getUrlVars()["target"] ? getUrlVars()["target"] : 'live';
 
 //var setVersion_Id = (getUrlVars()["set_version"]) ? getUrlVars()["set_version"].split('/')[0] : 'undefined';
 var setVersion_Id = (getUrlVars()["publish_id"]) ? getUrlVars()["publish_id"].split('/')[0] : 'undefined';
@@ -212,7 +213,7 @@ function UpdateAppVersion() {
                 var updateRequest = $.ajax({
                     url: 'pushSheet.php?version=' + Math.random(), 
                     type:'POST', 
-                    data:{'id' : sheet_Id, 'sheetname' : '', 'date_string' : date_str}, 
+                    data:{'id' : sheet_Id, 'target' : target, 'sheetname' : '', 'date_string' : date_str}, 
                     cache: false, 
                     // async: false,
                     success: function (response) {
@@ -262,7 +263,7 @@ function getSettingsDataFromSheet() {
         var updateRequest = $.ajax({
             url: 'pushSheet.php?version=' + Math.random(), 
             type:'POST', 
-            data:{'id' : sheet_Id, 'sheetname' : 'Settings'}, 
+            data:{'id' : sheet_Id, 'target' : target, 'sheetname' : 'Settings'}, 
             cache: false, 
            /*  async: false, */
             success: function (response) {
@@ -272,6 +273,8 @@ function getSettingsDataFromSheet() {
                 updateInfoTextView() */
                 //document.getElementById('defaultBGImage').style.display = 'none'
 
+                let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+              
                 setTimeout(function() {
                     //let currentDate = new Date();
                     //document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('YYYY/MM/DD HH:mm:ss') + "<br>"
@@ -279,7 +282,7 @@ function getSettingsDataFromSheet() {
 
                     // Load and store setting data to list
                     var settingRequest = $.ajax({
-                        url: '../sheets/' + sheet_Id + "/settings.json?version=" + Math.random(), 
+                        url: rootFolder + "/settings.json?version=" + Math.random(), 
                         cache: false, 
                        /*  async: false, */
                         type: 'GET',
@@ -342,6 +345,8 @@ function getSettingsDataFromSheet() {
                                     }
                                 })
 
+                                document.getElementById("loadingTxt").innerHTML += 'Target: ' + target + '<br>'
+                                updateInfoTextView()
 
                                 document.getElementById("loadingTxt").innerHTML += "App Version: " + Number(_version).toFixed(1) + "<br>"
                                 updateInfoTextView()
@@ -399,7 +404,7 @@ function getDirectoryDataFromSheet() {
         var updateRequest = $.ajax({
             url: 'pushSheet.php?version=' + Math.random(), 
             type:'POST', 
-            data:{'id' : sheet_Id, 'sheetname' : 'Directory'}, 
+            data:{'id' : sheet_Id, 'target' : target, 'sheetname' : 'Directory'}, 
             cache: false, 
            /*  async: false, */
             success: function (response) {
@@ -408,6 +413,8 @@ function getDirectoryDataFromSheet() {
                 updateInfoTextView()
                 //document.getElementById('defaultBGImage').style.display = 'none'
 
+                let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+              
                 setTimeout(function() {
                     let currentDate = new Date();
                     //document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('YYYY/MM/DD HH:mm:ss') + "<br>"
@@ -415,7 +422,7 @@ function getDirectoryDataFromSheet() {
 
                     // Load and store setting data to list
                     var directoryRequest = $.ajax({
-                        url: '../sheets/' + sheet_Id + "/directory.json?version=" + Math.random(), 
+                        url: rootFolder + "/directory.json?version=" + Math.random(), 
                         cache: false, 
                        /*  async: false, */
                         type: 'GET',
@@ -505,7 +512,7 @@ function getEventsDataFromSheet() {
         var updateRequest = $.ajax({
             url: 'pushSheet.php?version=' + Math.random(), 
             type:'POST', 
-            data:{'id' : sheet_Id, 'sheetname' : 'Events'}, 
+            data:{'id' : sheet_Id, 'target' : target, 'sheetname' : 'Events'}, 
             cache: false, 
            /*  async: false, */
             success: function (response) {
@@ -514,13 +521,16 @@ function getEventsDataFromSheet() {
                 document.getElementById("loadingTxt").innerHTML += response.toString() + "<br>"
                 updateInfoTextView()
                 //document.getElementById('defaultBGImage').style.display = 'none'
+
+            	let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+                
                 setTimeout(function() {
                     let currentDate = new Date();
                     //document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('YYYY/MM/DD HH:mm:ss') + "<br>"
                     //updateInfoTextView()
                     // Load and store setting data to list
                     var eventRequest = $.ajax({
-                        url: '../sheets/' + sheet_Id + "/events.json?version=" + Math.random(), 
+                        url: rootFolder + "/events.json?version=" + Math.random(), 
                         cache: false, 
                        /*  async: false, */
                         type: 'GET',
@@ -849,7 +859,7 @@ function getKiosksDataFromSheet() {
         var updateRequest = $.ajax({
             url: 'pushSheet.php?version=' + Math.random(), 
             type:'POST', 
-            data:{'id' : sheet_Id, 'sheetname' : 'Kiosks'}, 
+            data:{'id' : sheet_Id, 'target' : target, 'sheetname' : 'Kiosks'}, 
             cache: false, 
            /*  async: false, */
             success: function (response) {
@@ -858,6 +868,8 @@ function getKiosksDataFromSheet() {
                 updateInfoTextView()
                 //document.getElementById('defaultBGImage').style.display = 'none'
 
+            	let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+              
                 setTimeout(function() {
                     let currentDate = new Date();
                     //document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('YYYY/MM/DD HH:mm:ss') + "<br>"
@@ -868,7 +880,7 @@ function getKiosksDataFromSheet() {
 
                     // Reading saved data
                     var kioskRequest = $.ajax({
-                        url: '../sheets/' + sheet_Id + "/kiosks.json?version=" + Math.random(), 
+                        url: rootFolder + "/kiosks.json?version=" + Math.random(), 
                         cache: false, 
                        /*  async: false, */
                         type: 'GET',
@@ -906,15 +918,8 @@ function getKiosksDataFromSheet() {
                             //console.log(privateDataList) */
                             //////////////////////////////////////////////////////////////////////////////
 
-                            if(isPreloadImages == 'download_images') {
-                                // Message to info log
-                                document.getElementById("loadingTxt").innerHTML += "Getting images..<br>Please wait..<br>"
-                                updateInfoTextView()
-                                // Preload All Images
-                                PreloadAllImagesToServer();
-
-                            } else {
-                                /* window.ldb.set(sheet_Id.toString() + '_published', 'true') */
+                            if(no_image) {
+                                // Do not publish images
                                 document.getElementById("loadingTxt").innerHTML += "All data published.<br>"
                                 updateInfoTextView()
 
@@ -922,6 +927,13 @@ function getKiosksDataFromSheet() {
 
                                 // Call PHP to save data to the json file
                                 savePublishedStateToServer('true');
+
+                            } else {
+                                // Message to info log
+                                document.getElementById("loadingTxt").innerHTML += "Getting images..<br>Please wait..<br>"
+                                updateInfoTextView()
+                                // Preload All Images
+                                PreloadAllImagesToServer();
 
                             }
                             //////////////////////////////////////////////////////////////////////////////
@@ -955,7 +967,7 @@ function savePublishedStateToServer(_value) {
     var saveRequest = $.ajax({
         url: 'savePushStatus.php?version=' + Math.random(), 
         type:'POST', 
-        data:{'id' : sheet_Id, 'value' : _value}, 
+        data:{'id' : sheet_Id, 'target' : target , 'value' : _value}, 
         cache: false, 
        /*  async: false, */
         success: function (response) {
@@ -1263,7 +1275,7 @@ window.addEventListener('load', (event) => {
     //console.log(globalStatus, " check Status ")
     //console.log(isPreloadImages, " check Image download option")
     // Show Push Title
-    document.getElementById('pushTitle').innerHTML = isPreloadImages == 'download_images' ? 'Publish All Content' : 'Publish Only Text'
+    document.getElementById('pushTitle').innerHTML = no_image ? 'Publish Only Text' : 'Publish All Content';
 
     //return
 
@@ -1428,7 +1440,7 @@ function downloadImagesLocally(urlString) {
     var saveRequest = $.ajax({
         url: '../saveAs.php?version=' + Math.random(), 
         type:'POST', 
-        data:{'imgURL' : urlString, 'id' : sheet_Id}, 
+        data:{'target' : target, 'imgURL' : urlString, 'id' : sheet_Id}, 
         cache: false, 
        /*  async: false, */
         success: function (response) {
@@ -1596,7 +1608,7 @@ function pushVersionToServer() {
         var updateRequest = $.ajax({
             url: 'pushSheet.php?version=' + Math.random(), 
             type:'POST', 
-            data:{'id' : sheet_Id, 'sheetname' : 'Server', 'nVersion' : newVersion}, 
+            data:{'id' : sheet_Id, 'target' : target, 'sheetname' : 'Server', 'nVersion' : newVersion}, 
             cache: false, 
             // async: false,
             success: function (response) {
@@ -1611,10 +1623,148 @@ function pushVersionToServer() {
         ///////////////////
     }
 }
+
+function cacheImage(tag, row_setting, rootFolder) {
+    if(row_setting['Name'] == tag) {
+        if(row_setting['Value'] != '') {
+            if (row_setting['Value'].includes("https://drive.google.com")) {
+                let imgid = row["Value"].split('https://drive.google.com')[1].split('/')[3];
+                let imgPath = "https://drive.google.com/thumbnail?id=" + imgid + "&sz=w3500";
+                // Cache Image
+                /* let bgImage = new Image();
+                bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
+                // // './sheets/' + sheet_Id + '/cacheImages/'
+
+                // prev
+                //let imagePath = '../images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
+                let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+
+                //let isExists = checkIfImageExists('images/map/cacheImages/' + imgid)
+                checkIfImageExists(imagePath, (isExists) => {
+                    if(isExists) {
+                        //console.log('Caching '  + imgid + '.png')
+                        let bgImage = new Image();
+                        bgImage.src = imagePath;
+                       /*  document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
+                        updateInfoTextView() */
+                    } else {
+                        //console.log('Error: '  + imgid + '.png does not exists in server cache.')
+                        if(imgid != '') {
+                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
+                            updateInfoTextView()
+                        }
+                    }
+                })
+                //document.body.appendChild(bgImage);
+            } else {
+                // Cache Image
+                let name = row_setting['Value'].split('/')
+                let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
+                // './sheets/' + sheet_Id + '/cacheImages/'
+            
+                // New Changes
+                //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
+                let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
+                /* let bgImage = new Image();
+                bgImage.src = imagePath */
+                //document.body.appendChild(bgImage);
+
+                //let isExists = checkIfImageExists('images/map/cacheImages/' + imageName)
+                checkIfImageExists(imagePath, (isExists) => {
+                
+                    if(isExists) {
+                        //console.log('Caching '  + imageName)
+                        let bgImage = new Image();
+                        bgImage.src = imagePath
+                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
+                        updateInfoTextView() */
+                    } else {
+                        //console.log('Error: '  + imageName + ' does not exists in server cache.')
+                        if(imageName != '') {
+                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
+                            updateInfoTextView()
+                        }
+                    }
+                })
+            }
+        }
+        if(row_setting['Value ES'] != '') {
+            if (row_setting['Value ES'].includes("https://drive.google.com")) {
+                let imgid = row["Value ES"].split('https://drive.google.com')[1].split('/')[3];
+                let imgPath = "https://drive.google.com/thumbnail?id=" + imgid + "&sz=w3500";
+                // Cache Image
+                // './sheets/' + sheet_Id + '/cacheImages/'
+
+                // Prev
+                //let imagePath = '../images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
+                let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+
+                /* let bgImage = new Image();
+                bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
+                //document.body.appendChild(bgImage);
+
+                //let isExists = checkIfImageExists('images/map/cacheImages/' + imgid)
+                checkIfImageExists(imagePath, (isExists) => {
+                    if(isExists) {
+                        //console.log('Caching '  + imgid + '.png')
+                        let bgImage = new Image();
+                        bgImage.src = imagePath;
+                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
+                        updateInfoTextView() */
+                    } else {
+                        //console.log('Error: '  + imgid + '.png does not exists in server cache.')
+                        if(imgid != '') {
+                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
+                            updateInfoTextView()
+                        }
+                    }
+                })
+
+            } else {
+                // Cache Image
+                let name = row_setting['Value ES'].split('/')
+                let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
+            
+                // New Changes
+                // './sheets/' + sheet_Id + '/cacheImages/'
+
+                // Prev
+                //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
+                let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
+
+               /*  let bgImage = new Image();
+                bgImage.src = imagePath */
+                //document.body.appendChild(bgImage);
+
+                //let isExists = checkIfImageExists('images/map/cacheImages/' + imageName)
+                checkIfImageExists(imagePath, (isExists) => {
+                    if(isExists) {
+                        //console.log('Caching '  + imageName)
+                        let bgImage = new Image();
+                        bgImage.src = imagePath
+                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
+                        updateInfoTextView() */
+                    } else {
+                        //console.log('Error: '  + imageName + ' does not exists in server cache.')
+                        if(imageName != '') {
+                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
+                            updateInfoTextView()
+                        }
+                    }
+                })
+            }
+        }
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 function CheckImageStatus() {
+	let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+  
     //var dailyEvent = eventsDataList; //filterAllEventsBasedOnDayTime();
     $.each(settingDataList, function (index_setting, row_setting) {
+        cacheImage('BackgroundImage', row_setting, rootFolder);
+      
         if(row_setting['Name'] == 'BackgroundImage') {
             if(row_setting['Value'] != '') {
                 if (row_setting['Value'].includes("https://drive.google.com")) {
@@ -1627,7 +1777,7 @@ function CheckImageStatus() {
 
                     // prev
                     //let imagePath = '../images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
-                    let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
 
                     //let isExists = checkIfImageExists('images/map/cacheImages/' + imgid)
                     checkIfImageExists(imagePath, (isExists) => {
@@ -1654,7 +1804,7 @@ function CheckImageStatus() {
                     
                     // New Changes
                     //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
-                    let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
                     /* let bgImage = new Image();
                     bgImage.src = imagePath */
                     //document.body.appendChild(bgImage);
@@ -1687,7 +1837,7 @@ function CheckImageStatus() {
 
                     // Prev
                     //let imagePath = '../images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
-                    let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
 
                     /* let bgImage = new Image();
                     bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
@@ -1720,7 +1870,7 @@ function CheckImageStatus() {
 
                     // Prev
                     //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
-                    let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
 
                    /*  let bgImage = new Image();
                     bgImage.src = imagePath */
@@ -1758,7 +1908,7 @@ function CheckImageStatus() {
 
                     // Prev
                     //let imagePath = '../images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
-                    let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+                    let imagePath = rootFolder +  '/cacheImages/' + imgid + '.png?version=' + Math.random();
 
                     //let isExists = checkIfImageExists('images/map/cacheImages/' + imgid)
                     checkIfImageExists(imagePath, (isExists) => {
@@ -1785,7 +1935,7 @@ function CheckImageStatus() {
                     // New Changes
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
-                    let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
 
                     /* let bgImage = new Image();
                     bgImage.src = imagePath; */
@@ -1818,7 +1968,7 @@ function CheckImageStatus() {
                     // Cache Image
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = '../images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
-                    let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
 
                     /* let bgImage = new Image();
                     bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
@@ -1848,7 +1998,7 @@ function CheckImageStatus() {
                     // New Changes
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
-                    let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
 
                     /* let bgImage = new Image();
                     bgImage.src = imagePath */
@@ -1883,7 +2033,7 @@ function CheckImageStatus() {
                     // Cache Image
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = '../images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
-                    let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
 
                    /*  let bgImage = new Image();
                     bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
@@ -1914,7 +2064,7 @@ function CheckImageStatus() {
                     // New Changes
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
-                    let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
 
                     /* let bgImage = new Image();
                     bgImage.src = imagePath */
@@ -1946,7 +2096,7 @@ function CheckImageStatus() {
                     // Cache Image
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = '../images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
-                    let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
 
                     /* let bgImage = new Image();
                     bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
@@ -1977,7 +2127,7 @@ function CheckImageStatus() {
                     // New Changes
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
-                    let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
 
                     /* let bgImage = new Image();
                     bgImage.src = imagePath */
@@ -2010,7 +2160,7 @@ function CheckImageStatus() {
                     // Cache Image
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = '../images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
-                    let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
 
                     /* let bgImage = new Image();
                     bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
@@ -2041,7 +2191,7 @@ function CheckImageStatus() {
                     // New Changes
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
-                    let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
 
                     /* let bgImage = new Image();
                     bgImage.src = imagePath */
@@ -2072,7 +2222,7 @@ function CheckImageStatus() {
                     // Cache Image
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
-                    let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
 
 
                     /* let bgImage = new Image();
@@ -2104,7 +2254,7 @@ function CheckImageStatus() {
                     // New Changes
                     // './sheets/' + sheet_Id + '/cacheImages/'
                     //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
-                    let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + Math.random();
+                    let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
 
                     /* let bgImage = new Image();
                     bgImage.src = imagePath */
@@ -2142,7 +2292,7 @@ function CheckImageStatus() {
                 // Cache Image
                 // './sheets/' + sheet_Id + '/cacheImages/'
                 //let imagePath = '../images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
-                let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+                let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
 
                 /* let bgImage = new Image();
                 bgImage.src = 'images/map/cacheImages/' + imgid + '.png?version=' + Math.random(99999999999); */
@@ -2159,8 +2309,9 @@ function CheckImageStatus() {
                     } else {
                         //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                         if(imgid != '') {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
+                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgPath + '.png</font><br>'
                             updateInfoTextView()
+                            debugger;
                         }
                     }
                 })
@@ -2173,7 +2324,7 @@ function CheckImageStatus() {
                 // New Changes
                 // './sheets/' + sheet_Id + '/cacheImages/'
                 //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
-                let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + Math.random();
+                let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
 
                 /* let mapImage = new Image();
                 //console.log(imagePath, " MAP Image>>>>>")
@@ -2210,7 +2361,7 @@ function CheckImageStatus() {
                 // Cache Image
                 // './sheets/' + sheet_Id + '/cacheImages/'
                 //let imagePath = '../images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
-                let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+                let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
 
                /*  let bgImage = new Image();
                 bgImage.src = 'images/map/cacheImages/' + imgid + '.png?vesion=' + Math.random(99999999999); */
@@ -2240,7 +2391,7 @@ function CheckImageStatus() {
                 // New Changes
                 // './sheets/' + sheet_Id + '/cacheImages/'
                 //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
-                let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + Math.random();
+                let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
 
                /*  let bgImage = new Image();
                 bgImage.src = imagePath */
@@ -2271,7 +2422,7 @@ function CheckImageStatus() {
                 // Cache Image
                 // './sheets/' + sheet_Id + '/cacheImages/'
                 //let imagePath = '../images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
-                let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+                let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
 
                 /* let bgImage = new Image();
                 bgImage.src = 'images/map/cacheImages/' + imgid + '.png?vesion=' + Math.random(99999999999); */
@@ -2301,7 +2452,7 @@ function CheckImageStatus() {
                 // New Changes
                 // './sheets/' + sheet_Id + '/cacheImages/'
                 //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
-                let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + Math.random();
+                let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
 
                 /* let bgImage = new Image();
                 bgImage.src = imagePath */
@@ -2335,7 +2486,7 @@ function CheckImageStatus() {
                 // Cache Image
                 // './sheets/' + sheet_Id + '/cacheImages/'
                 //let imagePath = '../images/map/cacheImages/' + imgid + '.png?version=' + Math.random();
-                let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imgid + '.png?version=' + Math.random();
+                let imagePath = rootFolder + '/cacheImages/' + imgid + '.png?version=' + Math.random();
 
                 /* let bgImage = new Image();
                 bgImage.src = 'images/map/cacheImages/' + imgid + '.png?vesion=' + Math.random(99999999999); */
@@ -2365,7 +2516,7 @@ function CheckImageStatus() {
                 // New Changes
                 // './sheets/' + sheet_Id + '/cacheImages/'
                 //let imagePath = '../images/map/cacheImages/' + imageName + "?version=" + Math.random();
-                let imagePath = '../sheets/' + sheet_Id + '/cacheImages/' + imageName + "?version=" + Math.random();
+                let imagePath = rootFolder + '/cacheImages/' + imageName + "?version=" + Math.random();
 
                 /* let bgImage = new Image();
                 bgImage.src = imagePath */

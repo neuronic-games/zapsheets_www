@@ -4,6 +4,7 @@
 
   $url = $_POST['imgURL'];
   $spreadsheetId = $_POST['id'];
+  $target = $_POST['target'];
 
   //$urls = explode(',', $_POST['imgURL']);
   //$imageNames = explode(',', $_POST['imageName']);
@@ -31,8 +32,11 @@
   
   // Initialize directory name where 
   // file will be save 
-  //$dir = './images/map/cacheImages/'; 
-  $dir = './sheets/' . $spreadsheetId . '/cacheImages/';
+  //$dir = './images/map/cacheImages/';
+  
+  $rootFolder = "./sheets/" . $spreadsheetId . "/" . $target;
+   
+  $dir = $rootFolder . '/cacheImages/';
   
   
   
@@ -42,8 +46,9 @@
   /* if (!file_exists('./images/map/cacheImages/')) {
     mkdir('./images/map/cacheImages/', 0777, true);
   } */
-  if (!file_exists('./sheets/' . $spreadsheetId . '/cacheImages/')) {
-    mkdir('./sheets/' . $spreadsheetId . '/cacheImages/', 0777, true);
+  $folder = $rootFolder . '/cacheImages/';
+  if (!file_exists($folder)) {
+    mkdir($folder, 0777, true);
   }
 
 

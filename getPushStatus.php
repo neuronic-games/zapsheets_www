@@ -4,7 +4,10 @@
         mkdir($jsonFile, 0777, true);
     } */
    
-    $jsonFile = 'sheets/' . $spreadsheetId . '/pushstatus.json';
+    $target = $_POST['target'];
+	  $rootFolder = "../sheets/" . $sheet_Id . "/" . $target;
+    
+    $jsonFile = $rootFolder . '/pushstatus.json';
     if(!file_exists($jsonFile)) {
         echo 'false' ;  
     } else {
