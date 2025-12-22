@@ -8,7 +8,9 @@
 4. Run `composer install` to install `phpdotenv`
 5. Copy `.env.example` to `.env`. If you need to specify a different Python path – for example, if you have different versions of Python installed, or you're using a Python Virtualenv, change `PYTHON` to point to the Python interpreter you want to use
 6. Get `credentials.json`, and a sheet ID, from other team members
-7. Launch a local PHP server, `php -S 0.0.0.0:8000`
+7. Launch a local PHP server, `composer serve`
 8. Visit http://localhost:8000/push/?id=<SHEET ID> (replace `<SHEET ID>` with the sheet ID from step #4)
 9. Wait for the page to complete – a new `sheets` directory should appear, and the message "All data published." should be displayed.
 10. Visit http://localhost:8000?id=<SHEET ID> (replace `<SHEET ID>` with the sheet ID from step #4)
+
+See [`README.testing.md`](./README.testing.md) for information about automated tests.
