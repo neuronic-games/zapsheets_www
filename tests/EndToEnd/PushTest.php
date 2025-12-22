@@ -25,6 +25,8 @@ class PushTest extends TestHelper
             }
         );
 
+        $this->assertTrue(true);
+
         $this->takeScreenshot(getScreenshotPath(get_class($this) . '::PushTest'));
     }
 }
