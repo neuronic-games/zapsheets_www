@@ -7481,7 +7481,7 @@ function savePublishedStateToServer(_value) {
             url: 'push/savePushStatus.php?version=' + UIVersion, 
             /* url: window.navigator.onLine == true ? 'push/savePushStatus.php?version=' + Math.random() : 'push/savePushStatus.php',  */
             type:'POST', 
-            data:{'id' : sheet_Id, 'value' : _value}, 
+            data:{'id' : sheet_Id, 'value' : _value, 'target' : target}, 
             cache: false, 
             /* cache: true,  */
             /* async: false, */
