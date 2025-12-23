@@ -7112,7 +7112,7 @@ function fetchSheetDetailsPeriodically() {
                                             document.getElementById("loadingTxt").innerHTML += 'Kiosk: ' + getKiosk_Num + '<br>'
                                             updateInfoTextView()
                                         }
-                                        document.getElementById('versionMapInfo').innerHTML = '' + Number(_version) + " - " + row['Value']
+                                        document.getElementById('versionMapInfo').innerHTML = '' + Number(_version) + " - " + row['Value'] + " - " + target
                                         updateInfoTextView()
                                     }
                                     if(row['Name'] == 'PublishedOn') {
@@ -7543,7 +7543,7 @@ function ReloadCurrentData() {
                     /* document.getElementById('versionId').innerHTML = '' + Number(_version) + " - " + versionResponse.version;
                     updateInfoTextView() */
 
-                    document.getElementById('versionMapInfo').innerHTML = '' + Number(_version) + " - " + versionResponse.version
+                    document.getElementById('versionMapInfo').innerHTML = '' + Number(_version) + " - " + versionResponse.version + " - " + target
                     updateInfoTextView()
 
                     getGamesSettingData();
