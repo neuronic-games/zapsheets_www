@@ -22,3 +22,7 @@ steps:
       - composer.phar serve &
       - geckodriver &
       - composer.phar test
+trigger:
+  event:
+    exclude:
+    - pull_request
