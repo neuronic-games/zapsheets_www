@@ -251,7 +251,7 @@ html {
         font-size: 1.1em !important;
     }
     #splashImg {
-       /*  width: 80vw; */
+        width: 100%;
         height: auto;
     }
     #eventImg {
@@ -2931,8 +2931,8 @@ input[type=text]:focus {
 .defaultBGImageContainer1 {
     position: absolute;
     top: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: auto;
     display: none;
     pointer-events: none;
     left: 0;
