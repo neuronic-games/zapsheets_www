@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: lint & test
+name: lint, test, deploy
 workspace:
   path: /app
 steps:
@@ -22,6 +22,21 @@ steps:
       - composer.phar serve &
       - geckodriver &
       - composer.phar test
+  - name: deploy to zapsheets.com/signage
+    image: appleboy/drone-scp
+    settings:
+      host:
+        - zapsheets.com
+      username: zapsheets
+      port: 22
+      key:
+        from_secret: ssh_zapsheets.com
+      target: /home/zapsheets/public_html/signage
+      source:
+        - .
+      when:
+        branch:
+        - main
 trigger:
   event:
     exclude:
