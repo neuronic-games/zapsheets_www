@@ -43,7 +43,6 @@ steps:
         - "Dockerfile"
       script:
         - "cd /home/zapsheets/public_html/signage && /home/zapsheets/composer.phar install"
-        - "ls /nonexistent"
       # when:
       #   branch:
       #   - main
