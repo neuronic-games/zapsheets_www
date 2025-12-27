@@ -34,9 +34,9 @@ steps:
       target: /home/zapsheets/public_html/signage
       source:
         - .
-      when:
-        branch:
-        - main
+      # when:
+      #   branch:
+      #   - main
 trigger:
   event:
     exclude:
