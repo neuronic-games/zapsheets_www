@@ -458,7 +458,7 @@ function getGamesSettingData() {
     // showing message
     //return
   
-  let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+  let rootFolder = "./sheets/" + sheet_Id + "/" + target;
 
     document.getElementById("loadingTxt").innerHTML += "Checking Settings..<br>"
     updateInfoTextView()
