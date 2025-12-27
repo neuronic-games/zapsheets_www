@@ -38,6 +38,7 @@ steps:
         - ".git*"
         - ".env*"
         - ".drone.yml"
+        - ".devcontainer"
         - "requirements.txt"
         - "Dockerfile"
       script:
