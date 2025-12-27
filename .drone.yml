@@ -26,7 +26,7 @@ steps:
     image: drillster/drone-rsync
     settings:
       hosts: ["zapsheets.com" ]
-      username: zapsheets
+      user: zapsheets
       port: 22
       key:
         from_secret: ssh_zapsheets.com
