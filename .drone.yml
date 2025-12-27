@@ -34,11 +34,14 @@ steps:
       source:
         - .
       exclude:
+        - "credentials.json*"
         - ".git*"
         - ".env*"
         - ".drone.yml"
         - "requirements.txt"
         - "Dockerfile"
+      script:
+       - "cd /home/zapsheets/public_html/signage && /home/zapsheets/composer.phar install"
       # when:
       #   branch:
       #   - main
