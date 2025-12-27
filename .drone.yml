@@ -23,15 +23,14 @@ steps:
   #     - geckodriver &
   #     - composer.phar test
   - name: deploy to zapsheets.com/signage
-    image: appleboy/drone-scp
+    image: drillster/drone-rsync
     settings:
-      host:
-        - zapsheets.com
+      hosts: ["zapsheets.com" ]
       username: zapsheets
       port: 22
       key:
         from_secret: ssh_zapsheets.com
-      target: /home/zapsheets/public_html/signage
+      target: /home/zapsheets/public_html/signage/
       source:
         - .
       # when:
