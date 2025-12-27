@@ -33,6 +33,12 @@ steps:
       target: /home/zapsheets/public_html/signage/
       source:
         - .
+      exclude:
+        - ".git*"
+        - ".env*"
+        - ".drone.yml"
+        - "requirements.txt"
+        - "Dockerfile"
       # when:
       #   branch:
       #   - main
