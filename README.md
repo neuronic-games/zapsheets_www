@@ -1,4 +1,4 @@
-# Zapsheets Maps / WWW
+# ZapSheets Signage
 
 ## Local development
 
