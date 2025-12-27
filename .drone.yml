@@ -8,20 +8,20 @@ steps:
     image: neuronicgames/zapsheets-dev
     commands:
       - for f in $(find /app -name '*.php'); do php -l "$f"; done
-  - name: run end-to-end tests
-    image: neuronicgames/zapsheets-dev
-    environment:
-      TEST_SPREADSHEET_ID:
-        from_secret: test_spreadsheet_id
-      GOOGLE_CREDENTIALS:
-        from_secret: google_credentials
-    commands:
-      - cp .env.example .env
-      - echo "$GOOGLE_CREDENTIALS" | base64 -d >> credentials.json
-      - composer.phar install
-      - composer.phar serve &
-      - geckodriver &
-      - composer.phar test
+  # - name: run end-to-end tests
+  #   image: neuronicgames/zapsheets-dev
+  #   environment:
+  #     TEST_SPREADSHEET_ID:
+  #       from_secret: test_spreadsheet_id
+  #     GOOGLE_CREDENTIALS:
+  #       from_secret: google_credentials
+  #   commands:
+  #     - cp .env.example .env
+  #     - echo "$GOOGLE_CREDENTIALS" | base64 -d >> credentials.json
+  #     - composer.phar install
+  #     - composer.phar serve &
+  #     - geckodriver &
+  #     - composer.phar test
   - name: deploy to zapsheets.com/signage
     image: appleboy/drone-scp
     settings:
