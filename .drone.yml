@@ -43,9 +43,9 @@ steps:
         - "Dockerfile"
       script:
         - "cd /home/zapsheets/public_html/signage && /home/zapsheets/composer.phar install"
-    # when:
-    #   branch:
-    #   - main
+    when:
+      branch:
+      - main
   - name: notify status changes via discord
     image: appleboy/drone-discord
     settings:
