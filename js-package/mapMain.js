@@ -345,7 +345,7 @@ function updateInfoTextView() {
  */
 function getGamesPrivateData() {
   
-    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target;
 
     setTimeout(function() {
     // iOS Fix
@@ -458,7 +458,7 @@ function getGamesSettingData() {
     // showing message
     //return
   
-  let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+  let rootFolder = "./sheets/" + sheet_Id + "/" + target;
 
     document.getElementById("loadingTxt").innerHTML += "Checking Settings..<br>"
     updateInfoTextView()
@@ -819,7 +819,7 @@ function getGamesSettingData() {
  * function to get kiosk data from the spreadsheet
  */
 function getMapKioskData() {
-    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target;
 
     //console.log("Now try to load kiosk data")
     document.getElementById("loadingTxt").innerHTML += "Checking Kiosks..<br>"
@@ -1074,7 +1074,7 @@ isJSONData = str => {
  * Check user passed params authenticity
  */
 function checkUserQueryString() {
-    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target;
 
     setTimeout(function() {
     let messageBody = ""
@@ -1914,7 +1914,7 @@ function MakeEventNormal(event) {
  * @returns 
  */
 function setActiveMenu(event, menuIndex) {
-    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target;
 
     if(event != null) {
         if (event.cancelable) event.preventDefault();
@@ -2240,7 +2240,7 @@ function filterDirectoryDataByGroup() {
  */
 function CreateFirstUIScreen() {
 
-    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target;
 
     // For new layout
     // Hide slick slider
@@ -2587,7 +2587,7 @@ function CreateFirstUIScreen() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 function showBackgroundImage() {
-    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target;
     let defBGImgPath = ''
     //if(window.navigator.onLine == true) {
         $.each(settingDataList, function (index_setting, row_setting) {
@@ -5050,7 +5050,7 @@ function PreloadAllToCache() {
 } */
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 function downloadImagesLocally(urlString) {
-    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target;
     if(window.navigator.onLine == false) {return}
     var downloadRequest = $.ajax({
         url: 'saveAs.php?version=' + UIVersion, 
@@ -5305,7 +5305,7 @@ function downloadImagesLocally(urlString) {
 
 function onItemClick(event, itemObject, index) {
 
-    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target;
 
     //console.log("Event Menu Click")
 
@@ -6997,7 +6997,7 @@ function renderQRCode(element, qrText){
  * loadSettingsData
  */
 function loadSettingsData() {
-    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target;
     //console.log("CALL SJ ON LIVE")
     if(window.navigator.onLine == true) {
         var settingRequest = $.ajax({ 
@@ -7268,7 +7268,7 @@ function saveInfoToLog(appVersion, polltimeString, sheetTitle, sheetVersion, kio
  */
 function enableAppScreen() {
 
-    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target;
 
     //console.log("AAAAA")
     if(isToggle == true) {return}
