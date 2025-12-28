@@ -1,5 +1,7 @@
 # ZapSheets Signage
 
+[![Build Status](https://drone.neuronicgames.com/api/badges/neuronic-games/zapsheets_www/status.svg)](https://drone.neuronicgames.com/neuronic-games/zapsheets_www)
+
 ## Local development
 
 1. Clone the repository, e.g. `git clone git@github.com:neuronic-games/zapsheets_www.git`

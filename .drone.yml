@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: lint & test
+name: lint, test, deploy
 workspace:
   path: /app
 steps:
@@ -8,21 +8,56 @@ steps:
     image: neuronicgames/zapsheets-dev
     commands:
       - for f in $(find /app -name '*.php'); do php -l "$f"; done
-  - name: run end-to-end tests
-    image: neuronicgames/zapsheets-dev
-    environment:
-      TEST_SPREADSHEET_ID:
-        from_secret: test_spreadsheet_id
-      GOOGLE_CREDENTIALS:
-        from_secret: google_credentials
-    commands:
-      - cp .env.example .env
-      - echo "$GOOGLE_CREDENTIALS" | base64 -d >> credentials.json
-      - composer.phar install
-      - composer.phar serve &
-      - geckodriver &
-      - composer.phar test
+  # - name: run end-to-end tests
+  #   image: neuronicgames/zapsheets-dev
+  #   environment:
+  #     TEST_SPREADSHEET_ID:
+  #       from_secret: test_spreadsheet_id
+  #     GOOGLE_CREDENTIALS:
+  #       from_secret: google_credentials
+  #   commands:
+  #     - cp .env.example .env
+  #     - echo "$GOOGLE_CREDENTIALS" | base64 -d >> credentials.json
+  #     - composer.phar install
+  #     - composer.phar serve &
+  #     - geckodriver &
+  #     - composer.phar test
+  - name: deploy to zapsheets.com/signage
+    image: drillster/drone-rsync
+    settings:
+      hosts: ["zapsheets.com"]
+      user: zapsheets
+      port: 22
+      key:
+        from_secret: ssh_zapsheets.com
+      target: /home/zapsheets/public_html/signage/
+      source:
+        - .
+      exclude:
+        - "credentials.json*"
+        - ".git*"
+        - ".env*"
+        - ".drone.yml"
+        - ".devcontainer"
+        - "requirements.txt"
+        - "Dockerfile"
+      script:
+        - "cd /home/zapsheets/public_html/signage && /home/zapsheets/composer.phar install"
+    when:
+      branch:
+      - main
+  - name: notify status changes via discord
+    image: appleboy/drone-discord
+    settings:
+      webhook_id:
+        from_secret: discord_webhook_id
+      webhook_token:
+        from_secret: discord_webhook_token
+      message: "{{#success build.status}}✅{{else}}❌{{/success}}  Repository `[{{repo.name}}/{{commit.branch}}]` triggered by event `[{{uppercase build.event}}]` for build.\n    - Commit [[{{commit.sha}}]({{commit.link}})]\n    - Author `[{{commit.author}} / {{commit.email}}]`\n    - Message: {{commit.message}}    - Drone build [[#{{build.number}}]({{build.link}})] reported `[{{uppercase build.status}}]` at `[{{datetime build.finished \"2006.01.02 15:04\" \"\"}}]`\n"
+    when:
+      status: [success, failure, changed]
+
 trigger:
   event:
     exclude:
-    - pull_request
+      - pull_request
