@@ -5305,6 +5305,8 @@ function downloadImagesLocally(urlString) {
 
 function onItemClick(event, itemObject, index) {
 
+    let rootFolder = "../sheets/" + sheet_Id + "/" + target;
+
     //console.log("Event Menu Click")
 
     ////////////////////////////////////////////////////////////////////////////
