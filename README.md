@@ -72,9 +72,9 @@ Re-run these commands whenever `requirements.txt` or `composer.json` / `composer
 
 1. Launch a local PHP server, `composer serve`
 2. Request a sheet ID from another team member
-3. Visit <http://localhost:8000/push/?id=><SHEET ID> (replace `<SHEET ID>` with the sheet ID from step #7)
+3. Visit <http://localhost:8000/push/?id=><SHEET ID> (replace `<SHEET ID>` with the sheet ID from step #2)
 4. Wait for the page to complete – a new `sheets` directory should appear, and the message "All data published." should be displayed.
-6. Visit <http://localhost:8000?id=><SHEET ID> (replace `<SHEET ID>` with the sheet ID from step #7)
+6. Visit <http://localhost:8000?id=><SHEET ID> (replace `<SHEET ID>` with the sheet ID from step #2)
 
 ## Development workflow
 
