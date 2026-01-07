@@ -7061,7 +7061,7 @@ function fetchSheetDetailsPeriodically() {
     } */
    //console.log('checking periodically....', pollTime)
     let rootFolder = "./sheets/" + sheet_Id + "/" + target;
-    let systemMemoryUsed = ''
+    let systemMemoryUsed = '';
     let periodicTimer = setTimeout(function() {
         let kiosk_location = ''
         let sheet_version = ''
@@ -7213,6 +7213,14 @@ function fetchSheetDetailsPeriodically() {
                            // });
                         }
                     })
+                    .done(function(data) {
+                      console.log('Success:', data);
+                    })
+                    .fail(function(jqXHR, textStatus, errorThrown) {
+                      console.error('AJAX failed:', textStatus, errorThrown);
+                      // textStatus: "timeout", "error", "abort", "parsererror"
+                    });
+                    
                     // Clear memory
                     versionRequest.onreadystatechange = null;
                     versionRequest.abort = null;
@@ -7233,7 +7241,7 @@ function fetchSheetDetailsPeriodically() {
             cacheFirst = true;
             fetchSheetDetailsPeriodically()
         }
-    }, pollTime * 1000)
+    }, pollTime * 1000);
     /* }, 3000) */
 }
 /////////////////////////////////////////////////////////////////////////////////
