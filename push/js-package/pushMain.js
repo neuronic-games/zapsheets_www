@@ -98,22 +98,6 @@ let idleFrom = ''
 let idleTime;
 let idleTimeOut = 60 // Idle threshold 3 MINS
 let idleStatus = false
-// Event to check for
-//////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * function to get the url variables passed in url
- * @returns 
- */
-function getUrlVars() {
-    var vars = [], hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for (var i = 0; i < hashes.length; i++) {
-    hash = hashes[i].split('=');
-    vars.push(hash[0]);
-    vars[hash[0]] = hash[1];
-    }
-    return vars;
-}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // TO LOAD PRIVATE DATA IN THE BEGINNING
 let privateDataList = []
@@ -154,20 +138,14 @@ let settingDataList = []
 /**
  * variable to store the init urlvars
  */
-var sheet_Id = (getUrlVars()["id"]) ? getUrlVars()["id"].split('/')[0] : '';
-var no_image = getUrlVars()["no_image"] ? true : false;
-var target = getUrlVars()["target"] ? getUrlVars()["target"] : 'live';
+const url = new URL(window.location.href);
 
-//var setVersion_Id = (getUrlVars()["set_version"]) ? getUrlVars()["set_version"].split('/')[0] : 'undefined';
-var setVersion_Id = (getUrlVars()["publish_id"]) ? getUrlVars()["publish_id"].split('/')[0] : 'undefined';
-//var setVersion_Num = (getUrlVars()["version"]) ? getUrlVars()["version"].split('/')[0] : '';
+var sheet_Id = url.searchParams.get('id');
+var no_image = url.searchParams.has('no_image');
+var target = url.searchParams.has('target') ? url.searchParams.get('target') : 'live';
+var version_Id = url.searchParams.get('publish_id');
+var kiosk_Num = url.searchParams.get('kiosk');
 
-var getKiosk_Num = (getUrlVars()["kiosk"]) ? getUrlVars()["kiosk"].split('/')[0] : '';
-
-//console.log(sheet_Id, " ---- ", setVersion_Id, " ======= ", setVersion_Num)
-//console.log(sheet_Id, " ---- ",)
-
-//console.log(getKiosk_Num, " getKiosk_Num")
 var game_action = ''
 //////////////////////////////////////////////////////////////////////////////////////////////////
 function UpdateAppVersion() {
