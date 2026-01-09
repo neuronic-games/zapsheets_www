@@ -7,9 +7,10 @@ const CACHE_NAME = {name: 'mapSW_v23.0'}
 // Assets container
 let STATIC_ASSETS = []
 
-let clientUrl = ''
-var sheet_Id = ''
-let _client = ''
+let clientUrl = '';
+var sheet_Id = '';
+let _client = '';
+let target = '';
 
 /* const STATIC_ASSETS = [
     'index.html',
@@ -21,20 +22,24 @@ let _client = ''
  * URL function
  */
 const swScriptUrl = new URL(self.location);
+
 /////////////////////////////////////////////////////////////////////////////////////
 /**
  * Get URL objects for each client's location.
  */
 createCache(null)
 function createCache(cacheVersion) {
+    
     if(cacheVersion == null) {
         return
     }
     self.clients.matchAll({includeUncontrolled: true}).then(clients => {
         for (const client of clients) {
             clientUrl = new URL(client.url);
-            _client = client;
-            sheet_Id = (getUrlVars(clientUrl.href)["id"]) ? getUrlVars(clientUrl.href)["id"].split('/')[0] : '';
+            sheet_id = clientUrl.searchParams.get('id');
+            target = clientUrl.searchParams.has('target') ? clientUrl.searchParams.get('target') : 'live';
+            
+            const rootFolder = "./sheets/" + sheet_id + "/" + target;
             STATIC_ASSETS = [
                 clientUrl,
                 //////////////////////////////////////////////////////////////////////////
@@ -56,12 +61,12 @@ function createCache(cacheVersion) {
 
                 
                 // Sheet data
-                './sheets/' + sheet_Id + '/version.json?version='+ dyVersion,
-                './sheets/' + sheet_Id + '/settings.json?version='+ dyVersion,
-                './sheets/' + sheet_Id + '/directory.json?version='+ dyVersion,
-                './sheets/' + sheet_Id + '/events.json?version='+ dyVersion,
-                './sheets/' + sheet_Id + '/kiosks.json?version='+ dyVersion,
-                './sheets/' + sheet_Id + '/pushstatus.json?version='+ dyVersion,
+                rootFolder + '/version.json?version='+ dyVersion,
+                rootFolder + '/settings.json?version='+ dyVersion,
+                rootFolder + '/directory.json?version='+ dyVersion,
+                rootFolder + '/events.json?version='+ dyVersion,
+                rootFolder + '/kiosks.json?version='+ dyVersion,
+                rootFolder + '/pushstatus.json?version='+ dyVersion,
             ]
         }
     });
