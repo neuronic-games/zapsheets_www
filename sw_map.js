@@ -7,9 +7,10 @@ const CACHE_NAME = {name: 'mapSW_v23.0'}
 // Assets container
 let STATIC_ASSETS = []
 
-let clientUrl = ''
-var sheet_Id = ''
-let _client = ''
+let clientUrl = '';
+var sheet_Id = '';
+let _client = '';
+let target = '';
 
 /* const STATIC_ASSETS = [
     'index.html',
@@ -34,12 +35,11 @@ function createCache(cacheVersion) {
     }
     self.clients.matchAll({includeUncontrolled: true}).then(clients => {
         for (const client of clients) {
-            const clientUrl = new URL(client.url);
-            const sheed_id = clientUrl.searchParams.get('id');
-            const target = clientUrl.searchParams.has('target') ? clientUrl.searchParams.get('target') : 'live';
+            clientUrl = new URL(client.url);
+            sheet_id = clientUrl.searchParams.get('id');
+            target = clientUrl.searchParams.has('target') ? clientUrl.searchParams.get('target') : 'live';
             
-            _client = client;
-            const rootFolder = "./sheets/" + sheed_id + "/" + target;
+            const rootFolder = "./sheets/" + sheet_id + "/" + target;
             STATIC_ASSETS = [
                 clientUrl,
                 //////////////////////////////////////////////////////////////////////////
