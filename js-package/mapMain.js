@@ -377,7 +377,7 @@ function getGamesPrivateData() {
                 success: function (response) {
                     if(response == '' || response.length == 0) {
                         privateLoaded = true
-                        document.getElementById("loadingTxt").innerHTML += "<font color='red'>Error: No map directory data available.</font><br>"
+                        document.getElementById("loadingTxt").innerHTML += "<div class='loading-error'>Error: No map directory data available.</div><br>"
                         updateInfoTextView()
                         checkUserQueryString();
                         return
@@ -388,7 +388,7 @@ function getGamesPrivateData() {
                     for(var i=0; i<newPrivateData.length; i++) {
                         var privateDataString = JSON.stringify(newPrivateData[i]);
                         if(isJSONData(privateDataString) == false) {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Directory Sheet : (Row: ' + i + ")</font><br>"
+                            document.getElementById("loadingTxt").innerHTML += '<span class="loading-error">Error: Directory Sheet : (Row: ' + i + ")</span><br>"
                             updateInfoTextView()
                         } else {
                             privateDataList[i] = isJSONData(privateDataString)
@@ -421,7 +421,7 @@ function getGamesPrivateData() {
         success: function (response) {
             if(response == '' || response.length == 0) {
                 privateLoaded = true
-                document.getElementById("loadingTxt").innerHTML += "<font color='red'>Error: No map directory data available.</font><br>"
+                document.getElementById("loadingTxt").innerHTML += "<span class='loading-error'>Error: No map directory data available.</span><br>"
                 updateInfoTextView()
                 return
             }
@@ -431,7 +431,7 @@ function getGamesPrivateData() {
             for(var i=0; i<newPrivateData.length; i++) {
                 var privateDataString = JSON.stringify(newPrivateData[i]);
                 if(isJSONData(privateDataString) == false) {
-                    document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Directory Sheet : (Row: ' + i + ")</font><br>"
+                    document.getElementById("loadingTxt").innerHTML += '<span class="loading-error">Error: Directory Sheet : (Row: ' + i + ")</span><br>"
                     updateInfoTextView()
                 } else {
                     privateDataList[i] = isJSONData(privateDataString)
@@ -613,7 +613,7 @@ function getGamesSettingData() {
                     type: 'GET',
                     dataType: "text",
                     error: function(e) {
-                        document.getElementById("loadingTxt").innerHTML += "<font color='red'>Error: Map data not published.</font><br>"
+                        document.getElementById("loadingTxt").innerHTML += "<span class='loading-error'>Error: Map data not published.</span><br>"
                         updateInfoTextView()
                         fetchSheetDetailsPeriodically();
                         return
@@ -621,7 +621,7 @@ function getGamesSettingData() {
                     success: function (response) {
                         if(response == "" || response.length == 0) {
                             //checkUserQueryString()
-                            document.getElementById("loadingTxt").innerHTML += "<font color='red'>Error: No settings data available.</font><br>"
+                            document.getElementById("loadingTxt").innerHTML += "<span class='loading-error'>Error: No settings data available.</span><br>"
                             updateInfoTextView()
                             return
                         }
@@ -631,7 +631,7 @@ function getGamesSettingData() {
                         for(var i=0; i<newSettingsData.length; i++) {
                             var settingsDataString = JSON.stringify(newSettingsData[i]);
                             if(isJSONData(settingsDataString) == false) {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Settings Sheet : (Row: ' + i + ")</font><br>"
+                                document.getElementById("loadingTxt").innerHTML += '<span class="loading-error">Error: Settings Sheet : (Row: ' + i + ")</span><br>"
                                 updateInfoTextView()
                             } else {
                                 settingDataList[i] = isJSONData(settingsDataString)
@@ -855,7 +855,7 @@ function getMapKioskData() {
                         for(var i=0; i<newKiosksData.length; i++) {
                             var kiosksDataString = JSON.stringify(newKiosksData[i]);
                             if(isJSONData(kiosksDataString) == false) {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Kiosks Sheet : (Row: ' + i + ")</font><br>"
+                                document.getElementById("loadingTxt").innerHTML += '<span class="loading-error">Error: Kiosks Sheet : (Row: ' + i + ")</span><br>"
                                 updateInfoTextView()
                             } else {
                                 kioskDataList[i] = isJSONData(kiosksDataString)
@@ -905,7 +905,7 @@ function getMapKioskData() {
                         var kiosksDataString = JSON.stringify(newKiosksData[i]);
                         //newstr += JSON.stringify(isJSON(pp))
                         if(isJSONData(kiosksDataString) == false) {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Kiosks Sheet : (Row: ' + i + ")</font><br>"
+                            document.getElementById("loadingTxt").innerHTML += '<span class="loading-error">Error: Kiosks Sheet : (Row: ' + i + ")</span><br>"
                             updateInfoTextView()
                         } else {
                             kioskDataList[i] = isJSONData(kiosksDataString)
@@ -967,11 +967,6 @@ $(document).ready(function() {
     ////////////////////////////////////////////////////////
     loadType = 'refresh'
     if(loadType == 'refresh') {
-        // if(sheet_Id == '') {
-        //     document.getElementById("loadingTxt").innerHTML += "<font color='red'>Error: Sheet Id not defined.</font><br>"
-        //     updateInfoTextView()
-        //     return
-        // }
        if(sheet_Id == '') {
         checkUserQueryString();
         return
@@ -1287,7 +1282,9 @@ function checkUserQueryString() {
             //CreateFirstUIScreen()
             } else {
 
-
+                console.log("mapVersionNum=" + mapVersionNum);
+                console.log("target=" + target);
+                
             if(mapVersionNum == settingVersion) {
                 document.getElementById("loadingTxt").innerHTML += "Loading Events From Local Cache..<br>"
             } else {
@@ -1309,7 +1306,7 @@ function checkUserQueryString() {
                     if(response == '' || response.length == 0) {
                         privateLoaded = true
                         //checkUserQueryString()
-                        document.getElementById("loadingTxt").innerHTML += "<font color='red'>Error: No events data available.</font><br>"
+                        document.getElementById("loadingTxt").innerHTML += "<span class='loading-error'>Error: No events data available.</span><br>"
                         updateInfoTextView()
                         // showing background
                         /* showBackgroundImage();
@@ -1323,7 +1320,7 @@ function checkUserQueryString() {
                         //console.log(isJSON(pp), " --- ")
                         //newstr += JSON.stringify(isJSON(pp))
                         if(isJSONData(eventDataString) == false) {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Events Sheet : (Row: ' + (i+2) + ")</font><br>"
+                            document.getElementById("loadingTxt").innerHTML += '<span class="loading-error">Error: Events Sheet : (Row: ' + (i+2) + ")</span><br>"
                             updateInfoTextView()
                         } else {
                             eventsDataList[i] = isJSONData(eventDataString)
@@ -1375,7 +1372,7 @@ function checkUserQueryString() {
                 if(response == '' || response.length == 0) {
                     privateLoaded = true
                     //checkUserQueryString()
-                    document.getElementById("loadingTxt").innerHTML += "<font color='red'>No events data available.</font><br>"
+                    document.getElementById("loadingTxt").innerHTML += "<span class='loading-error'>No events data available.</span><br>"
                     updateInfoTextView()
                     // showing background
                     showBackgroundImage();
@@ -1391,7 +1388,7 @@ function checkUserQueryString() {
                     //console.log(isJSON(pp), " --- ")
                     //newstr += JSON.stringify(isJSON(pp))
                     if(isJSONData(eventDataString) == false) {
-                        document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Events Sheet : (Row: ' + i + ")</font><br>"
+                        document.getElementById("loadingTxt").innerHTML += '<span class="loading-error">Error: Events Sheet : (Row: ' + i + ")</span><br>"
                         updateInfoTextView()
                     } else {
                         var checkDataFormat = isJSONData(eventDataString)
@@ -7211,6 +7208,10 @@ function fetchSheetDetailsPeriodically() {
                                 }
                                 //fetchSheetDetailsPeriodically()
                            // });
+                        },
+                        error: function (response) {
+                            document.getElementById("loadingTxt").innerHTML += 'ERROR: ' + target + '<br>'
+                            updateInfoTextView()
                         }
                     })
                     // Clear memory
@@ -7552,6 +7553,9 @@ function ReloadCurrentData() {
                 }, 0)
             },
             error:function(err) {
+                document.getElementById('loadingTxt').innerHTML = "<span class='loading-error'>ERROR: Target " + target + " not found.</span><br>";
+                updateInfoTextView();
+                
                 console.log("Ajax error")
                 checkUserQueryString();
                 

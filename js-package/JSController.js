@@ -65,6 +65,7 @@ let systemName = ''
 var errorMessage = []
 var cacheFirst = true;
 
+var target = 'live';
 var mapVersionNum = 0
 var settingVersion = 0
 // Controller version

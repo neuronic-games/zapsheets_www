@@ -3164,6 +3164,11 @@ input[type=text]:focus {
   height: 100%;
   vertical-align: middle
 }
+
+.loading-error {
+  color: red;
+  weight: bold;
+}
 @-webkit-keyframes 
 load { 0% {
 -webkit-transform:rotate(0deg);
