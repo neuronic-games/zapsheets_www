@@ -24,7 +24,7 @@
             'Device Session Id' => $device_sessionId,
             'Kiosk' => $kioskNum,
             'Kiosk Location' => $kioskLocation,
-            'Momery Usage' => $memoryUsage
+            'Memory Usage' => $memoryUsage
         );
     } else {
         $data = array(
@@ -35,7 +35,7 @@
             'App Version' => $appVersion,
             'Device Session Id' => $device_sessionId,
             'Kiosk Location' => $kioskLocation,
-            'Momery Usage' => $memoryUsage
+            'Memory Usage' => $memoryUsage
         );
     }
     //$data[] = $tempData; //$_POST['data'];
