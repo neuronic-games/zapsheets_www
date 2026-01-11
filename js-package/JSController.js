@@ -74,6 +74,7 @@ let appDataLoaded = false;
 
 const NORMAL = 'loading-normal';
 const ERROR = 'loading-error';
+const DATE_FORMAT = 'MM/DD/YYYY HH:mm:ss';
 
 //let homeLoader = ''
 ///////////////////////////////////////////////////////////////////////////////////////////
