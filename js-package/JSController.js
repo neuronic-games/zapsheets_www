@@ -71,6 +71,10 @@ var settingVersion = 0
 // Controller version
 let controllerVerion = 5
 let appDataLoaded = false;
+
+const NORMAL = 'loading-normal';
+const ERROR = 'loading-error';
+
 //let homeLoader = ''
 ///////////////////////////////////////////////////////////////////////////////////////////
 // Getting current App version (version.js)
@@ -153,3 +157,16 @@ function getUrlVars() {
     return vars;
 }
 //////////////////////////////////////////////////////////////////////////////////////////
+function startLoadingMessage() {
+    document.getElementById("loadingTxt").innerHTML += "===<br />";
+    document.getElementById("loadingTxt").scrollTop += 100;    
+}
+//////////////////////////////////////////////////////////////////////////////////////////
+function updateLoadingMessage(message, className = NORMAL) {
+    document.getElementById("loadingTxt").innerHTML += "<span class='"+ className + "'>" + message + "</span> << <br />";
+    document.getElementById("loadingTxt").scrollTop += 100;    
+}
+//////////////////////////////////////////////////////////////////////////////////////////
+function updateStatusMessage(message, className = NORMAL) {
+    document.getElementById("versionMapInfo").innerHTML += "<span class='"+ className + "'>" + message + "</span>";
+}

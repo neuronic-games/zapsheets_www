@@ -352,6 +352,7 @@ function getGamesPrivateData() {
     var cookiesStat = checkCookieStatus();
     if(cookiesStat) {
         if(loadType == "normal") {
+            
             document.getElementById("loadingTxt").innerHTML += "Loading Directory From Cache..<br>"
             updateInfoTextView();
             setTimeout(function() {
@@ -5133,21 +5134,8 @@ function downloadImagesLocally(urlString) {
 
             //console.log(tempCount, " actual count")
             var AllImageCount = tempCount; //settingDataList.length + privateDataList.length + dailyEvent.length + kioskDataList.length;
-            //console.log(response, " response ", AllImageCount, " > ", imageLoadedCount)
-            //setTimeout(function() {
-            /*
-            "Loading Map Assets..<br>"
-            "Checking Settings..<br>"
-            "Loading Settings From Sheet..<br>"
-            "Loading Directory From Sheet..<br>"
-            "Checking Kiosks..<br>"
-            "Loading Kiosks From Sheet..<br>"
-            "Loading Events From Sheet..<br>"
-            "Loading Images (" + imageLoadedCount + "/" + AllImageCount + ") ..<br>"
-            */
-                /* document.getElementById("loadingTxt").innerHTML = "Loading Images (" + imageLoadedCount + "/" + AllImageCount + ") ..<br>" */
 
-            var msgValue = "Loading Map Assets..<br>"
+            var msgValue = "Loading Map Assets...<br>"
             msgValue += "Checking Settings..<br>"
             msgValue += "Loading Settings From Sheet..<br>"
             msgValue += "Checking Kiosks..<br>"
@@ -5156,8 +5144,11 @@ function downloadImagesLocally(urlString) {
             msgValue += "Loading Events From Sheet..<br>"
             
             msgValue += "Loading Images (" + imageLoadedCount + "/" + AllImageCount + ") ..<br>"
-            document.getElementById("loadingTxt").innerHTML = msgValue;
-            updateInfoTextView()
+            // document.getElementById("loadingTxt").innerHTML = msgValue;`
+            
+            startLoadingMessage();
+            updateLoadingMessage(msgValue);
+            
             //console.log(document.getElementById("loadingTxt").innerHTML, " val")
             //}, 0)
             if(imageLoadedCount < AllImageCount) {
@@ -7501,70 +7492,66 @@ function savePublishedStateToServer(_value) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 function ReloadCurrentData() {
     let rootFolder = "./sheets/" + sheet_Id + "/" + target;
-    //console.log("Getting game setting data")
-    //if(window.navigator.onLine == true) {
-        var ReadCurrentData = $.ajax({
-            url: rootFolder + "/version.json?version=" + UIVersion,
-            cache: true,
-            type: 'GET',
-            dataType: "text",
-            success: function (response) {
-                let versionResponse = JSON.parse(response)
-                // Check prev and new version
-                let pushStatus = getPublishedStateToServer();
-                // set current sheet version
-                currentSheetVersion = versionResponse.version;
-                currentVersion = "New"
-                loadType = 'refresh'
-                document.getElementById("loadingTxt").innerHTML = 'Loading Map Assets..<br>'
+    
+    var ReadCurrentData = $.ajax({
+        url: rootFolder + "/version.json?version=" + UIVersion,
+        cache: true,
+        type: 'GET',
+        dataType: "text",
+        success: function (response) {
+            let versionResponse = JSON.parse(response)
+            // Check prev and new version
+            let pushStatus = getPublishedStateToServer();
+            // set current sheet version
+            currentSheetVersion = versionResponse.version;
+            currentVersion = "New"
+            loadType = 'refresh'
+
+            document.getElementById("loadingTxt").innerHTML += 'Target: ' + target + '<br>'
+            updateInfoTextView()
+
+            document.getElementById("loadingTxt").innerHTML += 'App Version: ' + _version + '<br>'
+            updateInfoTextView()
+
+            let currentDate = new Date();
+            document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('MM/DD/YYYY HH:mm:ss') + "<br>"
+            updateInfoTextView()
+
+            setTimeout(function() {
+                document.getElementById("loadingTxt").innerHTML += 'Sheet Version: ' + versionResponse.version + '<br>'
                 updateInfoTextView()
 
-                document.getElementById("loadingTxt").innerHTML += 'Target: ' + target + '<br>'
+                // Add browser session id
+                document.getElementById("loadingTxt").innerHTML += 'Session Id: ' + deviceUID + '<br>'
                 updateInfoTextView()
 
-                document.getElementById("loadingTxt").innerHTML = 'App Version: ' + _version + '<br>'
-                updateInfoTextView()
-
-                let currentDate = new Date();
-                document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('MM/DD/YYYY HH:mm:ss') + "<br>"
-                updateInfoTextView()
-
-                setTimeout(function() {
-                    document.getElementById("loadingTxt").innerHTML += 'Sheet Version: ' + versionResponse.version + '<br>'
+                // Add kiosk id if present
+                if(getKiosk_Num != '') {
+                    document.getElementById("loadingTxt").innerHTML += 'Kiosk: ' + getKiosk_Num + '<br>'
                     updateInfoTextView()
+                }
 
-                    // Add browser session id
-                    document.getElementById("loadingTxt").innerHTML += 'Session Id: ' + deviceUID + '<br>'
-                    updateInfoTextView()
+                /* document.getElementById('versionId').innerHTML = '' + Number(_version) + " - " + versionResponse.version;
+                updateInfoTextView() */
 
-                    // Add kiosk id if present
-                    if(getKiosk_Num != '') {
-                        document.getElementById("loadingTxt").innerHTML += 'Kiosk: ' + getKiosk_Num + '<br>'
-                        updateInfoTextView()
-                    }
+                document.getElementById('versionMapInfo').innerHTML += '' + Number(_version) + " - " + versionResponse.version + " - " + target
+                updateInfoTextView()
 
-                    /* document.getElementById('versionId').innerHTML = '' + Number(_version) + " - " + versionResponse.version;
-                    updateInfoTextView() */
-
-                    document.getElementById('versionMapInfo').innerHTML = '' + Number(_version) + " - " + versionResponse.version + " - " + target
-                    updateInfoTextView()
-
-                    getGamesSettingData();
-                }, 0)
-            },
-            error:function(err) {
-                document.getElementById('loadingTxt').innerHTML = "<span class='loading-error'>ERROR: Target " + target + " not found.</span><br>";
-                updateInfoTextView();
-                
-                console.log("Ajax error")
-                checkUserQueryString();
-                
-            }
-        })
-        // Clear memory
-        ReadCurrentData.onreadystatechange = null;
-        ReadCurrentData.abort = null;
-        ReadCurrentData = null;
+                getGamesSettingData();
+            }, 0)
+        },
+        error:function(err) {
+            updateLoadingMessage("ERROR: Target " + target + " not found", ERROR);
+            
+            console.log("Ajax error")
+            checkUserQueryString();
+            
+        }
+    })
+    // Clear memory
+    ReadCurrentData.onreadystatechange = null;
+    ReadCurrentData.abort = null;
+    ReadCurrentData = null;
    
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -7612,38 +7599,25 @@ function ReloadDateInBackground(sheetVersion) {
         
 
     }
-        document.getElementById("loadingTxt").innerHTML = 'Loading Map Assets..<br>'
-        updateInfoTextView()
-
-        document.getElementById("loadingTxt").innerHTML = 'App Version: ' + _version + '<br>'
-        updateInfoTextView()
-
-        let currentDate = new Date();
-        document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('YYYY/MM/DD HH:mm:ss') + "<br>"
-        updateInfoTextView()
+        startLoadingMessage();
+        updateLoadingMessage('Loading Map Assets...');
+        updateLoadingMessage('App Version: ' + _version);
+        const today = new Date();
+        updateLoadingMessage('Checking server on ' + moment(today).format('YYYY/MM/DD HH:mm:ss'));
 
         setTimeout(function() {
-            document.getElementById("loadingTxt").innerHTML += 'Sheet Version: ' + sheetVersion + '<br>'
-            updateInfoTextView()
-
-            // Add browser session id
-            document.getElementById("loadingTxt").innerHTML += 'Session Id: ' + deviceUID + '<br>'
-            updateInfoTextView()
+            updateLoadingMessage('Sheet Version: ' + sheetVersion);
+            updateLoadingMessage('Session Id: ' + deviceUID);
 
             // Add kiosk id if present
             if(getKiosk_Num != '') {
-                document.getElementById("loadingTxt").innerHTML += 'Kiosk: ' + getKiosk_Num + '<br>'
-                updateInfoTextView()
+                updateLoadingMessage('Kiosk: ' + getKiosk_Num);
             }
 
-           /*  document.getElementById('versionId').innerHTML = '' + Number(_version) + " - " + sheetVersion
-            updateInfoTextView() */
-
-            document.getElementById('versionMapInfo').innerHTML = '' + Number(_version) + " - " + sheetVersion
-            updateInfoTextView()
+            updateStatusMessage('' + Number(_version) + " - " + sheetVersion);
 
             getGamesSettingData();
-            //savePublishedStateToServer('false')
+
         }, 0)
     //})
     

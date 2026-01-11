@@ -1453,52 +1453,7 @@ function downloadImagesLocally(urlString) {
             })
 
             var AllImageCount = tempCount; 
-            /* var msgValue = "Loading Map Assets..<br>"
-            msgValue += "Checking Settings..<br>"
-            msgValue += "Loading Settings From Sheet..<br>"
-            msgValue += "Checking Kiosks..<br>"
-            msgValue += "Loading Kiosks From Sheet..<br>"
-            msgValue += "Loading Directory From Sheet..<br>"
-            msgValue += "Loading Events From Sheet..<br>" */
 
-            /* let dispImgName = ''
-            if (urlString.includes("https://drive.google.com")) {
-                imgid = urlString.split('https://drive.google.com')[1].split('/')[3];
-                dispImgName = imgid + ".png"
-            } else {
-                let name =  urlString.split('/')
-                let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                dispImgName = imageName
-            }
-
-            console.log("dispImgName - ", dispImgName) */
-            //setTimeout(function() {
-                //document.getElementById("loadingTxt").innerHTML += "Publishing Images (" + imageLoadedCount + "/" + AllImageCount + ") ..<br>"
-                //updateInfoTextView()
-
-                /* document.getElementById("loadingTxt").innerHTML += "Publishing " + dispImgName + "<br>"
-                updateInfoTextView() */
-
-            //}, 100)
-
-            ///////////////////////////////////////////////
-
-            /* if (urlString.includes("https://drive.google.com")) {
-                imgid = urlString.split('https://drive.google.com')[1].split('/')[3];
-                dispImgName = imgid + ".png"
-            } else {
-                let name =  urlString.split('/')
-                let imageName = name[name.length-1].indexOf('?') ? name[name.length-1].split('?')[0] : name[name.length-1];
-                dispImgName = imageName
-            }
-            checkIfImageExists('../images/map/cacheImages/' + dispImgName, (isExists) => {
-                //console.log(imgPath, " --- ", isExists)
-                if(isExists) {
-                    console.log('Image exists - ', dispImgName)
-                } else {
-                    console.log('Image not exists - ', dispImgName)
-                }
-            }) */
 
             ///////////////////////////////////////////////
             var lastline = document.getElementById("loadingTxt").innerHTML.split('<br>')

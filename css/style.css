@@ -3165,6 +3165,8 @@ input[type=text]:focus {
   vertical-align: middle
 }
 
+.loading-normal {
+}
 .loading-error {
   color: red;
   weight: bold;
