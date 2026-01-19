@@ -1,15 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// For Refresh the page
-///////////////////////////////////////////////////////////////////////////////////////////
-function getCurrentVersion() {
-    if(window.navigator.onLine == true) {
-        // Loading version.js dynamically for [mac fix]
-        var newScript = document.createElement('script');
-        newScript.type = 'text/javascript';
-        newScript.src = './js-package/version.js?version=' + UIVersion
-        document.getElementsByTagName('head')[0].appendChild(newScript);
-    }
-}
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 /**
  * Hide Splash screen
@@ -3868,7 +3857,9 @@ function showMessageInfo(_count) {
         }
     }
     //console.log(errorMessage, " >")
-    var newMessage = "Loading Images (" + (_count) + "/" + getAllImageCount() + ")...<br>";
+    var newMessage = "Loading Images (" + (_count) + "/" + getAllImageCount() + ")...";
+
+    startLoadingMessage();
     updateLoadingMessage(prevMessage + newMessage);
 
 
@@ -6916,6 +6907,7 @@ function fetchSheetDetailsPeriodically() {
                                 $.each(settingDataList, function (index, row) {
                                     if(row['Name'] == 'Title') {
                                         sheet_title = row['Value']
+                                        startLoadingMessage();
                                         updateLoadingMessage('Sheet Title: ' + row['Value']);
                                     }
                                     if(row['Name'] == 'SheetId') {

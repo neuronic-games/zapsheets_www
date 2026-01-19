@@ -72,10 +72,6 @@ var settingVersion = 0
 let controllerVerion = 5
 let appDataLoaded = false;
 
-const NORMAL = 'loading-normal';
-const ERROR = 'loading-error';
-const DATE_FORMAT = 'MM/DD/YYYY HH:mm:ss';
-
 //let homeLoader = ''
 ///////////////////////////////////////////////////////////////////////////////////////////
 // Getting current App version (version.js)
@@ -85,16 +81,6 @@ function getCurrentLiveVersion() {
     newScript.type = 'text/javascript';
     newScript.src = './js-package/version.js?version=' + UIVersion;
     document.getElementsByTagName('head')[0].appendChild(newScript);
-}
-///////////////////////////////////////////////////////////////////////////////////////////
-// Getting current App module working (mainMain.js)
-function getCurrentMapMainVersion() {
-    var mapScript = document.createElement('script');
-    mapScript.id = 'map_Script';
-    mapScript.type = 'text/javascript';
-    mapScript.src = './js-package/mapMain.js?version=' + UIVersion;
-    mapScript.onload = checkLoadStat()
-    document.getElementsByTagName('head')[0].appendChild(mapScript);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -115,12 +101,12 @@ function checkVersion() {
         // Version files
         getCurrentLiveVersion();
         // Game file
-        getCurrentMapMainVersion();
+        getCurrentMainVersion();
     } else {
         // Version files
         getCurrentLiveVersion();
         // Game file
-        getCurrentMapMainVersion();
+        getCurrentMainVersion();
     }
 
     setTimeout(function() {
@@ -156,18 +142,4 @@ function getUrlVars() {
     vars[hash[0]] = hash[1];
     }
     return vars;
-}
-//////////////////////////////////////////////////////////////////////////////////////////
-function startLoadingMessage() {
-    document.getElementById("loadingTxt").innerHTML += "===<br />";
-    document.getElementById("loadingTxt").scrollTop += 100;    
-}
-//////////////////////////////////////////////////////////////////////////////////////////
-function updateLoadingMessage(message, className = NORMAL) {
-    document.getElementById("loadingTxt").innerHTML += "<span class='"+ className + "'>" + message + "</span> << <br />";
-    document.getElementById("loadingTxt").scrollTop += 100;    
-}
-//////////////////////////////////////////////////////////////////////////////////////////
-function updateStatusMessage(message, className = NORMAL) {
-    document.getElementById("versionMapInfo").innerHTML += "<span class='"+ className + "'>" + message + "</span>";
 }

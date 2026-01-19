@@ -10,8 +10,19 @@ function getCurrentVersion() {
  newScript.src = '../js-package/version.js?version=' + Math.random();
  document.getElementsByTagName('head')[0].appendChild(newScript);
 }
+
+function getZapSheetsCore(_ver) {
+  var conScript = document.createElement('script');
+  conScript.id = 'controller_Script';
+  conScript.type = 'text/javascript';
+  conScript.src = '../js-package/zapsheetsCore.js?version=' + _ver;
+  document.getElementsByTagName('head')[0].appendChild(conScript);
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////
-getCurrentVersion()
+getCurrentVersion();
+getZapSheetsCore();
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
@@ -151,7 +162,10 @@ var game_action = ''
 function UpdateAppVersion() {
     //document.getElementById('versionId').innerHTML = 'Version ' + Number(_version).toFixed(1);
     document.getElementById('defaultBGImage').style.display = 'none'
-    document.getElementById("loadingTxt").innerHTML = "Publishing sheet content..<br>"
+    
+    startLoadingMessage();
+    updateLoadingMessage('Publishing sheet content...');
+
    /*  document.getElementById("loadingTxt").innerHTML = "App Version: " + Number(_version).toFixed(1) + "<br>"
     updateInfoTextView() */
     
@@ -183,9 +197,6 @@ function UpdateAppVersion() {
 
             clearTimeout(updateAppTimer)
             if(window.navigator.onLine == true) {
-                //console.log("INTERNET ACTIVE")
-                //document.getElementById("loadingTxt").innerHTML = "Publishing sheet content..<br>"
-                //console.log('sheets/' + setVersion_Id + '/version.json')
                 /////////////////////////////////////////////////////////////////////////////////
                 // Modifying push stat
                 var updateRequest = $.ajax({
@@ -234,9 +245,6 @@ function UpdateAppVersion() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 function getSettingsDataFromSheet() {
     if(window.navigator.onLine == true) {
-        //console.log("INTERNET ACTIVE")
-        //document.getElementById("loadingTxt").innerHTML = "Publishing sheet content..<br>"
-        //console.log('sheets/' + setVersion_Id + '/version.json')
         /////////////////////////////////////////////////////////////////////////////////
         var updateRequest = $.ajax({
             url: 'pushSheet.php?version=' + Math.random(), 
@@ -306,8 +314,7 @@ function getSettingsDataFromSheet() {
 
                                 $.each(settingDataList, function (index, row) {
                                     if(row['Name'] == 'Title') {
-                                        document.getElementById("loadingTxt").innerHTML = 'Sheet Title: ' + row['Value'] + '<br>'
-                                        updateInfoTextView()
+                                        updateLoadingMessage('Sheet Title: ' + row['Value']);
                                     }
                                     if(row['Name'] == 'SheetId') {
                                         document.getElementById("loadingTxt").innerHTML += 'Sheet Id: ' + row['Value'] + '<br>'
@@ -375,9 +382,6 @@ function getSettingsDataFromSheet() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 function getDirectoryDataFromSheet() {
     if(window.navigator.onLine == true) {
-        //console.log("INTERNET ACTIVE")
-        //document.getElementById("loadingTxt").innerHTML = "Publishing sheet content..<br>"
-        //console.log('sheets/' + setVersion_Id + '/version.json')
         /////////////////////////////////////////////////////////////////////////////////
         var updateRequest = $.ajax({
             url: 'pushSheet.php?version=' + Math.random(), 
@@ -483,9 +487,6 @@ function getEventsDataFromSheet() {
     let monthList = ['Jan', 'Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
     let daysList = ['Mon', 'Tue','Wed','Thu','Fri','Sat','Sun']
     if(window.navigator.onLine == true) {
-        //console.log("INTERNET ACTIVE")
-        //document.getElementById("loadingTxt").innerHTML = "Publishing sheet content..<br>"
-        //console.log('sheets/' + setVersion_Id + '/version.json')
         /////////////////////////////////////////////////////////////////////////////////
         var updateRequest = $.ajax({
             url: 'pushSheet.php?version=' + Math.random(), 
@@ -830,9 +831,6 @@ function getAllImagesToPublish() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 function getKiosksDataFromSheet() {
     if(window.navigator.onLine == true) {
-        //console.log("INTERNET ACTIVE")
-        //document.getElementById("loadingTxt").innerHTML = "Publishing sheet content..<br>"
-        //console.log('sheets/' + setVersion_Id + '/version.json')
         /////////////////////////////////////////////////////////////////////////////////
         var updateRequest = $.ajax({
             url: 'pushSheet.php?version=' + Math.random(), 
