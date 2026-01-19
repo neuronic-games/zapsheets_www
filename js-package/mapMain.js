@@ -7408,7 +7408,7 @@ function ReloadDateInBackground(sheetVersion) {
                 updateLoadingMessage('Kiosk: ' + getKiosk_Num);
             }
 
-            updateStatusMessage('' + Number(_version) + " - " + sheetVersion);
+            updateStatusMessage('' + Number(_version) + " - " + sheetVersion + " - " + target);
 
             getGamesSettingData();
 

@@ -112,5 +112,5 @@ function updateLoadingMessage(message, className = NORMAL) {
  * 
  */
 function updateStatusMessage(message, className = NORMAL) {
-    document.getElementById("versionMapInfo").innerHTML += "<span class='"+ className + "'>" + message + "</span>";
+    document.getElementById("versionMapInfo").innerHTML = "<span class='"+ className + "'>" + message + "</span>";
 }
