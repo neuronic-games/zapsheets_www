@@ -236,8 +236,7 @@ function UpdateAppVersion() {
                     }, 100) */
             } else {
                 //console.log("NO INTERNET")
-                document.getElementById("loadingTxt").innerHTML = "Waiting for active internet...<br>Retrying..." 
-                UpdateAppVersion()
+                updateLoadingMessage('Waiting for active internet...<br>Retrying...');
             }
         }, 5000)
     //})
@@ -255,16 +254,10 @@ function getSettingsDataFromSheet() {
             success: function (response) {
                 console.log(response, " Setting Data")
                 let settingResponse = response
-                /* document.getElementById("loadingTxt").innerHTML += response.toString() + "<br>"
-                updateInfoTextView() */
-                //document.getElementById('defaultBGImage').style.display = 'none'
 
                 let rootFolder = "../sheets/" + sheet_Id + "/" + target;
               
                 setTimeout(function() {
-                    //let currentDate = new Date();
-                    //document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('YYYY/MM/DD HH:mm:ss') + "<br>"
-                    //updateInfoTextView()
 
                     // Load and store setting data to list
                     var settingRequest = $.ajax({
@@ -276,8 +269,7 @@ function getSettingsDataFromSheet() {
                         success: function (response) {
                             //console.log(response, " READ DATA")
                             if(response.length == 0) {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Settings data not available.' + "</font><br>"
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Settings data not available.', ERROR);
                             } else {
 
                                 /* 
@@ -304,8 +296,7 @@ function getSettingsDataFromSheet() {
                                     //console.log(isJSON(pp), " --- ")
                                     //newstr += JSON.stringify(isJSON(pp))
                                     if(isJSONData(settingsDataSting) == false) {
-                                        document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Settings Sheet : (Row: ' + i + ")</font><br>"
-                                        updateInfoTextView()
+                                        updateLoadingMessage('Error: Settings row ' + i, ERROR);
                                     } else {
                                         settingDataList[i] = isJSONData(settingsDataSting)
                                     }
@@ -317,40 +308,19 @@ function getSettingsDataFromSheet() {
                                         updateLoadingMessage('Sheet Title: ' + row['Value']);
                                     }
                                     if(row['Name'] == 'SheetId') {
-                                        document.getElementById("loadingTxt").innerHTML += 'Sheet Id: ' + row['Value'] + '<br>'
-                                        updateInfoTextView()
+                                        updateLoadingMessage('Sheet Id: ' + row['Value']);
                                     }
                                     if(row['Name'] == 'Version') {
-                                        document.getElementById("loadingTxt").innerHTML += 'Sheet Version: ' + row['Value'] + '<br>'
-                                        updateInfoTextView()
+                                        updateLoadingMessage('Sheet Version: ' + row['Value']);
                                     }
                                     if(row['Name'] == 'PublishedOn') {
-                                        document.getElementById("loadingTxt").innerHTML += 'Sheet Published on: ' + row['Value'] + '<br>'
-                                        updateInfoTextView()
+                                        updateLoadingMessage('Sheet Published On: ' + row['Value']);
                                     }
                                 })
 
-                                document.getElementById("loadingTxt").innerHTML += 'Target: ' + target + '<br>'
-                                updateInfoTextView()
-
-                                document.getElementById("loadingTxt").innerHTML += "App Version: " + Number(_version).toFixed(1) + "<br>"
-                                updateInfoTextView()
-
-                                document.getElementById("loadingTxt").innerHTML += settingResponse.toString() + "<br>"
-                                updateInfoTextView()
-
-
-                                /////////////////////////////////////////////////////////////////////////////////////
-                                // Show Setting data to the log
-                                //document.getElementById("loadingTxt").innerHTML += "Sheet settings details..<br>"
-                                //updateInfoTextView()
-                                /* $.each(settingDataList, function (index_setting, row_setting) {
-                                   if(row_setting['Name'] != '' && row_setting['Value'] != '') {
-                                        document.getElementById("loadingTxt").innerHTML += row_setting['Name'] + ': ' + row_setting['Value'] + "<br>"
-                                        updateInfoTextView()
-                                   }
-                                }) */
-                                /////////////////////////////////////////////////////////////////////////////////////////
+                                updateLoadingMessage('Target: ' + target);
+                                updateLoadingMessage('App Version:  ' + Number(_version).toFixed(1));
+                                updateLoadingMessage(settingResponse.toString());
 
                             }
 
@@ -391,16 +361,12 @@ function getDirectoryDataFromSheet() {
            /*  async: false, */
             success: function (response) {
                 console.log(response, " Directory Data")
-                document.getElementById("loadingTxt").innerHTML += response.toString() + "<br>"
-                updateInfoTextView()
-                //document.getElementById('defaultBGImage').style.display = 'none'
+                updateLoadingMessage(response.toString());
 
                 let rootFolder = "../sheets/" + sheet_Id + "/" + target;
               
                 setTimeout(function() {
                     let currentDate = new Date();
-                    //document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('YYYY/MM/DD HH:mm:ss') + "<br>"
-                    //updateInfoTextView()
 
                     // Load and store setting data to list
                     var directoryRequest = $.ajax({
@@ -412,8 +378,7 @@ function getDirectoryDataFromSheet() {
                         success: function (response) {
                             //console.log(response, " READ DATA")
                             if(response.length == 0) {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Directory data not available.' + "</font><br>"
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Directory data not available.', ERROR);
                             } else {
 
                                 //////////////////////////////////////////////////////////////////////////////
@@ -425,8 +390,7 @@ function getDirectoryDataFromSheet() {
                                     //console.log(isJSON(pp), " --- ")
                                     //newstr += JSON.stringify(isJSON(pp))
                                     if(isJSONData(privateDataSting) == false) {
-                                        document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Directory Sheet : (Row: ' + i + ")</font><br>"
-                                        updateInfoTextView()
+                                        updateLoadingMessage('Error: Sheet row ' + i, ERROR);
                                     } else {
                                         privateDataList[i] = isJSONData(privateDataSting)
                                     }
@@ -497,16 +461,13 @@ function getEventsDataFromSheet() {
             success: function (response) {
                 //console.log(response, " Events Data")
                 //return;
-                document.getElementById("loadingTxt").innerHTML += response.toString() + "<br>"
-                updateInfoTextView()
+                updateLoadingMessage(response.toString());
                 //document.getElementById('defaultBGImage').style.display = 'none'
 
             	let rootFolder = "../sheets/" + sheet_Id + "/" + target;
                 
                 setTimeout(function() {
                     let currentDate = new Date();
-                    //document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('YYYY/MM/DD HH:mm:ss') + "<br>"
-                    //updateInfoTextView()
                     // Load and store setting data to list
                     var eventRequest = $.ajax({
                         url: rootFolder + "/events.json?version=" + Math.random(), 
@@ -519,8 +480,7 @@ function getEventsDataFromSheet() {
                             /* console.log(response, " --EVENTS--- ")
                             return */
                             if(response.length == 0) {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Events data not available.' + "</font><br>"
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Events data not available.', ERROR);
                             } else {
                                 /////////////////////////////////////////////////////////////////
                                 /* var jsontemp = response.replace((/([\w]+)(:)/g), "\"$1\"$2");
@@ -541,8 +501,7 @@ function getEventsDataFromSheet() {
                                     //console.log(isJSON(pp), " --- ")
                                     //newstr += JSON.stringify(isJSON(pp))
                                     if(isJSONData(eventDataSting) == false) {
-                                        document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Events Sheet : (Row: ' + i + ")</font><br>"
-                                        updateInfoTextView()
+                                        updateLoadingMessage('Error: Events row ' + i, ERROR);
                                     } else {
                                         var checkDataFormat = isJSONData(eventDataSting)
                                         //console.log(typeof(checkDataFormat.Duration), " CHECKING DURATION") 
@@ -584,9 +543,7 @@ function getEventsDataFromSheet() {
                                                     //console.log(myStringExists, " >>>")
 
                                                     if(myStringExists == false) {
-                                                        //console.log(typeof(checkDataFormat.Duration), " Error in row # " + (i+2) + " duration should be in number")
-                                                        document.getElementById("loadingTxt").innerHTML += '<font color="red">ERROR: Events - Row: ' + (i+2) + " - Date should be a month name and date number format.</font><br>"
-                                                        updateInfoTextView() 
+                                                        updateLoadingMessage('Error: Events row ' + i+2, ERROR);
                                                     }
                                                 } else {
                                                     //console.log(dateToCheck, " --- ")
@@ -616,9 +573,7 @@ function getEventsDataFromSheet() {
                                                         }
                                                     }
                                                     if(myStringExists == false) {
-                                                        //console.log(typeof(checkDataFormat.Duration), " Error in row # " + (i+2) + " duration should be in number")
-                                                        document.getElementById("loadingTxt").innerHTML += '<font color="red">ERROR: Events - Row: ' + (i+2) + " - Date should be a month name and date number format.</font><br>"
-                                                        updateInfoTextView() 
+                                                        updateLoadingMessage('Error: Events row ' + i+2, ERROR);
                                                     }
                                                 }
                                             }
@@ -642,9 +597,7 @@ function getEventsDataFromSheet() {
                                                         myStringExists = daysList.some(item => matchMonthName.includes(item) && matchMonthName.length == item.length);
                                                     }
                                                     if(myStringExists == false) {
-                                                        //console.log(typeof(checkDataFormat.Duration), " Error in row # " + (i+2) + " duration should be in number")
-                                                        document.getElementById("loadingTxt").innerHTML += '<font color="red">ERROR: Events - Row: ' + (i+2) + " - Occurrence should be a weekday name format.</font><br>"
-                                                        updateInfoTextView() 
+                                                        updateLoadingMessage('Error: Events row ' + i+2, ERROR);
                                                     }
                                                 } else {
                                                     let stringMatch = dateToCheck[k].split(',')
@@ -665,9 +618,7 @@ function getEventsDataFromSheet() {
                                                     }
 
                                                     if(myStringExists == false) {
-                                                        //console.log(typeof(checkDataFormat.Duration), " Error in row # " + (i+2) + " duration should be in number")
-                                                        document.getElementById("loadingTxt").innerHTML += '<font color="red">ERROR: Events - Row: ' + (i+2) + " - Occurence should be a weekday name format.</font><br>"
-                                                        updateInfoTextView() 
+                                                        updateLoadingMessage('Error: Events row ' + i+2, ERROR);
                                                     }
                                                 }
                                             }
@@ -694,9 +645,7 @@ function getEventsDataFromSheet() {
                                                         myStringExists = validateTimeString(stringToMatch)
                                                     }
                                                     if(myStringExists == false) {
-                                                        //console.log(typeof(checkDataFormat.Duration), " Error in row # " + (i+2) + " duration should be in number")
-                                                        document.getElementById("loadingTxt").innerHTML += '<font color="red">ERROR: Events - Row: ' + (i+2) + " - Time should be in 24-hour time format.</font><br>"
-                                                        updateInfoTextView() 
+                                                        updateLoadingMessage('Error: Events row ' + i+2, ERROR);
                                                     }
                                                 } else {
                                                     let stringMatch = dateToCheck[k].split(',')
@@ -718,9 +667,7 @@ function getEventsDataFromSheet() {
                                                     }
 
                                                     if(myStringExists == false) {
-                                                        //console.log(typeof(checkDataFormat.Duration), " Error in row # " + (i+2) + " duration should be in number")
-                                                        document.getElementById("loadingTxt").innerHTML += '<font color="red">ERROR: Events - Row: ' + (i+2) + " - Time should be in 24-hour time format.</font><br>"
-                                                        updateInfoTextView() 
+                                                        updateLoadingMessage('Error: Events row ' + i+2, ERROR);
                                                     }
                                                 }
                                             }
@@ -729,9 +676,7 @@ function getEventsDataFromSheet() {
                                         // For Duration column formatting
                                         if(checkDataFormat.Duration != '') {
                                             if(typeof checkDataFormat.Duration == 'string' && checkDataFormat.Time.indexOf('-') == -1) {
-                                                //console.log(typeof(checkDataFormat.Duration), " Error in row # " + (i+2) + " duration should be in number")
-                                                document.getElementById("loadingTxt").innerHTML += '<font color="red">ERROR: Events - Row: ' + (i+2) + " - Duration should be a number.</font><br>"
-                                                updateInfoTextView() 
+                                                updateLoadingMessage('Error: Events row ' + i+2, ERROR);
                                             }
                                         }
                                         ////////////////////////////////////////////////////////
@@ -840,19 +785,12 @@ function getKiosksDataFromSheet() {
            /*  async: false, */
             success: function (response) {
                 console.log(response, " Kiosks Data")
-                document.getElementById("loadingTxt").innerHTML += response.toString() + "<br>"
-                updateInfoTextView()
-                //document.getElementById('defaultBGImage').style.display = 'none'
+                updateLoadingMessage(response.toString());
 
             	let rootFolder = "../sheets/" + sheet_Id + "/" + target;
               
                 setTimeout(function() {
                     let currentDate = new Date();
-                    //document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('YYYY/MM/DD HH:mm:ss') + "<br>"
-                    //updateInfoTextView()
-
-                    // Load Setting Data from server and save it to server settings.json file
-                    //getSettingsDataFromSheet();
 
                     // Reading saved data
                     var kioskRequest = $.ajax({
@@ -871,8 +809,7 @@ function getKiosksDataFromSheet() {
                                 //console.log(isJSON(pp), " --- ")
                                 //newstr += JSON.stringify(isJSON(pp))
                                 if(isJSONData(kiosksDataSting) == false) {
-                                    document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Kiosks Sheet : (Row: ' + i + ")</font><br>"
-                                    updateInfoTextView()
+                                    updateLoadingMessage('Error: Kiosks row ' + i, ERROR);
                                 } else {
                                     kioskDataList[i] = isJSONData(kiosksDataSting)
                                 }
@@ -896,8 +833,7 @@ function getKiosksDataFromSheet() {
 
                             if(no_image) {
                                 // Do not publish images
-                                document.getElementById("loadingTxt").innerHTML += "All data published.<br>"
-                                updateInfoTextView()
+                                updateLoadingMessage('All data published.');
 
                                 pushVersionToServer()
 
@@ -906,8 +842,7 @@ function getKiosksDataFromSheet() {
 
                             } else {
                                 // Message to info log
-                                document.getElementById("loadingTxt").innerHTML += "Getting images..<br>Please wait..<br>"
-                                updateInfoTextView()
+                                updateLoadingMessage('Publishing images to server');
                                 // Preload All Images
                                 PreloadAllImagesToServer();
 
@@ -1452,37 +1387,18 @@ function downloadImagesLocally(urlString) {
 
             var AllImageCount = tempCount; 
 
-
-            ///////////////////////////////////////////////
-            var lastline = document.getElementById("loadingTxt").innerHTML.split('<br>')
-            var prevMessage = ''
-            for (var i=0; i<lastline.length; i++) {
-                if(i < lastline.length-2) {
-                    prevMessage += lastline[i] + "<br>";
-                } else {
-                    //prevMessage += '';
-                }
-            }
-            var newMessage = "Publishing Images (" + (imageLoadedCount) + "/" + getAllImagesToPublish() + ")...<br>";
-            document.getElementById("loadingTxt").innerHTML = prevMessage + newMessage;
-            updateInfoTextView()
-            ///////////////////////////////////////////////
+            updateLoadingMessage(dispImgName);
 
 
             if(imageLoadedCount < AllImageCount) {
                 imageLoadedCount++;
             } else {
-                //globalStatus = true
-                // Store the status to a cache object
-                /* window.ldb.set(sheet_Id.toString() + '_published', 'true') */
-
                 CheckImageStatus();
 
                 pushVersionToServer();
                 
                 setTimeout(function() {
-                    document.getElementById("loadingTxt").innerHTML += "All data published.<br>"
-                    updateInfoTextView()
+                    updateLoadingMessage('All data published.');
 
                     // Call PHP to save data to the json file
                     savePublishedStateToServer('true');
@@ -1491,8 +1407,7 @@ function downloadImagesLocally(urlString) {
         },
         error: function(e) {
             if(dispImgName != '') {
-                document.getElementById("loadingTxt").innerHTML += "<font color='red'>ERROR: Missing Image " + dispImgName + ".</font><br>"
-                updateInfoTextView()
+                updateLoadingMessage('ERROR: Missing image ' + dispImgName, ERROR);
             }
 
             if(imageLoadedCount < AllImageCount) {
@@ -1505,8 +1420,7 @@ function downloadImagesLocally(urlString) {
                 pushVersionToServer();
            
                 setTimeout(function() {
-                    document.getElementById("loadingTxt").innerHTML += "All data published.<br>"
-                    updateInfoTextView()
+                    updateLoadingMessage('All data published.');
 
                     // Call PHP to save data to the json file
                     savePublishedStateToServer('true');
@@ -1576,13 +1490,10 @@ function cacheImage(tag, row_setting, rootFolder) {
                         //console.log('Caching '  + imgid + '.png')
                         let bgImage = new Image();
                         bgImage.src = imagePath;
-                       /*  document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                        updateInfoTextView() */
                     } else {
                         //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                         if(imgid != '') {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                            updateInfoTextView()
+                            updateLoadingMessage('Error: Missing image ' + imgid, ERROR);
                         }
                     }
                 })
@@ -1607,13 +1518,10 @@ function cacheImage(tag, row_setting, rootFolder) {
                         //console.log('Caching '  + imageName)
                         let bgImage = new Image();
                         bgImage.src = imagePath
-                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                        updateInfoTextView() */
                     } else {
                         //console.log('Error: '  + imageName + ' does not exists in server cache.')
                         if(imageName != '') {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                            updateInfoTextView()
+                            updateLoadingMessage('Error: Missing image ' + imageName, ERROR);
                         }
                     }
                 })
@@ -1640,13 +1548,10 @@ function cacheImage(tag, row_setting, rootFolder) {
                         //console.log('Caching '  + imgid + '.png')
                         let bgImage = new Image();
                         bgImage.src = imagePath;
-                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                        updateInfoTextView() */
                     } else {
                         //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                         if(imgid != '') {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                            updateInfoTextView()
+                            updateLoadingMessage('Error: Missing image ' + imgid, ERROR);
                         }
                     }
                 })
@@ -1673,13 +1578,10 @@ function cacheImage(tag, row_setting, rootFolder) {
                         //console.log('Caching '  + imageName)
                         let bgImage = new Image();
                         bgImage.src = imagePath
-                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                        updateInfoTextView() */
                     } else {
                         //console.log('Error: '  + imageName + ' does not exists in server cache.')
                         if(imageName != '') {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                            updateInfoTextView()
+                            updateLoadingMessage('Error: Missing image ' + imageName, ERROR);
                         }
                     }
                 })
@@ -1716,13 +1618,10 @@ function CheckImageStatus() {
                             //console.log('Caching '  + imgid + '.png')
                             let bgImage = new Image();
                             bgImage.src = imagePath;
-                           /*  document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                            updateInfoTextView() */
                         } else {
                             //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                             if(imgid != '') {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Missing image ' + imgid, ERROR);
                             }
                         }
                     })
@@ -1747,13 +1646,10 @@ function CheckImageStatus() {
                             //console.log('Caching '  + imageName)
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                            updateInfoTextView() */
                         } else {
                             //console.log('Error: '  + imageName + ' does not exists in server cache.')
                             if(imageName != '') {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Missing image ' + imageName, ERROR);
                             }
                         }
                     })
@@ -1780,13 +1676,10 @@ function CheckImageStatus() {
                             //console.log('Caching '  + imgid + '.png')
                             let bgImage = new Image();
                             bgImage.src = imagePath;
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                            updateInfoTextView() */
                         } else {
                             //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                             if(imgid != '') {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Missing image ' + imgid, ERROR);
                             }
                         }
                     })
@@ -1813,13 +1706,10 @@ function CheckImageStatus() {
                             //console.log('Caching '  + imageName)
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                            updateInfoTextView() */
                         } else {
                             //console.log('Error: '  + imageName + ' does not exists in server cache.')
                             if(imageName != '') {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Missing image ' + imageName, ERROR);
                             }
                         }
                     })
@@ -1847,13 +1737,10 @@ function CheckImageStatus() {
                             //console.log('Caching '  + imgid + '.png')
                             let bgImage = new Image();
                             bgImage.src = imagePath;
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                            updateInfoTextView() */
                         } else {
                             //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                             if(imgid != '') {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Missing image ' + imgid, ERROR);
                             }
                         }
                     })
@@ -1879,13 +1766,10 @@ function CheckImageStatus() {
                             let bgImage = new Image();
                             bgImage.src = imagePath;
                             //console.log('Caching '  + imageName)
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                            updateInfoTextView() */
                         } else {
                             //console.log('Error: '  + imageName + ' does not exists in server cache.')
                             if(imageName != '') {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Missing image ' + imageName, ERROR);
                             }
                         }
                     })
@@ -1911,13 +1795,10 @@ function CheckImageStatus() {
                             //console.log('Caching '  + imgid + '.png')
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                            updateInfoTextView() */
                         } else {
                             //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                             if(imgid != '') {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Missing Google image ' + imgid, ERROR);
                             }
                         }
                     })
@@ -1941,13 +1822,10 @@ function CheckImageStatus() {
                             //console.log('Caching '  + imageName)
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                            updateInfoTextView() */
                         } else {
                             //console.log('Error: '  + imageName + ' does not exists in server cache.')
                             if(imageName != '') {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Missing image ' + imageName, ERROR);
                             }
                         }
                     })
@@ -1976,13 +1854,10 @@ function CheckImageStatus() {
                             //console.log('Caching '  + imgid + '.png')
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                            updateInfoTextView() */
                         } else {
                             //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                             if(imgid != '') {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Missing Google image ' + imgid, ERROR);
                             }
                         }
                     })
@@ -2007,13 +1882,10 @@ function CheckImageStatus() {
                             //console.log('Caching '  + imageName)
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                            updateInfoTextView() */
                         } else {
                             //console.log('Error: '  + imageName + ' does not exists in server cache.')
                             if(imageName != '') {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Missing image ' + imageName, ERROR);
                             }
                         }
                     })
@@ -2039,13 +1911,10 @@ function CheckImageStatus() {
                             //console.log('Caching '  + imgid + '.png')
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                            updateInfoTextView() */
                         } else {
                             //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                             if(imgid != '') {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Missing Google image ' + imgid, ERROR);
                             }
                         }
                     })
@@ -2070,13 +1939,10 @@ function CheckImageStatus() {
                             //console.log('Caching '  + imageName)
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                            updateInfoTextView() */
                         } else {
                             //console.log('Error: '  + imageName + ' does not exists in server cache.')
                             if(imageName != '') {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Missing image ' + imageName, ERROR);
                             }
                         }
                     })
@@ -2103,13 +1969,10 @@ function CheckImageStatus() {
                             //console.log('Caching '  + imgid + '.png')
                             let bgImage = new Image();
                             bgImage.src = imagePath; 
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                            updateInfoTextView() */
                         } else {
                             //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                             if(imgid != '') {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Missing Google image ' + imgid, ERROR);
                             }
                         }
                     })
@@ -2134,13 +1997,10 @@ function CheckImageStatus() {
                             //console.log('Caching '  + imageName)
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                            updateInfoTextView() */
                         } else {
                             //console.log('Error: '  + imageName + ' does not exists in server cache.')
                             if(imageName != '') {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Missing image ' + imageName, ERROR);
                             }
                         }
                     })
@@ -2166,13 +2026,10 @@ function CheckImageStatus() {
                             //console.log('Caching '  + imgid + '.png')
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                           /*  document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                            updateInfoTextView() */
                         } else {
                             //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                             if(imgid != '') {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Missing Google image ' + imgid, ERROR);
                             }
                         }
                     })
@@ -2197,13 +2054,10 @@ function CheckImageStatus() {
                             //console.log('Caching '  + imageName)
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                           /*  document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                            updateInfoTextView() */
                         } else {
                             //console.log('Error: '  + imageName + ' does not exists in server cache.')
                             if(imageName != '') {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                                updateInfoTextView()
+                                updateLoadingMessage('Error: Missing image ' + imageName, ERROR);
                             }
                         }
                     })
@@ -2235,13 +2089,10 @@ function CheckImageStatus() {
                         //console.log('Caching '  + imgid + '.png')
                         let bgImage = new Image();
                         bgImage.src = imagePath
-                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                        updateInfoTextView() */
                     } else {
                         //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                         if(imgid != '') {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgPath + '.png</font><br>'
-                            updateInfoTextView()
+                            updateLoadingMessage('Error: Missing Google image ' + imgPath, ERROR);
                             debugger;
                         }
                     }
@@ -2269,13 +2120,10 @@ function CheckImageStatus() {
                         //console.log('Caching '  + imageName)
                         let mapImage = new Image();
                         mapImage.src = imagePath
-                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                        updateInfoTextView() */
                     } else {
                         //console.log('Error: '  + imageName + ' does not exists in server cache.')
                         if(imageName != '') {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                            updateInfoTextView()
+                            updateLoadingMessage('Error: Missing image ' + imageName, ERROR);
                         }
                     }
                 })
@@ -2304,13 +2152,10 @@ function CheckImageStatus() {
                         //console.log('Caching '  + imgid + '.png')
                         let bgImage = new Image();
                         bgImage.src = imagePath
-                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                        updateInfoTextView() */
                     } else {
                         //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                         if(imgid != '') {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                            updateInfoTextView()
+                            updateLoadingMessage('Error: Missing Google image ' + imgid, ERROR);
                         }
                     }
                 })
@@ -2334,13 +2179,10 @@ function CheckImageStatus() {
                         //console.log('Caching '  + imageName)
                         let bgImage = new Image();
                         bgImage.src = imagePath
-                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                        updateInfoTextView() */
                     } else {
                         //console.log('Error: '  + imageName + ' does not exists in server cache.')
                         if(imageName != '') {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                            updateInfoTextView()
+                            updateLoadingMessage('Error: Missing image ' + imageName, ERROR);
                         }
                     }
                 })
@@ -2365,13 +2207,10 @@ function CheckImageStatus() {
                         //console.log('Caching '  + imgid + '.png')
                         let bgImage = new Image();
                         bgImage.src = imagePath
-                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                        updateInfoTextView() */
                     } else {
                         //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                         if(imgid != '') {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                            updateInfoTextView()
+                            updateLoadingMessage('Error: Missing Google image ' + imgid, ERROR);
                         }
                     }
                 })
@@ -2395,13 +2234,10 @@ function CheckImageStatus() {
                         //console.log('Caching '  + imageName)
                         let bgImage = new Image();
                         bgImage.src = imagePath
-                       /*  document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                        updateInfoTextView() */
                     } else {
                         //console.log('Error: '  + imageName + ' does not exists in server cache.')
                         if(imageName != '') {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                            updateInfoTextView()
+                            updateLoadingMessage('Error: Missing image ' + imageName, ERROR);
                         }
                     }
                 })
@@ -2429,13 +2265,11 @@ function CheckImageStatus() {
                         //console.log('Caching '  + imgid + '.png')
                         let bgImage = new Image();
                         bgImage.src = imagePath
-                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                        updateInfoTextView() */
                     } else {
                         //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                         if(imgid != '') {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                            updateInfoTextView()
+                            updateLoadingMessage('Error: Missing Google image ' + imgid, ERROR);
+
                         }
                     }
                 })
@@ -2459,13 +2293,10 @@ function CheckImageStatus() {
                         //console.log('Caching '  + imageName)
                         let bgImage = new Image();
                         bgImage.src = imagePath
-                       /*  document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                        updateInfoTextView() */
                     } else {
                         //console.log('Error: '  + imageName + ' does not exists in server cache.')
                         if(imageName != '') {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                            updateInfoTextView()
+                            updateLoadingMessage('Error: Missing image ' + imageName, ERROR);
                         }
                     }
                 })
