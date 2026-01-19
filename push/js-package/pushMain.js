@@ -166,9 +166,6 @@ function UpdateAppVersion() {
     startLoadingMessage();
     updateLoadingMessage('Publishing sheet content...');
 
-   /*  document.getElementById("loadingTxt").innerHTML = "App Version: " + Number(_version).toFixed(1) + "<br>"
-    updateInfoTextView() */
-    
     var setVersion_Num = ''
 
     // Aut0 generated version number using the publish url
@@ -186,9 +183,6 @@ function UpdateAppVersion() {
     //savePublishedStateToServer('false');
 
     let currentDate = new Date();
-   /*  document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('MM/DD/YYYY HH:mm:ss').toLocaleString() + "<br>"
-    updateInfoTextView() */
-    
     let date_str = moment(currentDate).format('MM/DD/YYYY-HH:mm:ss').toLocaleString();
 
     //console.log(date_str, " ---- From APP-----")
@@ -206,16 +200,9 @@ function UpdateAppVersion() {
                     cache: false, 
                     // async: false,
                     success: function (response) {
-                        //console.log(response, " VERSION UPDATED")
-                        // document.getElementById("loadingTxt").innerHTML += "Sheet Version: " + response.toString() + "<br>"
-                        // updateInfoTextView()
                         document.getElementById('defaultBGImage').style.display = 'none'
 
                         setTimeout(function() {
-                            // let currentDate = new Date();
-                            // document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('YYYY/MM/DD HH:mm:ss') + "<br>"
-                            // updateInfoTextView()
-                            // Load Setting Data from server and save it to server settings.json file
                             getSettingsDataFromSheet();
                         }, 100)
 
@@ -226,14 +213,6 @@ function UpdateAppVersion() {
                 updateRequest.onreadystatechange = null;
                 updateRequest.abort = null;
                 updateRequest = null;
-                ///////////////////
-                    /* setTimeout(function() {
-                        // let currentDate = new Date();
-                        // document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('YYYY/MM/DD HH:mm:ss') + "<br>"
-                        // updateInfoTextView()
-                        // Load Setting Data from server and save it to server settings.json file
-                        getSettingsDataFromSheet();
-                    }, 100) */
             } else {
                 //console.log("NO INTERNET")
                 updateLoadingMessage('Waiting for active internet...<br>Retrying...');
