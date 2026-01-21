@@ -3859,7 +3859,7 @@ function showMessageInfo(_count) {
     //console.log(errorMessage, " >")
     var newMessage = "Loading Images (" + (_count) + "/" + getAllImageCount() + ")...";
 
-    startLoadingMessage();
+    clearLoadingMessage();
     updateLoadingMessage(prevMessage + newMessage);
 
 
@@ -4976,7 +4976,7 @@ function downloadImagesLocally(urlString) {
             
             msgValue += "Loading Images (" + imageLoadedCount + "/" + AllImageCount + ") ..<br>"
             
-            startLoadingMessage();
+            clearLoadingMessage();
             updateLoadingMessage(msgValue);
             
             if(imageLoadedCount < AllImageCount) {
@@ -6907,7 +6907,7 @@ function fetchSheetDetailsPeriodically() {
                                 $.each(settingDataList, function (index, row) {
                                     if(row['Name'] == 'Title') {
                                         sheet_title = row['Value']
-                                        startLoadingMessage();
+                                        clearLoadingMessage();
                                         updateLoadingMessage('Sheet Title: ' + row['Value']);
                                     }
                                     if(row['Name'] == 'SheetId') {
@@ -7316,7 +7316,7 @@ function ReloadCurrentData() {
             loadType = 'refresh'
             const currentDate = new Date();
 
-            startLoadingMessage();
+            clearLoadingMessage();
             updateLoadingMessage('Loading Map Assets...');
             updateLoadingMessage('Target: ' + target);
             updateLoadingMessage('App Version: ' + _version);
@@ -7393,7 +7393,7 @@ function ReloadDateInBackground(sheetVersion) {
         
 
     }
-        startLoadingMessage();
+        clearLoadingMessage();
         updateLoadingMessage('Loading Map Assets...');
         updateLoadingMessage('App Version: ' + _version);
         const today = new Date();

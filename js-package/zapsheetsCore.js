@@ -91,13 +91,13 @@ function adjustFontSizeMultiple(text, tempElement, maxLines, type) {
  * Clear all displayed loading messages.
  * 
  */
-function startLoadingMessage() {
+function clearLoadingMessage() {
     document.getElementById("loadingTxt").innerHTML = "";
 }
 //////////////////////////////////////////////////////////////////////////////////////////
 /**
  * Add new text to loading messages.
- * @param {string} nessage
+ * @param {string} message
  * @param {string} className - NORMAL (default), ERROR
  * 
  */
@@ -108,7 +108,7 @@ function updateLoadingMessage(message, className = NORMAL) {
 //////////////////////////////////////////////////////////////////////////////////////////
 /**
  * Display status message at the top left.
- * @param {string} nessage
+ * @param {string} message
  * 
  */
 function updateStatusMessage(message, className = NORMAL) {

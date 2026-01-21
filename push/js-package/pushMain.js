@@ -163,7 +163,7 @@ function UpdateAppVersion() {
     //document.getElementById('versionId').innerHTML = 'Version ' + Number(_version).toFixed(1);
     document.getElementById('defaultBGImage').style.display = 'none'
     
-    startLoadingMessage();
+    clearLoadingMessage();
     updateLoadingMessage('Publishing sheet content...');
 
     var setVersion_Num = ''
