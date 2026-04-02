@@ -1,5 +1,6 @@
 import gspread
 import sys
+import json
 
 # Credentials [Keys etc]
 credFileName = "../credentials.json"
@@ -19,4 +20,9 @@ else :
 mSelectedWorkSheet = mGoogleSheet.worksheet(sheetName)
 
 # Converting Data to Required JSON
-print(mSelectedWorkSheet.get_all_records())
+records = mSelectedWorkSheet.get_all_records()
+
+# Convert the Python list/dict to a proper JSON string
+json_data = json.dumps(records)
+
+print(json_data) # This will now have double quotes
