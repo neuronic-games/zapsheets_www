@@ -101,7 +101,7 @@ function clearLoadingMessage() {
  * @param {string} className - NORMAL (default), ERROR
  * 
  */
-function updateLoadingMessage(message, className = NORMAL) {
+function appendLoadingMessage(message, className = NORMAL) {
     document.getElementById("loadingTxt").innerHTML += "<span class='"+ className + "'>" + message + "</span><br />";
     document.getElementById("loadingTxt").scrollTop += 100;    
 }

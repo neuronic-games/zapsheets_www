@@ -335,7 +335,7 @@ function getGamesPrivateData() {
     if(cookiesStat) {
         if(loadType == "normal") {
             
-            updateLoadingMessage('Loading Directory From Cache..');
+            appendLoadingMessage('Loading Directory From Cache..');
             
             setTimeout(function() {
                 // Check for username passed from querystring else set the username from sheet data
@@ -344,9 +344,9 @@ function getGamesPrivateData() {
             }, 1000)
         } else {
             if(mapVersionNum == settingVersion) {
-                updateLoadingMessage('Loading Directory From Local Cache...');
+                appendLoadingMessage('Loading Directory From Local Cache...');
             } else {
-                updateLoadingMessage('Loading Directory From Server...');
+                appendLoadingMessage('Loading Directory From Server...');
             }
 
             var directoryRequest = $.ajax({ 
@@ -358,7 +358,7 @@ function getGamesPrivateData() {
                 success: function (response) {
                     if(response == '' || response.length == 0) {
                         privateLoaded = true;
-                        updateLoadingMessage('Error: No map directory data available.', ERROR);
+                        appendLoadingMessage('Error: No map directory data available.', ERROR);
                         checkUserQueryString();
                         return
                     }
@@ -368,7 +368,7 @@ function getGamesPrivateData() {
                     for(var i=0; i<newPrivateData.length; i++) {
                         var privateDataString = JSON.stringify(newPrivateData[i]);
                         if(isJSONData(privateDataString) == false) {
-                            updateLoadingMessage('Error: Directory Sheet : (Row: ' + i + ')', ERROR);
+                            appendLoadingMessage('Error: Directory Sheet : (Row: ' + i + ')', ERROR);
                         } else {
                             privateDataList[i] = isJSONData(privateDataString)
                         }
@@ -386,9 +386,9 @@ function getGamesPrivateData() {
         }
     } else {
         if(mapVersionNum == settingVersion) {
-            updateLoadingMessage('Loading Directory From Local Cache...');
+            appendLoadingMessage('Loading Directory From Local Cache...');
         } else {
-            updateLoadingMessage('Loading Directory From Server...');
+            appendLoadingMessage('Loading Directory From Server...');
         }
         var directoryRequest = $.ajax({ 
         url: rootFolder + "/directory.json?version=" + UIVersion,
@@ -398,7 +398,7 @@ function getGamesPrivateData() {
         success: function (response) {
             if(response == '' || response.length == 0) {
                 privateLoaded = true
-                updateLoadingMessage('Error: No map directory data available.', ERROR);
+                appendLoadingMessage('Error: No map directory data available.', ERROR);
                 return
             }
             privateDataList = []
@@ -407,7 +407,7 @@ function getGamesPrivateData() {
             for(var i=0; i<newPrivateData.length; i++) {
                 var privateDataString = JSON.stringify(newPrivateData[i]);
                 if(isJSONData(privateDataString) == false) {
-                    updateLoadingMessage('Error: Directory Sheet : (Row: ' + i + ')', ERROR);
+                    appendLoadingMessage('Error: Directory Sheet : (Row: ' + i + ')', ERROR);
                 } else {
                     privateDataList[i] = isJSONData(privateDataString)
                 }
@@ -435,24 +435,24 @@ function getGamesSettingData() {
   
   let rootFolder = "./sheets/" + sheet_Id + "/" + target;
 
-    updateLoadingMessage('Checking Settings...');
+    appendLoadingMessage('Checking Settings...');
     setTimeout(function() {
         var cookieStat = checkCookieStatus();
         if(cookieStat) {
             if(loadType == "normal") {
                 // In case if any image missing during initial download
                 //PreloadAllImages();
-                updateLoadingMessage('Loading Images From Cache...');
+                appendLoadingMessage('Loading Images From Cache...');
                 setTimeout(function() {
                     PreloadAllToCache();
                 }, 10)
                 setTimeout(function() {
-                    updateLoadingMessage('Checking Settings Cache...');
+                    appendLoadingMessage('Checking Settings Cache...');
                 }, 1500)
                 setTimeout(function() {
                     settingLoaded = true
                     // showing message
-                    updateLoadingMessage('Loading Settings From Cache...');
+                    appendLoadingMessage('Loading Settings From Cache...');
                     // Show Setting data to the log
                     splash_img = ''
                     splashDelaySec = 5
@@ -584,14 +584,14 @@ function getGamesSettingData() {
                     type: 'GET',
                     dataType: "text",
                     error: function(e) {
-                        updateLoadingMessage('Error: Map data not published.', ERROR);
+                        appendLoadingMessage('Error: Map data not published.', ERROR);
                         fetchSheetDetailsPeriodically();
                         return
                     },
                     success: function (response) {
                         if(response == "" || response.length == 0) {
                             //checkUserQueryString()
-                            updateLoadingMessage('Error: No settings data available.', ERROR);
+                            appendLoadingMessage('Error: No settings data available.', ERROR);
                             return
                         }
                         settingDataList = []
@@ -600,7 +600,7 @@ function getGamesSettingData() {
                         for(var i=0; i<newSettingsData.length; i++) {
                             var settingsDataString = JSON.stringify(newSettingsData[i]);
                             if(isJSONData(settingsDataString) == false) {
-                                updateLoadingMessage('Error: Settings Sheet : (Row: ' + i + ')', ERROR);
+                                appendLoadingMessage('Error: Settings Sheet : (Row: ' + i + ')', ERROR);
                             } else {
                                 settingDataList[i] = isJSONData(settingsDataString)
                             }
@@ -729,10 +729,10 @@ function getGamesSettingData() {
                         window.ldb.get('mapVersion', function (value) {
                             mapVersionNum = value
                             if(mapVersionNum == settingVersion) {
-                                updateLoadingMessage('Loading Settings From Local Cache...');
+                                appendLoadingMessage('Loading Settings From Local Cache...');
                                 document.getElementById('versionText').innerHTML = '[' + controllerVerion + ' - ' + _version + ' - ' + settingVersion +']'
                             } else {
-                                updateLoadingMessage('Loading Settings From Server...');
+                                appendLoadingMessage('Loading Settings From Server...');
                                 document.getElementById('versionText').innerHTML = '' + controllerVerion + ' - ' + _version + ' - ' + settingVersion +''
                             }
                         })
@@ -764,7 +764,7 @@ function getGamesSettingData() {
         } else {
             //console.log("SHOW COOKIES MESSAGE AND BUTTON TO CONTINUE")
             // showing message
-            updateLoadingMessage('Browser cookies disabled. Enable it for best experience.', ERROR);
+            appendLoadingMessage('Browser cookies disabled. Enable it for best experience.', ERROR);
             document.getElementById("btnCont").style.display = 'inline-block'
             let detectDeviceType = () =>
             /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
@@ -786,17 +786,17 @@ function getMapKioskData() {
     let rootFolder = "./sheets/" + sheet_Id + "/" + target;
 
     //console.log("Now try to load kiosk data")
-    updateLoadingMessage('Checking Kiosks...');
+    appendLoadingMessage('Checking Kiosks...');
     setTimeout(function(){
         var cookieStat = checkCookieStatus();
         if(cookieStat) {
             if(loadType == "normal" /* && currentVersion == 'Same' */) {
-                updateLoadingMessage('Checking Kiosks Cache...');
+                appendLoadingMessage('Checking Kiosks Cache...');
             } else {
                 if(mapVersionNum == settingVersion) {
-                    updateLoadingMessage('Loading Kiosks From Local Cache...');
+                    appendLoadingMessage('Loading Kiosks From Local Cache...');
                 } else {
-                    updateLoadingMessage('Loading Kiosks From Server...');
+                    appendLoadingMessage('Loading Kiosks From Server...');
                 }
                 var kioskRequest = $.ajax({ 
                     url: rootFolder + "/kiosks.json?version=" + UIVersion, 
@@ -806,7 +806,7 @@ function getMapKioskData() {
                     success: function (response) {
                         if(response == "" || response.length == 0) {
                             //checkUserQueryString()
-                            updateLoadingMessage('No kiosks data available', ERROR);
+                            appendLoadingMessage('No kiosks data available', ERROR);
                             return
                         }
                         kioskDataList = []
@@ -815,7 +815,7 @@ function getMapKioskData() {
                         for(var i=0; i<newKiosksData.length; i++) {
                             var kiosksDataString = JSON.stringify(newKiosksData[i]);
                             if(isJSONData(kiosksDataString) == false) {
-                                updateLoadingMessage('Error: Kiosks Sheet : (Row: ' + i + ')');
+                                appendLoadingMessage('Error: Kiosks Sheet : (Row: ' + i + ')');
                             } else {
                                 kioskDataList[i] = isJSONData(kiosksDataString)
                             }
@@ -833,9 +833,9 @@ function getMapKioskData() {
             
             // showing message
             if(mapVersionNum == settingVersion) {
-                updateLoadingMessage('Loading Kiosks From Local Cache...');
+                appendLoadingMessage('Loading Kiosks From Local Cache...');
             } else {
-                updateLoadingMessage('Loading Kiosks From Server...');
+                appendLoadingMessage('Loading Kiosks From Server...');
             }
             var kioskRequest = $.ajax({ 
                 url: rootFolder + "/kiosks.json?version=" + UIVersion,
@@ -845,13 +845,13 @@ function getMapKioskData() {
                 success: function (response) {
                     if(response == "") {
                         //checkUserQueryString()
-                        updateLoadingMessage('No kiosks data available', ERROR);
+                        appendLoadingMessage('No kiosks data available', ERROR);
                         return
                     }
                     if(response == '' || response.length == 0) {
                         privateLoaded = true
                         //checkUserQueryString()
-                        updateLoadingMessage('No kiosks data available', ERROR);
+                        appendLoadingMessage('No kiosks data available', ERROR);
                         return
                     }
                     kioskDataList = []
@@ -861,7 +861,7 @@ function getMapKioskData() {
                         var kiosksDataString = JSON.stringify(newKiosksData[i]);
                         //newstr += JSON.stringify(isJSON(pp))
                         if(isJSONData(kiosksDataString) == false) {
-                            updateLoadingMessage('Error: Kiosks Sheet : (Row: ' + i + ')', ERROR);
+                            appendLoadingMessage('Error: Kiosks Sheet : (Row: ' + i + ')', ERROR);
                         } else {
                             kioskDataList[i] = isJSONData(kiosksDataString)
                         }
@@ -1065,7 +1065,7 @@ function checkUserQueryString() {
         //console.log(cookiesStat, " cookie ", currentVersion)
         if(cookiesStat) {
             if(loadType == "normal" /* && currentVersion == 'Same' */) {
-            updateLoadingMessage('Loading Events From Cache');
+            appendLoadingMessage('Loading Events From Cache');
             resetIdleTimer()
             document.getElementById("splashImg").src = splash_img
             setTimeout(function(){
@@ -1240,9 +1240,9 @@ function checkUserQueryString() {
                 console.log("target=" + target);
                 
             if(mapVersionNum == settingVersion) {
-                updateLoadingMessage('Loading Events From Local Cache...');
+                appendLoadingMessage('Loading Events From Local Cache...');
             } else {
-                updateLoadingMessage('Loading Events From Server...');
+                appendLoadingMessage('Loading Events From Server...');
             }
             //$('.related_events').css('opacity', '0')
             document.getElementById('related_events').style.opacity = 0
@@ -1259,7 +1259,7 @@ function checkUserQueryString() {
                     if(response == '' || response.length == 0) {
                         privateLoaded = true
                         //checkUserQueryString()
-                        updateLoadingMessage('Error: No events data available.', ERROR);
+                        appendLoadingMessage('Error: No events data available.', ERROR);
                         // showing background
                         /* showBackgroundImage();
                         CreateFirstUIScreen() */
@@ -1272,7 +1272,7 @@ function checkUserQueryString() {
                         //console.log(isJSON(pp), " --- ")
                         //newstr += JSON.stringify(isJSON(pp))
                         if(isJSONData(eventDataString) == false) {
-                            updateLoadingMessage('Error: Events Sheet : (Row: ' + (i+2) + ')', ERROR);
+                            appendLoadingMessage('Error: Events Sheet : (Row: ' + (i+2) + ')', ERROR);
                         } else {
                             eventsDataList[i] = isJSONData(eventDataString)
                         }
@@ -1300,9 +1300,9 @@ function checkUserQueryString() {
             //window.ldb.delete('zapMap_eventsData')
             // Mac Fix
             if(mapVersionNum == settingVersion) {
-                updateLoadingMessage('Loading From Local Sheet...');
+                appendLoadingMessage('Loading From Local Sheet...');
             } else {
-                updateLoadingMessage('Loading From Server Sheet...');
+                appendLoadingMessage('Loading From Server Sheet...');
             }
 
             //$('.related_events').css('opacity', '0')
@@ -1322,7 +1322,7 @@ function checkUserQueryString() {
                 if(response == '' || response.length == 0) {
                     privateLoaded = true
                     //checkUserQueryString()
-                    updateLoadingMessage('Error: No events data available.', ERROR);
+                    appendLoadingMessage('Error: No events data available.', ERROR);
                     // showing background
                     showBackgroundImage();
                     CreateFirstUIScreen()
@@ -1337,7 +1337,7 @@ function checkUserQueryString() {
                     //console.log(isJSON(pp), " --- ")
                     //newstr += JSON.stringify(isJSON(pp))
                     if(isJSONData(eventDataString) == false) {
-                        updateLoadingMessage('Error: Events Sheet : (Row: ' + i + ')', ERROR);
+                        appendLoadingMessage('Error: Events Sheet : (Row: ' + i + ')', ERROR);
                     } else {
                         var checkDataFormat = isJSONData(eventDataString)
                         console.log(typeof(checkDataFormat.Duration), " CHECKING DURATION 1") 
@@ -2191,7 +2191,7 @@ function CreateFirstUIScreen() {
     // Hide slick slider
     //console.log(activeLayout, " .....")
 
-    updateLoadingMessage('Creating Map And Events List...');
+    appendLoadingMessage('Creating Map And Events List...');
 
     setTimeout(function(){
 
@@ -2444,9 +2444,9 @@ function CreateFirstUIScreen() {
 
         if(loadType == 'refresh') {
             if(mapVersionNum == settingVersion) {
-                updateLoadingMessage('Loading Images From Local Cache...');
+                appendLoadingMessage('Loading Images From Local Cache...');
             } else {
-                updateLoadingMessage('Loading Images From Server...');
+                appendLoadingMessage('Loading Images From Server...');
             }
             setTimeout(function(){
                 PreloadAllToCache();
@@ -3860,7 +3860,7 @@ function showMessageInfo(_count) {
     var newMessage = "Loading Images (" + (_count) + "/" + getAllImageCount() + ")...";
 
     clearLoadingMessage();
-    updateLoadingMessage(prevMessage + newMessage);
+    appendLoadingMessage(prevMessage + newMessage);
 
 
     // Check all Preload Cache Image and the move to enable app section
@@ -3868,7 +3868,7 @@ function showMessageInfo(_count) {
         //console.log("ENTER HERER - ", errorMessage)
         if(errorMessage.length > 0) {
             for(var i=0; i<errorMessage.length; i++) {
-                updateLoadingMessage(errorMessage[i], ERROR);
+                appendLoadingMessage(errorMessage[i], ERROR);
             }
         }
         errorMessage = []
@@ -3882,8 +3882,8 @@ function showMessageInfo(_count) {
 function checkAndLoadAppScreenOnceReady() {
     if(forceReload == false) {
         setTimeout(function() {
-            updateLoadingMessage('All Maps and Events Data Loaded.');
-            updateLoadingMessage('All Images Has Been Cached.');
+            appendLoadingMessage('All Maps and Events Data Loaded.');
+            appendLoadingMessage('All Images Has Been Cached.');
 
             ////////////////////////////////////////////////////////////////////////////////////////////
             // Save log
@@ -3916,8 +3916,8 @@ function checkAndLoadAppScreenOnceReady() {
     } else {
         setTimeout(function() {
             //PreloadAllImages()
-            updateLoadingMessage('All Maps and Events Data Loaded.');
-            updateLoadingMessage('All Images Has Been Cached.');
+            appendLoadingMessage('All Maps and Events Data Loaded.');
+            appendLoadingMessage('All Images Has Been Cached.');
             ////////////////////////////////////////////////////////////////////////////////////////////
             // Save log
             let kiosk_location = ''
@@ -4977,7 +4977,7 @@ function downloadImagesLocally(urlString) {
             msgValue += "Loading Images (" + imageLoadedCount + "/" + AllImageCount + ") ..<br>"
             
             clearLoadingMessage();
-            updateLoadingMessage(msgValue);
+            appendLoadingMessage(msgValue);
             
             if(imageLoadedCount < AllImageCount) {
                 imageLoadedCount++;
@@ -6825,7 +6825,7 @@ function loadSettingsData() {
                 if(response == '' || response.length == 0) {
                     privateLoaded = true
                     //checkUserQueryString()
-                    updateLoadingMessage('No settings data available', ERROR);
+                    appendLoadingMessage('No settings data available', ERROR);
                     return
                 }
                 settingDataList = []
@@ -6835,7 +6835,7 @@ function loadSettingsData() {
                     var settingsDataString = JSON.stringify(newSettingsData[i]);
                     //newstr += JSON.stringify(isJSON(pp))
                     if(isJSONData(settingsDataString) == false) {
-                        updateLoadingMessage('Error: Settings Sheet : (Row: ' + i + ')');
+                        appendLoadingMessage('Error: Settings Sheet : (Row: ' + i + ')');
                     } else {
                         settingDataList[i] = isJSONData(settingsDataString)
                     }
@@ -6908,26 +6908,26 @@ function fetchSheetDetailsPeriodically() {
                                     if(row['Name'] == 'Title') {
                                         sheet_title = row['Value']
                                         clearLoadingMessage();
-                                        updateLoadingMessage('Sheet Title: ' + row['Value']);
+                                        appendLoadingMessage('Sheet Title: ' + row['Value']);
                                     }
                                     if(row['Name'] == 'SheetId') {
-                                        updateLoadingMessage('Sheet Id: ' + row['Value']);
+                                        appendLoadingMessage('Sheet Id: ' + row['Value']);
                                     }
                                     if(row['Name'] == 'Version') {
                                         sheet_version = row['Value']
-                                        updateLoadingMessage('Sheet Version: ' + versionResponse.version);
+                                        appendLoadingMessage('Sheet Version: ' + versionResponse.version);
 
                                         // Add browser session id
-                                        updateLoadingMessage('Session Id: ' + deviceUID);
+                                        appendLoadingMessage('Session Id: ' + deviceUID);
 
                                         // Add kiosk id if present
                                         if(getKiosk_Num != '') {
-                                            updateLoadingMessage('Kiosk: ' + getKiosk_Num);
+                                            appendLoadingMessage('Kiosk: ' + getKiosk_Num);
                                         }
-                                        updateLoadingMessage('' + Number(_version) + " - " + row['Value'] + " - " + target);
+                                        appendLoadingMessage('' + Number(_version) + " - " + row['Value'] + " - " + target);
                                     }
                                     if(row['Name'] == 'PublishedOn') {
-                                        updateLoadingMessage('Sheet Published on: ' + row['Value']);
+                                        appendLoadingMessage('Sheet Published on: ' + row['Value']);
                                     }
                                 })
                                 $.each(kioskDataList, function (index_kiosk, row_Kiosk) {
@@ -6936,11 +6936,11 @@ function fetchSheetDetailsPeriodically() {
                                     } 
                                 })
 
-                                updateLoadingMessage('Target: ' + target);
-                                updateLoadingMessage('App Version: ' + _version);
+                                appendLoadingMessage('Target: ' + target);
+                                appendLoadingMessage('App Version: ' + _version);
                                 
                                 let currentDate = new Date();
-                                updateLoadingMessage("Checking server on " + moment(currentDate).format(DATE_FORMAT).toLocaleString())
+                                appendLoadingMessage("Checking server on " + moment(currentDate).format(DATE_FORMAT).toLocaleString())
                                 poll_time_string = moment(currentDate).format('MM/DD/YYYY HH:mm:ss').toLocaleString()
 
                                 //console.log(currentSheetVersion, " --- ", versionResponse.version)
@@ -6948,17 +6948,17 @@ function fetchSheetDetailsPeriodically() {
                                 if(parseFloat(currentSheetVersion).toFixed(1) != parseFloat(versionResponse.version).toFixed(1)) {
                                     // set the sheet version here
                                     currentSheetVersion = versionResponse.version;
-                                    updateLoadingMessage('New update found.');
+                                    appendLoadingMessage('New update found.');
 
                                     // Show App version
-                                    updateLoadingMessage('Sheet Version: ' + versionResponse.version);
+                                    appendLoadingMessage('Sheet Version: ' + versionResponse.version);
 
                                     // Add browser session id()
-                                    updateLoadingMessage('Session Id: ' + deviceUID);
+                                    appendLoadingMessage('Session Id: ' + deviceUID);
 
                                     // Add kiosk id if present
                                     if(getKiosk_Num != '') {
-                                        updateLoadingMessage('Kiosk: ' + getKiosk_Num );
+                                        appendLoadingMessage('Kiosk: ' + getKiosk_Num );
                                     }
                                     currentVersion = "New";
                                     //ReloadDateInBackground();
@@ -6966,7 +6966,7 @@ function fetchSheetDetailsPeriodically() {
                                     //return
                                 } else {
                                     // Show App version
-                                    updateLoadingMessage('No update found.');
+                                    appendLoadingMessage('No update found.');
                                     currentVersion = "Same"
                                 }
 
@@ -7010,7 +7010,7 @@ function fetchSheetDetailsPeriodically() {
                            // });
                         },
                         error: function (response) {
-                            updateLoadingMessage('ERROR ?', ERROR);
+                            appendLoadingMessage('ERROR ?', ERROR);
                         }
                     })
                     // Clear memory
@@ -7317,17 +7317,17 @@ function ReloadCurrentData() {
             const currentDate = new Date();
 
             clearLoadingMessage();
-            updateLoadingMessage('Loading Map Assets...');
-            updateLoadingMessage('Target: ' + target);
-            updateLoadingMessage('App Version: ' + _version);
-            updateLoadingMessage('Checking server on ' + moment(currentDate).format(DATE_FORMAT));
+            appendLoadingMessage('Loading Map Assets...');
+            appendLoadingMessage('Target: ' + target);
+            appendLoadingMessage('App Version: ' + _version);
+            appendLoadingMessage('Checking server on ' + moment(currentDate).format(DATE_FORMAT));
 
             setTimeout(function() {
-                updateLoadingMessage('Sheet Version: ' + versionResponse.version);
-                updateLoadingMessage('Session Id: ' + deviceUID);
+                appendLoadingMessage('Sheet Version: ' + versionResponse.version);
+                appendLoadingMessage('Session Id: ' + deviceUID);
                 // Add kiosk id if present
                 if(getKiosk_Num != '') {
-                    updateLoadingMessage('Kiosk: ' + getKiosk_Num);
+                    appendLoadingMessage('Kiosk: ' + getKiosk_Num);
                 }
                 
                 updateStatusMessage('' + Number(_version) + " - " + versionResponse.version + " - " + target);
@@ -7335,7 +7335,7 @@ function ReloadCurrentData() {
             }, 0)
         },
         error:function(err) {
-            updateLoadingMessage("ERROR: Target " + target + " not found", ERROR);
+            appendLoadingMessage("ERROR: Target " + target + " not found", ERROR);
             
             console.log("Ajax error")
             checkUserQueryString();
@@ -7394,18 +7394,18 @@ function ReloadDateInBackground(sheetVersion) {
 
     }
         clearLoadingMessage();
-        updateLoadingMessage('Loading Map Assets...');
-        updateLoadingMessage('App Version: ' + _version);
+        appendLoadingMessage('Loading Map Assets...');
+        appendLoadingMessage('App Version: ' + _version);
         const today = new Date();
-        updateLoadingMessage('Checking server on ' + moment(today).format(DATE_FORMAT));
+        appendLoadingMessage('Checking server on ' + moment(today).format(DATE_FORMAT));
 
         setTimeout(function() {
-            updateLoadingMessage('Sheet Version: ' + sheetVersion);
-            updateLoadingMessage('Session Id: ' + deviceUID);
+            appendLoadingMessage('Sheet Version: ' + sheetVersion);
+            appendLoadingMessage('Session Id: ' + deviceUID);
 
             // Add kiosk id if present
             if(getKiosk_Num != '') {
-                updateLoadingMessage('Kiosk: ' + getKiosk_Num);
+                appendLoadingMessage('Kiosk: ' + getKiosk_Num);
             }
 
             updateStatusMessage('' + Number(_version) + " - " + sheetVersion + " - " + target);
@@ -7422,7 +7422,7 @@ function ReloadDateInBackground(sheetVersion) {
     if(sheet_Id == '') {
         if(window.navigator.onLine == false) {
             // showing message
-            updateLoadingMessage('Checking Cache..');
+            appendLoadingMessage('Checking Cache..');
 
             // 5/7/24
             //window.ldb.get('zapMap_VersionNum', function (value) {
@@ -7441,7 +7441,7 @@ function ReloadDateInBackground(sheetVersion) {
     } else {
         if(window.navigator.onLine == false) {
             // showing message
-            updateLoadingMessage('Checking Cache..');
+            appendLoadingMessage('Checking Cache..');
             ///////////////////////////////////////////////////////////////////////////
         } else {
             //console.log("If no cache then wait...")
@@ -7463,7 +7463,7 @@ function ReloadDateInBackground(sheetVersion) {
                         //console.log(value, " -------------- ")
                         if(value == null || value == '')  {
                             //console.log(sheet_Id + '_VersionNum is', value);
-                            updateLoadingMessage('Map data not available.', ERROR);
+                            appendLoadingMessage('Map data not available.', ERROR);
                             fetchSheetDetailsPeriodically()
                             return
                         } else {
