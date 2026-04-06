@@ -1218,7 +1218,7 @@ Inline CSS for file loading setup
     text-align: left;
     font-size: 3vh;
     top: 92vh;
-    left: -60%;
+    left: 85%;
     color: white;
 }
 .mainContainer .mapAreaHolder {
@@ -1298,7 +1298,7 @@ Inline CSS for file loading setup
     display: none; 
     overflow: hidden; 
     justify-content: space-around; 
-    background-color:#1F62A0; 
+/*    background-color:#1F62A0;*/
     align-items: center; 
     height: 86%; 
     opacity: 0;
@@ -3169,7 +3169,7 @@ input[type=text]:focus {
     left: 0;
     top: 0px;
     z-index: 999999999999999999 !important;
-    background-color: #1F62A0;
+/*    background-color: #1F62A0;*/
     border-bottom: 1.2px solid white;
     /* height: 10vh; */
     height: 8.7vh;
@@ -3443,7 +3443,7 @@ input[type=text]:focus {
     position: fixed;
     width: 45%;
     height: 8vh;
-    background-color: #1F62A0;
+/*    background-color: #1F62A0;*/
     left: 0px;
     top: 0px;
     z-index: 99999999;

@@ -57,7 +57,7 @@ function createCache(cacheVersion) {
                 './js-package/JSController.js?version=' + dyVersion,
                 './js-package/mapMain.js?version='+ dyVersion,
                 './js-package/version.js?version='+ dyVersion,
-
+                './js-package/zapsheetsCore.js?version='+ dyVersion,
                 
                 // Sheet data
                 rootFolder + '/version.json?version='+ dyVersion,

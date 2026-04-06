@@ -65,11 +65,13 @@ let systemName = ''
 var errorMessage = []
 var cacheFirst = true;
 
+var target = 'live';
 var mapVersionNum = 0
 var settingVersion = 0
 // Controller version
 let controllerVerion = 5
 let appDataLoaded = false;
+
 //let homeLoader = ''
 ///////////////////////////////////////////////////////////////////////////////////////////
 // Getting current App version (version.js)
@@ -79,16 +81,6 @@ function getCurrentLiveVersion() {
     newScript.type = 'text/javascript';
     newScript.src = './js-package/version.js?version=' + UIVersion;
     document.getElementsByTagName('head')[0].appendChild(newScript);
-}
-///////////////////////////////////////////////////////////////////////////////////////////
-// Getting current App module working (mainMain.js)
-function getCurrentMapMainVersion() {
-    var mapScript = document.createElement('script');
-    mapScript.id = 'map_Script';
-    mapScript.type = 'text/javascript';
-    mapScript.src = './js-package/mapMain.js?version=' + UIVersion;
-    mapScript.onload = checkLoadStat()
-    document.getElementsByTagName('head')[0].appendChild(mapScript);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -109,12 +101,12 @@ function checkVersion() {
         // Version files
         getCurrentLiveVersion();
         // Game file
-        getCurrentMapMainVersion();
+        getCurrentMainVersion();
     } else {
         // Version files
         getCurrentLiveVersion();
         // Game file
-        getCurrentMapMainVersion();
+        getCurrentMainVersion();
     }
 
     setTimeout(function() {
@@ -151,4 +143,3 @@ function getUrlVars() {
     }
     return vars;
 }
-//////////////////////////////////////////////////////////////////////////////////////////

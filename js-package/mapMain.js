@@ -1,15 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// For Refresh the page
-///////////////////////////////////////////////////////////////////////////////////////////
-function getCurrentVersion() {
-    if(window.navigator.onLine == true) {
-        // Loading version.js dynamically for [mac fix]
-        var newScript = document.createElement('script');
-        newScript.type = 'text/javascript';
-        newScript.src = './js-package/version.js?version=' + UIVersion
-        document.getElementsByTagName('head')[0].appendChild(newScript);
-    }
-}
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 /**
  * Hide Splash screen
@@ -334,13 +323,6 @@ function checkCookieStatus(){
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////
 /**
- * update message function
- */
-function updateInfoTextView() {
-    document.getElementById("loadingTxt").scrollTop += 100;
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////
-/**
  * function used to get the app provate data from sheet
  */
 function getGamesPrivateData() {
@@ -352,21 +334,20 @@ function getGamesPrivateData() {
     var cookiesStat = checkCookieStatus();
     if(cookiesStat) {
         if(loadType == "normal") {
-            document.getElementById("loadingTxt").innerHTML += "Loading Directory From Cache..<br>"
-            updateInfoTextView();
+            
+            appendLoadingMessage('Loading Directory From Cache..');
+            
             setTimeout(function() {
                 // Check for username passed from querystring else set the username from sheet data
                 privateLoaded = true
                 checkUserQueryString()
             }, 1000)
         } else {
-            //document.getElementById("loadingTxt").innerHTML += window.navigator.onLine == true ? "Loading Directory From Server..<br>" : "Loading Directory From Local Cache..<br>"
             if(mapVersionNum == settingVersion) {
-                document.getElementById("loadingTxt").innerHTML += "Loading Directory From Local Cache..<br>"
+                appendLoadingMessage('Loading Directory From Local Cache...');
             } else {
-                document.getElementById("loadingTxt").innerHTML += "Loading Directory From Server..<br>"
+                appendLoadingMessage('Loading Directory From Server...');
             }
-            updateInfoTextView()
 
             var directoryRequest = $.ajax({ 
                 //url: "sheets/" + sheet_Id + "/directory.json?version=" + currentSheetVersion,
@@ -376,9 +357,8 @@ function getGamesPrivateData() {
                 dataType: "text",
                 success: function (response) {
                     if(response == '' || response.length == 0) {
-                        privateLoaded = true
-                        document.getElementById("loadingTxt").innerHTML += "<font color='red'>Error: No map directory data available.</font><br>"
-                        updateInfoTextView()
+                        privateLoaded = true;
+                        appendLoadingMessage('Error: No map directory data available.', ERROR);
                         checkUserQueryString();
                         return
                     }
@@ -388,8 +368,7 @@ function getGamesPrivateData() {
                     for(var i=0; i<newPrivateData.length; i++) {
                         var privateDataString = JSON.stringify(newPrivateData[i]);
                         if(isJSONData(privateDataString) == false) {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Directory Sheet : (Row: ' + i + ")</font><br>"
-                            updateInfoTextView()
+                            appendLoadingMessage('Error: Directory Sheet : (Row: ' + i + ')', ERROR);
                         } else {
                             privateDataList[i] = isJSONData(privateDataString)
                         }
@@ -406,13 +385,11 @@ function getGamesPrivateData() {
             directoryRequest = null;
         }
     } else {
-        //document.getElementById("loadingTxt").innerHTML += window.navigator.onLine == true ? "Loading Directory From Server..<br>" : "Loading Directory From Local Cache..<br>"
         if(mapVersionNum == settingVersion) {
-            document.getElementById("loadingTxt").innerHTML += "Loading Directory From Local Cache..<br>"
+            appendLoadingMessage('Loading Directory From Local Cache...');
         } else {
-            document.getElementById("loadingTxt").innerHTML += "Loading Directory From Server..<br>"
+            appendLoadingMessage('Loading Directory From Server...');
         }
-        updateInfoTextView()
         var directoryRequest = $.ajax({ 
         url: rootFolder + "/directory.json?version=" + UIVersion,
         cache: true,
@@ -421,8 +398,7 @@ function getGamesPrivateData() {
         success: function (response) {
             if(response == '' || response.length == 0) {
                 privateLoaded = true
-                document.getElementById("loadingTxt").innerHTML += "<font color='red'>Error: No map directory data available.</font><br>"
-                updateInfoTextView()
+                appendLoadingMessage('Error: No map directory data available.', ERROR);
                 return
             }
             privateDataList = []
@@ -431,8 +407,7 @@ function getGamesPrivateData() {
             for(var i=0; i<newPrivateData.length; i++) {
                 var privateDataString = JSON.stringify(newPrivateData[i]);
                 if(isJSONData(privateDataString) == false) {
-                    document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Directory Sheet : (Row: ' + i + ")</font><br>"
-                    updateInfoTextView()
+                    appendLoadingMessage('Error: Directory Sheet : (Row: ' + i + ')', ERROR);
                 } else {
                     privateDataList[i] = isJSONData(privateDataString)
                 }
@@ -460,28 +435,24 @@ function getGamesSettingData() {
   
   let rootFolder = "./sheets/" + sheet_Id + "/" + target;
 
-    document.getElementById("loadingTxt").innerHTML += "Checking Settings..<br>"
-    updateInfoTextView()
+    appendLoadingMessage('Checking Settings...');
     setTimeout(function() {
         var cookieStat = checkCookieStatus();
         if(cookieStat) {
             if(loadType == "normal") {
                 // In case if any image missing during initial download
                 //PreloadAllImages();
-                document.getElementById("loadingTxt").innerHTML += "Loading Images From Cache..<br>"
-                updateInfoTextView()
+                appendLoadingMessage('Loading Images From Cache...');
                 setTimeout(function() {
                     PreloadAllToCache();
                 }, 10)
                 setTimeout(function() {
-                    document.getElementById("loadingTxt").innerHTML += "Checking Settings Cache..<br>"
-                    updateInfoTextView()
+                    appendLoadingMessage('Checking Settings Cache...');
                 }, 1500)
                 setTimeout(function() {
                     settingLoaded = true
                     // showing message
-                    document.getElementById("loadingTxt").innerHTML += "Loading Settings From Cache..<br>"
-                    updateInfoTextView()
+                    appendLoadingMessage('Loading Settings From Cache...');
                     // Show Setting data to the log
                     splash_img = ''
                     splashDelaySec = 5
@@ -613,16 +584,14 @@ function getGamesSettingData() {
                     type: 'GET',
                     dataType: "text",
                     error: function(e) {
-                        document.getElementById("loadingTxt").innerHTML += "<font color='red'>Error: Map data not published.</font><br>"
-                        updateInfoTextView()
+                        appendLoadingMessage('Error: Map data not published.', ERROR);
                         fetchSheetDetailsPeriodically();
                         return
                     },
                     success: function (response) {
                         if(response == "" || response.length == 0) {
                             //checkUserQueryString()
-                            document.getElementById("loadingTxt").innerHTML += "<font color='red'>Error: No settings data available.</font><br>"
-                            updateInfoTextView()
+                            appendLoadingMessage('Error: No settings data available.', ERROR);
                             return
                         }
                         settingDataList = []
@@ -631,15 +600,11 @@ function getGamesSettingData() {
                         for(var i=0; i<newSettingsData.length; i++) {
                             var settingsDataString = JSON.stringify(newSettingsData[i]);
                             if(isJSONData(settingsDataString) == false) {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Settings Sheet : (Row: ' + i + ")</font><br>"
-                                updateInfoTextView()
+                                appendLoadingMessage('Error: Settings Sheet : (Row: ' + i + ')', ERROR);
                             } else {
                                 settingDataList[i] = isJSONData(settingsDataString)
                             }
                         }
-
-                        //document.getElementById("loadingTxt").innerHTML += window.navigator.onLine == true ? "Loading Settings From Server..<br>" : "Loading Settings From Local Cache..<br>"
-                        updateInfoTextView()
 
                         settingLoaded = true
                         splash_img = ''
@@ -764,10 +729,10 @@ function getGamesSettingData() {
                         window.ldb.get('mapVersion', function (value) {
                             mapVersionNum = value
                             if(mapVersionNum == settingVersion) {
-                                document.getElementById("loadingTxt").innerHTML += "Loading Settings From Local Cache..<br>"
+                                appendLoadingMessage('Loading Settings From Local Cache...');
                                 document.getElementById('versionText').innerHTML = '[' + controllerVerion + ' - ' + _version + ' - ' + settingVersion +']'
                             } else {
-                                document.getElementById("loadingTxt").innerHTML += "Loading Settings From Server..<br>" 
+                                appendLoadingMessage('Loading Settings From Server...');
                                 document.getElementById('versionText').innerHTML = '' + controllerVerion + ' - ' + _version + ' - ' + settingVersion +''
                             }
                         })
@@ -799,8 +764,7 @@ function getGamesSettingData() {
         } else {
             //console.log("SHOW COOKIES MESSAGE AND BUTTON TO CONTINUE")
             // showing message
-            document.getElementById("loadingTxt").innerHTML += "Browser cookies disabled. Enable it for best experience.<br>"
-            updateInfoTextView()
+            appendLoadingMessage('Browser cookies disabled. Enable it for best experience.', ERROR);
             document.getElementById("btnCont").style.display = 'inline-block'
             let detectDeviceType = () =>
             /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
@@ -822,21 +786,18 @@ function getMapKioskData() {
     let rootFolder = "./sheets/" + sheet_Id + "/" + target;
 
     //console.log("Now try to load kiosk data")
-    document.getElementById("loadingTxt").innerHTML += "Checking Kiosks..<br>"
-    updateInfoTextView()
+    appendLoadingMessage('Checking Kiosks...');
     setTimeout(function(){
         var cookieStat = checkCookieStatus();
         if(cookieStat) {
             if(loadType == "normal" /* && currentVersion == 'Same' */) {
-                document.getElementById("loadingTxt").innerHTML += "Checking Kiosks Cache..<br>"
-                updateInfoTextView()
+                appendLoadingMessage('Checking Kiosks Cache...');
             } else {
                 if(mapVersionNum == settingVersion) {
-                    document.getElementById("loadingTxt").innerHTML += "Loading Kiosks From Local Cache..<br>"
+                    appendLoadingMessage('Loading Kiosks From Local Cache...');
                 } else {
-                    document.getElementById("loadingTxt").innerHTML += "Loading Kiosks From Server..<br>";
+                    appendLoadingMessage('Loading Kiosks From Server...');
                 }
-                updateInfoTextView()
                 var kioskRequest = $.ajax({ 
                     url: rootFolder + "/kiosks.json?version=" + UIVersion, 
                     cache: true,
@@ -845,8 +806,7 @@ function getMapKioskData() {
                     success: function (response) {
                         if(response == "" || response.length == 0) {
                             //checkUserQueryString()
-                            document.getElementById("loadingTxt").innerHTML += "No kiosks data available ..<br>"
-                            updateInfoTextView()
+                            appendLoadingMessage('No kiosks data available', ERROR);
                             return
                         }
                         kioskDataList = []
@@ -855,8 +815,7 @@ function getMapKioskData() {
                         for(var i=0; i<newKiosksData.length; i++) {
                             var kiosksDataString = JSON.stringify(newKiosksData[i]);
                             if(isJSONData(kiosksDataString) == false) {
-                                document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Kiosks Sheet : (Row: ' + i + ")</font><br>"
-                                updateInfoTextView()
+                                appendLoadingMessage('Error: Kiosks Sheet : (Row: ' + i + ')');
                             } else {
                                 kioskDataList[i] = isJSONData(kiosksDataString)
                             }
@@ -874,11 +833,10 @@ function getMapKioskData() {
             
             // showing message
             if(mapVersionNum == settingVersion) {
-                document.getElementById("loadingTxt").innerHTML += "Loading Kiosks From Local Cache..<br>"
+                appendLoadingMessage('Loading Kiosks From Local Cache...');
             } else {
-                document.getElementById("loadingTxt").innerHTML += "Loading Kiosks From Server..<br>"
+                appendLoadingMessage('Loading Kiosks From Server...');
             }
-            updateInfoTextView()
             var kioskRequest = $.ajax({ 
                 url: rootFolder + "/kiosks.json?version=" + UIVersion,
                 cache: true, 
@@ -887,15 +845,13 @@ function getMapKioskData() {
                 success: function (response) {
                     if(response == "") {
                         //checkUserQueryString()
-                        document.getElementById("loadingTxt").innerHTML += "No kiosks data available ..<br>"
-                        updateInfoTextView()
+                        appendLoadingMessage('No kiosks data available', ERROR);
                         return
                     }
                     if(response == '' || response.length == 0) {
                         privateLoaded = true
                         //checkUserQueryString()
-                        document.getElementById("loadingTxt").innerHTML += "No kiosks data available ..<br>"
-                        updateInfoTextView()
+                        appendLoadingMessage('No kiosks data available', ERROR);
                         return
                     }
                     kioskDataList = []
@@ -905,8 +861,7 @@ function getMapKioskData() {
                         var kiosksDataString = JSON.stringify(newKiosksData[i]);
                         //newstr += JSON.stringify(isJSON(pp))
                         if(isJSONData(kiosksDataString) == false) {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Kiosks Sheet : (Row: ' + i + ")</font><br>"
-                            updateInfoTextView()
+                            appendLoadingMessage('Error: Kiosks Sheet : (Row: ' + i + ')', ERROR);
                         } else {
                             kioskDataList[i] = isJSONData(kiosksDataString)
                         }
@@ -967,11 +922,6 @@ $(document).ready(function() {
     ////////////////////////////////////////////////////////
     loadType = 'refresh'
     if(loadType == 'refresh') {
-        // if(sheet_Id == '') {
-        //     document.getElementById("loadingTxt").innerHTML += "<font color='red'>Error: Sheet Id not defined.</font><br>"
-        //     updateInfoTextView()
-        //     return
-        // }
        if(sheet_Id == '') {
         checkUserQueryString();
         return
@@ -1115,8 +1065,7 @@ function checkUserQueryString() {
         //console.log(cookiesStat, " cookie ", currentVersion)
         if(cookiesStat) {
             if(loadType == "normal" /* && currentVersion == 'Same' */) {
-            document.getElementById("loadingTxt").innerHTML += "Loading Events From Cache..<br>"
-            updateInfoTextView()
+            appendLoadingMessage('Loading Events From Cache');
             resetIdleTimer()
             document.getElementById("splashImg").src = splash_img
             setTimeout(function(){
@@ -1287,13 +1236,14 @@ function checkUserQueryString() {
             //CreateFirstUIScreen()
             } else {
 
-
+                console.log("mapVersionNum=" + mapVersionNum);
+                console.log("target=" + target);
+                
             if(mapVersionNum == settingVersion) {
-                document.getElementById("loadingTxt").innerHTML += "Loading Events From Local Cache..<br>"
+                appendLoadingMessage('Loading Events From Local Cache...');
             } else {
-                document.getElementById("loadingTxt").innerHTML += "Loading Events From Server..<br>";
+                appendLoadingMessage('Loading Events From Server...');
             }
-            updateInfoTextView()
             //$('.related_events').css('opacity', '0')
             document.getElementById('related_events').style.opacity = 0
             document.getElementById('slideLoading').style.display = 'flex'
@@ -1309,8 +1259,7 @@ function checkUserQueryString() {
                     if(response == '' || response.length == 0) {
                         privateLoaded = true
                         //checkUserQueryString()
-                        document.getElementById("loadingTxt").innerHTML += "<font color='red'>Error: No events data available.</font><br>"
-                        updateInfoTextView()
+                        appendLoadingMessage('Error: No events data available.', ERROR);
                         // showing background
                         /* showBackgroundImage();
                         CreateFirstUIScreen() */
@@ -1323,8 +1272,7 @@ function checkUserQueryString() {
                         //console.log(isJSON(pp), " --- ")
                         //newstr += JSON.stringify(isJSON(pp))
                         if(isJSONData(eventDataString) == false) {
-                            document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Events Sheet : (Row: ' + (i+2) + ")</font><br>"
-                            updateInfoTextView()
+                            appendLoadingMessage('Error: Events Sheet : (Row: ' + (i+2) + ')', ERROR);
                         } else {
                             eventsDataList[i] = isJSONData(eventDataString)
                         }
@@ -1352,11 +1300,10 @@ function checkUserQueryString() {
             //window.ldb.delete('zapMap_eventsData')
             // Mac Fix
             if(mapVersionNum == settingVersion) {
-                document.getElementById("loadingTxt").innerHTML += "Waiting From Local Sheet..<br>"
+                appendLoadingMessage('Loading From Local Sheet...');
             } else {
-                document.getElementById("loadingTxt").innerHTML += "Waiting From Server Sheet..<br>"
+                appendLoadingMessage('Loading From Server Sheet...');
             }
-            updateInfoTextView()
 
             //$('.related_events').css('opacity', '0')
             document.getElementById('related_events').style.opacity = 0
@@ -1375,8 +1322,7 @@ function checkUserQueryString() {
                 if(response == '' || response.length == 0) {
                     privateLoaded = true
                     //checkUserQueryString()
-                    document.getElementById("loadingTxt").innerHTML += "<font color='red'>No events data available.</font><br>"
-                    updateInfoTextView()
+                    appendLoadingMessage('Error: No events data available.', ERROR);
                     // showing background
                     showBackgroundImage();
                     CreateFirstUIScreen()
@@ -1391,8 +1337,7 @@ function checkUserQueryString() {
                     //console.log(isJSON(pp), " --- ")
                     //newstr += JSON.stringify(isJSON(pp))
                     if(isJSONData(eventDataString) == false) {
-                        document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Events Sheet : (Row: ' + i + ")</font><br>"
-                        updateInfoTextView()
+                        appendLoadingMessage('Error: Events Sheet : (Row: ' + i + ')', ERROR);
                     } else {
                         var checkDataFormat = isJSONData(eventDataString)
                         console.log(typeof(checkDataFormat.Duration), " CHECKING DURATION 1") 
@@ -2246,10 +2191,7 @@ function CreateFirstUIScreen() {
     // Hide slick slider
     //console.log(activeLayout, " .....")
 
-    document.getElementById("loadingTxt").innerHTML += 'Creating Map And Events List..<br>'
-    updateInfoTextView()
-
-
+    appendLoadingMessage('Creating Map And Events List...');
 
     setTimeout(function(){
 
@@ -2501,16 +2443,12 @@ function CreateFirstUIScreen() {
         //console.log("LOADING IMAGES")
 
         if(loadType == 'refresh') {
-            //document.getElementById("loadingTxt").innerHTML += window.navigator.onLine == true ? "Loading Images From Server..<br>" : "Loading Images From Local Cache..<br>"
             if(mapVersionNum == settingVersion) {
-                document.getElementById("loadingTxt").innerHTML += "Loading Images From Local Cache..<br>"
+                appendLoadingMessage('Loading Images From Local Cache...');
             } else {
-                document.getElementById("loadingTxt").innerHTML += "Loading Images From Server..<br>"
+                appendLoadingMessage('Loading Images From Server...');
             }
-            updateInfoTextView()
             setTimeout(function(){
-               /*  document.getElementById("loadingTxt").innerHTML += "Loading Images From Server..<br>"
-                updateInfoTextView() */
                 PreloadAllToCache();
             }, 10)
             // Prelpad Image
@@ -3919,9 +3857,10 @@ function showMessageInfo(_count) {
         }
     }
     //console.log(errorMessage, " >")
-    var newMessage = "Loading Images (" + (_count) + "/" + getAllImageCount() + ")...<br>";
-    document.getElementById("loadingTxt").innerHTML = prevMessage + newMessage;
-    updateInfoTextView()
+    var newMessage = "Loading Images (" + (_count) + "/" + getAllImageCount() + ")...";
+
+    clearLoadingMessage();
+    appendLoadingMessage(prevMessage + newMessage);
 
 
     // Check all Preload Cache Image and the move to enable app section
@@ -3929,8 +3868,7 @@ function showMessageInfo(_count) {
         //console.log("ENTER HERER - ", errorMessage)
         if(errorMessage.length > 0) {
             for(var i=0; i<errorMessage.length; i++) {
-                document.getElementById("loadingTxt").innerHTML += errorMessage[i];
-                updateInfoTextView()
+                appendLoadingMessage(errorMessage[i], ERROR);
             }
         }
         errorMessage = []
@@ -3944,12 +3882,8 @@ function showMessageInfo(_count) {
 function checkAndLoadAppScreenOnceReady() {
     if(forceReload == false) {
         setTimeout(function() {
-            //PreloadAllImages()
-            document.getElementById("loadingTxt").innerHTML += 'All Maps and Events Data Loaded.<br>'
-            updateInfoTextView()
-
-            document.getElementById("loadingTxt").innerHTML += "All Images Has Been Cached.<br>"
-            updateInfoTextView();
+            appendLoadingMessage('All Maps and Events Data Loaded.');
+            appendLoadingMessage('All Images Has Been Cached.');
 
             ////////////////////////////////////////////////////////////////////////////////////////////
             // Save log
@@ -3973,8 +3907,6 @@ function checkAndLoadAppScreenOnceReady() {
                 } 
             })
             let currentDate = new Date();
-            /* document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('MM/DD/YYYY HH:mm:ss').toLocaleString() + "<br>"
-            updateInfoTextView() */
             poll_time_string = moment(currentDate).format('MM/DD/YYYY HH:mm:ss').toLocaleString()
             // push status ajax call block
             saveInfoToLog(_version, poll_time_string, sheet_title, sheet_version, kiosk_location)
@@ -3984,11 +3916,8 @@ function checkAndLoadAppScreenOnceReady() {
     } else {
         setTimeout(function() {
             //PreloadAllImages()
-            document.getElementById("loadingTxt").innerHTML += 'All Maps and Events Data Loaded.<br>'
-            updateInfoTextView()
-            
-            document.getElementById("loadingTxt").innerHTML += "All Images Has Been Cached.<br>"
-            updateInfoTextView();
+            appendLoadingMessage('All Maps and Events Data Loaded.');
+            appendLoadingMessage('All Images Has Been Cached.');
             ////////////////////////////////////////////////////////////////////////////////////////////
             // Save log
             let kiosk_location = ''
@@ -4011,8 +3940,6 @@ function checkAndLoadAppScreenOnceReady() {
                 } 
             })
             let currentDate = new Date();
-            /* document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('MM/DD/YYYY HH:mm:ss').toLocaleString() + "<br>"
-            updateInfoTextView() */
             poll_time_string = moment(currentDate).format('MM/DD/YYYY HH:mm:ss').toLocaleString()
             // push status ajax call block
             saveInfoToLog(_version, poll_time_string, sheet_title, sheet_version, kiosk_location)
@@ -4029,9 +3956,6 @@ function checkAndLoadAppScreenOnceReady() {
         // Hide new Loader
         homeLoader.hide(); */
 
-        //console.log("Redirected")
-        // document.getElementById("loadingTxt").innerHTML += 'All Maps and Events Data Loaded.<br>'
-        // updateInfoTextView()
         if(forceReload) {
             // Enable the app ui screen
             enableAppScreen();
@@ -4062,15 +3986,11 @@ function PreloadAllToCache() {
                             let bgImage = new Image();
                             bgImage.src = imagePath;
                            
-                           /*  document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                            updateInfoTextView() */
                             imgLoaded++
                             showMessageInfo(imgLoaded)
                         } else {
                             //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                             imgLoaded++
-                            /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                            updateInfoTextView() */
                             errorMessage.push('<font color="red">Error: Missing Image ' + imgid + '.png</font><br>')
                         }
                     })
@@ -4099,15 +4019,11 @@ function PreloadAllToCache() {
                             //console.log('Caching '  + imageName)
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                            updateInfoTextView() */
                             imgLoaded++
                             showMessageInfo(imgLoaded)
                         } else {
                             //console.log('Error: '  + imageName + ' does not exists in server cache.')
                             imgLoaded++
-                            /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                            updateInfoTextView() */
                             errorMessage.push('<font color="red">Error: Missing Image ' + imageName + '</font><br>')
                         }
                     })
@@ -4136,15 +4052,11 @@ function PreloadAllToCache() {
                             //console.log('Caching '  + imgid + '.png')
                             let bgImage = new Image();
                             bgImage.src = imagePath;
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                            updateInfoTextView() */
                             imgLoaded++
                             showMessageInfo(imgLoaded)
                         } else {
                             //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                             imgLoaded++
-                            /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                            updateInfoTextView() */
                             errorMessage.push('<font color="red">Error: Missing Image ' + imgid + '.png</font><br>')
                         }
                     })
@@ -4172,15 +4084,11 @@ function PreloadAllToCache() {
                             //console.log('Caching '  + imageName)
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                            updateInfoTextView() */
                             imgLoaded++
                             showMessageInfo(imgLoaded)
                         } else {
                             //console.log('Error: '  + imageName + ' does not exists in server cache.')
                             imgLoaded++
-                            /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                            updateInfoTextView() */
                             errorMessage.push('<font color="red">Error: Missing Image '  + imageName + '</font><br>')
                         }
                     })
@@ -4210,15 +4118,11 @@ function PreloadAllToCache() {
                             //console.log('Caching '  + imgid + '.png')
                             let bgImage = new Image();
                             bgImage.src = imagePath;
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                            updateInfoTextView() */
                             imgLoaded++
                             showMessageInfo(imgLoaded)
                         } else {
                             //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                             imgLoaded++
-                           /*  document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                            updateInfoTextView() */
                             errorMessage.push('<font color="red">Error: Missing Image ' + imgid + '.png</font><br>')
                         }
                     })
@@ -4247,15 +4151,11 @@ function PreloadAllToCache() {
                             let bgImage = new Image();
                             bgImage.src = imagePath;
                             //console.log('Caching '  + imageName)
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                            updateInfoTextView() */
                             imgLoaded++
                             showMessageInfo(imgLoaded)
                         } else {
                             //console.log('Error: '  + imageName + ' does not exists in server cache.')
                             imgLoaded++
-                            /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                            updateInfoTextView() */
                             errorMessage.push('<font color="red">Error: Missing Image '  + imageName + '</font><br>')
                         }
                     })
@@ -4285,15 +4185,11 @@ function PreloadAllToCache() {
                             //console.log('Caching '  + imgid + '.png')
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                            updateInfoTextView() */
                             imgLoaded++
                             showMessageInfo(imgLoaded)
                         } else {
                             //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                             imgLoaded++
-                            /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                            updateInfoTextView() */
                             errorMessage.push('<font color="red">Error: Missing Image ' + imgid + '.png</font><br>')
                         }
                     })
@@ -4320,15 +4216,11 @@ function PreloadAllToCache() {
                             //console.log('Caching '  + imageName)
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                            updateInfoTextView() */
                             imgLoaded++
                             showMessageInfo(imgLoaded)
                         } else {
                             //console.log('Error: '  + imageName + ' does not exists in server cache.')
                             imgLoaded++
-                            /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                            updateInfoTextView() */
                             errorMessage.push('<font color="red">Error: Missing Image '  + imageName + '</font><br>')
                         }
                     })
@@ -4360,15 +4252,11 @@ function PreloadAllToCache() {
                             //console.log('Caching '  + imgid + '.png')
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                            updateInfoTextView() */
                             imgLoaded++
                             showMessageInfo(imgLoaded)
                         } else {
                             //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                             imgLoaded++
-                           /*  document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                            updateInfoTextView() */
                             errorMessage.push('<font color="red">Error: Missing Image ' + imgid + '.png</font><br>')
                         }
                     })
@@ -4397,15 +4285,11 @@ function PreloadAllToCache() {
                             //console.log('Caching '  + imageName)
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                            updateInfoTextView() */
                             imgLoaded++
                             showMessageInfo(imgLoaded)
                         } else {
                             //console.log('Error: '  + imageName + ' does not exists in server cache.')
                             imgLoaded++
-                            /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                            updateInfoTextView() */
                             errorMessage.push('<font color="red">Error: Missing Image '  + imageName + '</font><br>')
                         }
                     })
@@ -4434,15 +4318,11 @@ function PreloadAllToCache() {
                             //console.log('Caching '  + imgid + '.png')
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                            updateInfoTextView() */
                             imgLoaded++
                             showMessageInfo(imgLoaded)
                         } else {
                             //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                             imgLoaded++
-                            /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                            updateInfoTextView() */
                             errorMessage.push('<font color="red">Error: Missing Image ' + imgid + '.png</font><br>')
                         }
                     })
@@ -4470,15 +4350,11 @@ function PreloadAllToCache() {
                             //console.log('Caching '  + imageName)
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                            updateInfoTextView() */
                             imgLoaded++
                             showMessageInfo(imgLoaded)
                         } else {
                             //console.log('Error: '  + imageName + ' does not exists in server cache.')
                             imgLoaded++
-                            /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                            updateInfoTextView() */
                             errorMessage.push('<font color="red">Error: Missing Image '  + imageName + '</font><br>')
                         }
                     })
@@ -4508,15 +4384,11 @@ function PreloadAllToCache() {
                             //console.log('Caching '  + imgid + '.png')
                             let bgImage = new Image();
                             bgImage.src = imagePath; 
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                            updateInfoTextView() */
                             imgLoaded++
                             showMessageInfo(imgLoaded)
                         } else {
                             //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                             imgLoaded++
-                            /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                            updateInfoTextView() */
                             errorMessage.push('<font color="red">Error: Missing Image ' + imgid + '.png</font><br>')
                         }
                     })
@@ -4544,15 +4416,11 @@ function PreloadAllToCache() {
                             //console.log('Caching '  + imageName)
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                            /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                            updateInfoTextView() */
                             imgLoaded++
                             showMessageInfo(imgLoaded)
                         } else {
                             //console.log('Error: '  + imageName + ' does not exists in server cache.')
                             imgLoaded++
-                            /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                            updateInfoTextView() */
                             errorMessage.push('<font color="red">Error: Missing Image '  + imageName + '</font><br>')
                         }
                     })
@@ -4580,15 +4448,11 @@ function PreloadAllToCache() {
                             //console.log('Caching '  + imgid + '.png')
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                           /*  document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                            updateInfoTextView() */
                             imgLoaded++
                             showMessageInfo(imgLoaded)
                         } else {
                             //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                             imgLoaded++
-                            /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                            updateInfoTextView() */
                             errorMessage.push('<font color="red">Error: Missing Image ' + imgid + '.png</font><br>')
                         }
                     })
@@ -4616,15 +4480,11 @@ function PreloadAllToCache() {
                             //console.log('Caching '  + imageName)
                             let bgImage = new Image();
                             bgImage.src = imagePath
-                           /*  document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                            updateInfoTextView() */
                             imgLoaded++
                             showMessageInfo(imgLoaded)
                         } else {
                             //console.log('Error: '  + imageName + ' does not exists in server cache.')
                             imgLoaded++
-                            /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                            updateInfoTextView() */
                             errorMessage.push('<font color="red">Error: Missing Image '  + imageName + '</font><br>')
                         }
                     })
@@ -4659,15 +4519,11 @@ function PreloadAllToCache() {
                         //console.log('Caching '  + imgid + '.png')
                         let bgImage = new Image();
                         bgImage.src = imagePath
-                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                        updateInfoTextView() */
                         imgLoaded++
                         showMessageInfo(imgLoaded)
                     } else {
                         //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                         imgLoaded++
-                        /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                        updateInfoTextView() */
                         errorMessage.push('<font color="red">Error: Missing Image ' + imgid + '.png</font><br>')
                     }
                 })
@@ -4697,15 +4553,11 @@ function PreloadAllToCache() {
                         //console.log('Caching '  + imageName)
                         let mapImage = new Image();
                         mapImage.src = imagePath
-                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                        updateInfoTextView() */
                         imgLoaded++
                         showMessageInfo(imgLoaded)
                     } else {
                         //console.log('Error: '  + imageName + ' does not exists in server cache.')
                         imgLoaded++
-                        /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                        updateInfoTextView() */
                         errorMessage.push('<font color="red">Error: Missing Image '  + imageName + '</font><br>')
                     }
                 })
@@ -4737,15 +4589,11 @@ function PreloadAllToCache() {
                         //console.log('Caching '  + imgid + '.png')
                         let bgImage = new Image();
                         bgImage.src = imagePath
-                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                        updateInfoTextView() */
                         imgLoaded++
                         showMessageInfo(imgLoaded)
                     } else {
                         //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                         imgLoaded++
-                        /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                        updateInfoTextView() */
                         errorMessage.push('<font color="red">Error: Missing Image ' + imgid + '.png</font><br>')
                     }
                 })
@@ -4773,15 +4621,11 @@ function PreloadAllToCache() {
                         //console.log('Caching '  + imageName)
                         let bgImage = new Image();
                         bgImage.src = imagePath
-                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                        updateInfoTextView() */
                         imgLoaded++
                         showMessageInfo(imgLoaded)
                     } else {
                         //console.log('Error: '  + imageName + ' does not exists in server cache.')
                         imgLoaded++
-                        /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                        updateInfoTextView() */
                         errorMessage.push('<font color="red">Error: Missing Image '  + imageName + '</font><br>')
                     }
                 })
@@ -4809,15 +4653,11 @@ function PreloadAllToCache() {
                         //console.log('Caching '  + imgid + '.png')
                         let bgImage = new Image();
                         bgImage.src = imagePath
-                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                        updateInfoTextView() */
                         imgLoaded++
                         showMessageInfo(imgLoaded)
                     } else {
                         //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                         imgLoaded++
-                        /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                        updateInfoTextView() */
                         errorMessage.push('<font color="red">Error: Missing Image ' + imgid + '.png</font><br>')
                     }
                 })
@@ -4844,14 +4684,11 @@ function PreloadAllToCache() {
                         //console.log('Caching '  + imageName)
                         let bgImage = new Image();
                         bgImage.src = imagePath
-                       /*  document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                        updateInfoTextView() */
                         imgLoaded++
                         showMessageInfo(imgLoaded)
                     } else {
                         //console.log('Error: '  + imageName + ' does not exists in server cache.')
                         imgLoaded++
-                        /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>' */
                         errorMessage.push('<font color="red">Error: Missing Image '  + imageName + '</font><br>')
                     }
                 })
@@ -4882,15 +4719,11 @@ function PreloadAllToCache() {
                         //console.log('Caching '  + imgid + '.png')
                         let bgImage = new Image();
                         bgImage.src = imagePath
-                        /* document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imgid + '.png from server.<br>'
-                        updateInfoTextView() */
                         imgLoaded++
                         showMessageInfo(imgLoaded)
                     } else {
                         //console.log('Error: '  + imgid + '.png does not exists in server cache.')
                         imgLoaded++
-                        /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image ' + imgid + '.png</font><br>'
-                        updateInfoTextView() */
                         errorMessage.push('<font color="red">Error: Missing Image ' + imgid + '.png</font><br>')
                     }
                 })
@@ -4917,15 +4750,11 @@ function PreloadAllToCache() {
                         //console.log('Caching '  + imageName)
                         let bgImage = new Image();
                         bgImage.src = imagePath
-                       /*  document.getElementById("loadingTxt").innerHTML += 'Loading image '  + imageName + ' from server.<br>'
-                        updateInfoTextView() */
                         imgLoaded++
                         showMessageInfo(imgLoaded)
                     } else {
                         //console.log('Error: '  + imageName + ' does not exists in server cache.')
                         imgLoaded++
-                        /* document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Missing Image '  + imageName + '</font><br>'
-                        updateInfoTextView() */
                         errorMessage.push('<font color="red">Error: Missing Image '  + imageName + '</font><br>')
                     }
                 })
@@ -5136,21 +4965,8 @@ function downloadImagesLocally(urlString) {
 
             //console.log(tempCount, " actual count")
             var AllImageCount = tempCount; //settingDataList.length + privateDataList.length + dailyEvent.length + kioskDataList.length;
-            //console.log(response, " response ", AllImageCount, " > ", imageLoadedCount)
-            //setTimeout(function() {
-            /*
-            "Loading Map Assets..<br>"
-            "Checking Settings..<br>"
-            "Loading Settings From Sheet..<br>"
-            "Loading Directory From Sheet..<br>"
-            "Checking Kiosks..<br>"
-            "Loading Kiosks From Sheet..<br>"
-            "Loading Events From Sheet..<br>"
-            "Loading Images (" + imageLoadedCount + "/" + AllImageCount + ") ..<br>"
-            */
-                /* document.getElementById("loadingTxt").innerHTML = "Loading Images (" + imageLoadedCount + "/" + AllImageCount + ") ..<br>" */
 
-            var msgValue = "Loading Map Assets..<br>"
+            var msgValue = "Loading Map Assets...<br>"
             msgValue += "Checking Settings..<br>"
             msgValue += "Loading Settings From Sheet..<br>"
             msgValue += "Checking Kiosks..<br>"
@@ -5159,10 +4975,10 @@ function downloadImagesLocally(urlString) {
             msgValue += "Loading Events From Sheet..<br>"
             
             msgValue += "Loading Images (" + imageLoadedCount + "/" + AllImageCount + ") ..<br>"
-            document.getElementById("loadingTxt").innerHTML = msgValue;
-            updateInfoTextView()
-            //console.log(document.getElementById("loadingTxt").innerHTML, " val")
-            //}, 0)
+            
+            clearLoadingMessage();
+            appendLoadingMessage(msgValue);
+            
             if(imageLoadedCount < AllImageCount) {
                 imageLoadedCount++;
             } else {
@@ -7009,8 +6825,7 @@ function loadSettingsData() {
                 if(response == '' || response.length == 0) {
                     privateLoaded = true
                     //checkUserQueryString()
-                    document.getElementById("loadingTxt").innerHTML += "No settings data available ..<br>"
-                    updateInfoTextView()
+                    appendLoadingMessage('No settings data available', ERROR);
                     return
                 }
                 settingDataList = []
@@ -7020,8 +6835,7 @@ function loadSettingsData() {
                     var settingsDataString = JSON.stringify(newSettingsData[i]);
                     //newstr += JSON.stringify(isJSON(pp))
                     if(isJSONData(settingsDataString) == false) {
-                        document.getElementById("loadingTxt").innerHTML += '<font color="red">Error: Settings Sheet : (Row: ' + i + ")</font><br>"
-                        updateInfoTextView()
+                        appendLoadingMessage('Error: Settings Sheet : (Row: ' + i + ')');
                     } else {
                         settingDataList[i] = isJSONData(settingsDataString)
                     }
@@ -7093,33 +6907,27 @@ function fetchSheetDetailsPeriodically() {
                                 $.each(settingDataList, function (index, row) {
                                     if(row['Name'] == 'Title') {
                                         sheet_title = row['Value']
-                                        document.getElementById("loadingTxt").innerHTML = 'Sheet Title: ' + row['Value'] + '<br>'
-                                        updateInfoTextView()
+                                        clearLoadingMessage();
+                                        appendLoadingMessage('Sheet Title: ' + row['Value']);
                                     }
                                     if(row['Name'] == 'SheetId') {
-                                        document.getElementById("loadingTxt").innerHTML += 'Sheet Id: ' + row['Value'] + '<br>'
-                                        updateInfoTextView()
+                                        appendLoadingMessage('Sheet Id: ' + row['Value']);
                                     }
                                     if(row['Name'] == 'Version') {
                                         sheet_version = row['Value']
-                                        document.getElementById("loadingTxt").innerHTML += 'Sheet Version: ' + versionResponse.version + '<br>'
-                                        updateInfoTextView()
+                                        appendLoadingMessage('Sheet Version: ' + versionResponse.version);
 
                                         // Add browser session id
-                                        document.getElementById("loadingTxt").innerHTML += 'Session Id: ' + deviceUID + '<br>'
-                                        updateInfoTextView()
+                                        appendLoadingMessage('Session Id: ' + deviceUID);
 
                                         // Add kiosk id if present
                                         if(getKiosk_Num != '') {
-                                            document.getElementById("loadingTxt").innerHTML += 'Kiosk: ' + getKiosk_Num + '<br>'
-                                            updateInfoTextView()
+                                            appendLoadingMessage('Kiosk: ' + getKiosk_Num);
                                         }
-                                        document.getElementById('versionMapInfo').innerHTML = '' + Number(_version) + " - " + row['Value'] + " - " + target
-                                        updateInfoTextView()
+                                        appendLoadingMessage('' + Number(_version) + " - " + row['Value'] + " - " + target);
                                     }
                                     if(row['Name'] == 'PublishedOn') {
-                                        document.getElementById("loadingTxt").innerHTML += 'Sheet Published on: ' + row['Value'] + '<br>'
-                                        updateInfoTextView()
+                                        appendLoadingMessage('Sheet Published on: ' + row['Value']);
                                     }
                                 })
                                 $.each(kioskDataList, function (index_kiosk, row_Kiosk) {
@@ -7128,15 +6936,11 @@ function fetchSheetDetailsPeriodically() {
                                     } 
                                 })
 
-                                document.getElementById("loadingTxt").innerHTML += 'Target: ' + target + '<br>'
-                                updateInfoTextView()
-
-                                document.getElementById("loadingTxt").innerHTML += 'App Version: ' + _version + '<br>'
-                                updateInfoTextView()
+                                appendLoadingMessage('Target: ' + target);
+                                appendLoadingMessage('App Version: ' + _version);
                                 
                                 let currentDate = new Date();
-                                document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('MM/DD/YYYY HH:mm:ss').toLocaleString() + "<br>"
-                                updateInfoTextView()
+                                appendLoadingMessage("Checking server on " + moment(currentDate).format(DATE_FORMAT).toLocaleString())
                                 poll_time_string = moment(currentDate).format('MM/DD/YYYY HH:mm:ss').toLocaleString()
 
                                 //console.log(currentSheetVersion, " --- ", versionResponse.version)
@@ -7144,21 +6948,17 @@ function fetchSheetDetailsPeriodically() {
                                 if(parseFloat(currentSheetVersion).toFixed(1) != parseFloat(versionResponse.version).toFixed(1)) {
                                     // set the sheet version here
                                     currentSheetVersion = versionResponse.version;
-                                    document.getElementById("loadingTxt").innerHTML += 'New update found.<br>'
-                                    updateInfoTextView()
+                                    appendLoadingMessage('New update found.');
 
                                     // Show App version
-                                    document.getElementById("loadingTxt").innerHTML += 'Sheet Version: ' + versionResponse.version + '<br>'
-                                    updateInfoTextView()
+                                    appendLoadingMessage('Sheet Version: ' + versionResponse.version);
 
-                                    // Add browser session id
-                                    document.getElementById("loadingTxt").innerHTML += 'Session Id: ' + deviceUID + '<br>'
-                                    updateInfoTextView()
+                                    // Add browser session id()
+                                    appendLoadingMessage('Session Id: ' + deviceUID);
 
                                     // Add kiosk id if present
                                     if(getKiosk_Num != '') {
-                                        document.getElementById("loadingTxt").innerHTML += 'Kiosk: ' + getKiosk_Num + '<br>'
-                                        updateInfoTextView()
+                                        appendLoadingMessage('Kiosk: ' + getKiosk_Num );
                                     }
                                     currentVersion = "New";
                                     //ReloadDateInBackground();
@@ -7166,10 +6966,7 @@ function fetchSheetDetailsPeriodically() {
                                     //return
                                 } else {
                                     // Show App version
-                                    //document.getElementById("loadingTxt").innerHTML += 'Sheet Version: ' + value + '<br>'
-                                    //updateInfoTextView()
-                                    document.getElementById("loadingTxt").innerHTML += 'No update found.<br>'
-                                    updateInfoTextView();
+                                    appendLoadingMessage('No update found.');
                                     currentVersion = "Same"
                                 }
 
@@ -7211,6 +7008,9 @@ function fetchSheetDetailsPeriodically() {
                                 }
                                 //fetchSheetDetailsPeriodically()
                            // });
+                        },
+                        error: function (response) {
+                            appendLoadingMessage('ERROR ?', ERROR);
                         }
                     })
                     // Clear memory
@@ -7500,67 +7300,52 @@ function savePublishedStateToServer(_value) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 function ReloadCurrentData() {
     let rootFolder = "./sheets/" + sheet_Id + "/" + target;
-    //console.log("Getting game setting data")
-    //if(window.navigator.onLine == true) {
-        var ReadCurrentData = $.ajax({
-            url: rootFolder + "/version.json?version=" + UIVersion,
-            cache: true,
-            type: 'GET',
-            dataType: "text",
-            success: function (response) {
-                let versionResponse = JSON.parse(response)
-                // Check prev and new version
-                let pushStatus = getPublishedStateToServer();
-                // set current sheet version
-                currentSheetVersion = versionResponse.version;
-                currentVersion = "New"
-                loadType = 'refresh'
-                document.getElementById("loadingTxt").innerHTML = 'Loading Map Assets..<br>'
-                updateInfoTextView()
+    
+    var ReadCurrentData = $.ajax({
+        url: rootFolder + "/version.json?version=" + UIVersion,
+        cache: true,
+        type: 'GET',
+        dataType: "text",
+        success: function (response) {
+            let versionResponse = JSON.parse(response)
+            // Check prev and new version
+            let pushStatus = getPublishedStateToServer();
+            // set current sheet version
+            currentSheetVersion = versionResponse.version;
+            currentVersion = "New"
+            loadType = 'refresh'
+            const currentDate = new Date();
 
-                document.getElementById("loadingTxt").innerHTML += 'Target: ' + target + '<br>'
-                updateInfoTextView()
+            clearLoadingMessage();
+            appendLoadingMessage('Loading Map Assets...');
+            appendLoadingMessage('Target: ' + target);
+            appendLoadingMessage('App Version: ' + _version);
+            appendLoadingMessage('Checking server on ' + moment(currentDate).format(DATE_FORMAT));
 
-                document.getElementById("loadingTxt").innerHTML = 'App Version: ' + _version + '<br>'
-                updateInfoTextView()
-
-                let currentDate = new Date();
-                document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('MM/DD/YYYY HH:mm:ss') + "<br>"
-                updateInfoTextView()
-
-                setTimeout(function() {
-                    document.getElementById("loadingTxt").innerHTML += 'Sheet Version: ' + versionResponse.version + '<br>'
-                    updateInfoTextView()
-
-                    // Add browser session id
-                    document.getElementById("loadingTxt").innerHTML += 'Session Id: ' + deviceUID + '<br>'
-                    updateInfoTextView()
-
-                    // Add kiosk id if present
-                    if(getKiosk_Num != '') {
-                        document.getElementById("loadingTxt").innerHTML += 'Kiosk: ' + getKiosk_Num + '<br>'
-                        updateInfoTextView()
-                    }
-
-                    /* document.getElementById('versionId').innerHTML = '' + Number(_version) + " - " + versionResponse.version;
-                    updateInfoTextView() */
-
-                    document.getElementById('versionMapInfo').innerHTML = '' + Number(_version) + " - " + versionResponse.version + " - " + target
-                    updateInfoTextView()
-
-                    getGamesSettingData();
-                }, 0)
-            },
-            error:function(err) {
-                console.log("Ajax error")
-                checkUserQueryString();
+            setTimeout(function() {
+                appendLoadingMessage('Sheet Version: ' + versionResponse.version);
+                appendLoadingMessage('Session Id: ' + deviceUID);
+                // Add kiosk id if present
+                if(getKiosk_Num != '') {
+                    appendLoadingMessage('Kiosk: ' + getKiosk_Num);
+                }
                 
-            }
-        })
-        // Clear memory
-        ReadCurrentData.onreadystatechange = null;
-        ReadCurrentData.abort = null;
-        ReadCurrentData = null;
+                updateStatusMessage('' + Number(_version) + " - " + versionResponse.version + " - " + target);
+                getGamesSettingData();
+            }, 0)
+        },
+        error:function(err) {
+            appendLoadingMessage("ERROR: Target " + target + " not found", ERROR);
+            
+            console.log("Ajax error")
+            checkUserQueryString();
+            
+        }
+    })
+    // Clear memory
+    ReadCurrentData.onreadystatechange = null;
+    ReadCurrentData.abort = null;
+    ReadCurrentData = null;
    
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -7608,38 +7393,25 @@ function ReloadDateInBackground(sheetVersion) {
         
 
     }
-        document.getElementById("loadingTxt").innerHTML = 'Loading Map Assets..<br>'
-        updateInfoTextView()
-
-        document.getElementById("loadingTxt").innerHTML = 'App Version: ' + _version + '<br>'
-        updateInfoTextView()
-
-        let currentDate = new Date();
-        document.getElementById("loadingTxt").innerHTML += "Checking server on " + moment(currentDate).format('YYYY/MM/DD HH:mm:ss') + "<br>"
-        updateInfoTextView()
+        clearLoadingMessage();
+        appendLoadingMessage('Loading Map Assets...');
+        appendLoadingMessage('App Version: ' + _version);
+        const today = new Date();
+        appendLoadingMessage('Checking server on ' + moment(today).format(DATE_FORMAT));
 
         setTimeout(function() {
-            document.getElementById("loadingTxt").innerHTML += 'Sheet Version: ' + sheetVersion + '<br>'
-            updateInfoTextView()
-
-            // Add browser session id
-            document.getElementById("loadingTxt").innerHTML += 'Session Id: ' + deviceUID + '<br>'
-            updateInfoTextView()
+            appendLoadingMessage('Sheet Version: ' + sheetVersion);
+            appendLoadingMessage('Session Id: ' + deviceUID);
 
             // Add kiosk id if present
             if(getKiosk_Num != '') {
-                document.getElementById("loadingTxt").innerHTML += 'Kiosk: ' + getKiosk_Num + '<br>'
-                updateInfoTextView()
+                appendLoadingMessage('Kiosk: ' + getKiosk_Num);
             }
 
-           /*  document.getElementById('versionId').innerHTML = '' + Number(_version) + " - " + sheetVersion
-            updateInfoTextView() */
-
-            document.getElementById('versionMapInfo').innerHTML = '' + Number(_version) + " - " + sheetVersion
-            updateInfoTextView()
+            updateStatusMessage('' + Number(_version) + " - " + sheetVersion + " - " + target);
 
             getGamesSettingData();
-            //savePublishedStateToServer('false')
+
         }, 0)
     //})
     
@@ -7650,8 +7422,7 @@ function ReloadDateInBackground(sheetVersion) {
     if(sheet_Id == '') {
         if(window.navigator.onLine == false) {
             // showing message
-            document.getElementById("loadingTxt").innerHTML += "Checking Cache..<br>"
-            updateInfoTextView()
+            appendLoadingMessage('Checking Cache..');
 
             // 5/7/24
             //window.ldb.get('zapMap_VersionNum', function (value) {
@@ -7670,8 +7441,7 @@ function ReloadDateInBackground(sheetVersion) {
     } else {
         if(window.navigator.onLine == false) {
             // showing message
-            document.getElementById("loadingTxt").innerHTML += "Checking Cache..<br>"
-            updateInfoTextView()
+            appendLoadingMessage('Checking Cache..');
             ///////////////////////////////////////////////////////////////////////////
         } else {
             //console.log("If no cache then wait...")
@@ -7693,8 +7463,7 @@ function ReloadDateInBackground(sheetVersion) {
                         //console.log(value, " -------------- ")
                         if(value == null || value == '')  {
                             //console.log(sheet_Id + '_VersionNum is', value);
-                            document.getElementById("loadingTxt").innerHTML += "Map data not available..<br>"
-                            updateInfoTextView()
+                            appendLoadingMessage('Map data not available.', ERROR);
                             fetchSheetDetailsPeriodically()
                             return
                         } else {

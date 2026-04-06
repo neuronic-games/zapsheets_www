@@ -1141,7 +1141,7 @@ Inline CSS for file loading setup
     display: none; 
     overflow: hidden; 
     justify-content: space-around; 
-    background-color:#1F62A0; 
+/*    background-color:#1F62A0;*/
     align-items: center; 
     height: 86%; 
     opacity: 0;
@@ -1206,6 +1206,7 @@ Inline CSS for file loading setup
     -webkit-user-select: text;
     -ms-user-select: text;
     user-select: text;
+    padding-top: 10px;
 }
 .imgInitial1 {
     opacity: 0;
@@ -3163,6 +3164,13 @@ input[type=text]:focus {
   display: inline-block;
   height: 100%;
   vertical-align: middle
+}
+
+.loading-normal {
+}
+.loading-error {
+  color: red;
+  weight: bold;
 }
 @-webkit-keyframes 
 load { 0% {

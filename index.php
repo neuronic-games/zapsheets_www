@@ -103,6 +103,7 @@
         //alert(activeSheetId)
         // Loading updated Controller
         getControllerVersion(_ver)
+        getZapSheetsCore(_ver)
 
         // Hide default screen
         setTimeout(function() {
@@ -210,6 +211,15 @@
       inetScript.src = './js-package/getInternetStat.js?version=' + _ver;
       document.getElementsByTagName('head')[0].appendChild(inetScript);
     }
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    function getCurrentMainVersion() {
+        var mapScript = document.createElement('script');
+        mapScript.id = 'map_Script';
+        mapScript.type = 'text/javascript';
+        mapScript.src = './js-package/mapMain.js?version=' + UIVersion;
+        mapScript.onload = checkLoadStat()
+        document.getElementsByTagName('head')[0].appendChild(mapScript);
+    }
     /////////////////////////////////////////////////////////////////////////////////
     /*
     * getControllerVersion
@@ -232,6 +242,15 @@
       cssLink.href = './css/style.css?version=' + _ver;
       document.getElementsByTagName('head')[0].appendChild(cssLink);
     }
+        /////////////////////////////////////////////////////////////////////////////////
+    function getZapSheetsCore(_ver) {
+      var conScript = document.createElement('script');
+      conScript.id = 'controller_Script';
+      conScript.type = 'text/javascript';
+      conScript.src = './js-package/zapsheetsCore.js?version=' + _ver;
+      document.getElementsByTagName('head')[0].appendChild(conScript);
+    }
+    
     //////////////////////////////////////////////////////////////////////////
     /*
     * onSplashDown
