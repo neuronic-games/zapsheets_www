@@ -1141,7 +1141,7 @@ Inline CSS for file loading setup
     display: none; 
     overflow: hidden; 
     justify-content: space-around; 
-    background-color:#1F62A0; 
+/*    background-color:#1F62A0;*/
     align-items: center; 
     height: 86%; 
     opacity: 0;
