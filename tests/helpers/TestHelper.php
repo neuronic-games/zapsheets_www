@@ -1,8 +1,9 @@
 <?php
 
+namespace ZapSheets\Tests\helpers;
+
 use PHPUnit\Framework\TestCase;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\Firefox\FirefoxOptions;

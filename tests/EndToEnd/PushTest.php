@@ -1,6 +1,9 @@
 <?php
 
+namespace ZapSheets\Tests\EndToEnd;
+
 use Facebook\WebDriver\WebDriverBy;
+use ZapSheets\Tests\helpers\TestHelper;
 
 require_once __DIR__ . '/../helpers/TestHelper.php';
 
@@ -27,6 +30,6 @@ class PushTest extends TestHelper
 
         $this->assertTrue(true);
 
-        $this->takeScreenshot(getScreenshotPath(get_class($this) . '::PushTest'));
+        $this->takeScreenshot();
     }
 }
