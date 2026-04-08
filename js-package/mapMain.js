@@ -2260,7 +2260,7 @@ function CreateFirstUIScreen() {
                         itemToAdd += `<div style="display: flex;
                         flex-wrap: wrap;
                         flex-direction: column;
-                        height: 74vh;"><div class="groupTitle" id='group-${index}'>` + groupListFilterData[index].data.Group.replaceAll('dqo', '"') + `</div>` 
+                        width: 21rem;"><div class="groupTitle" id='group-${index}'>` + groupListFilterData[index].data.Group.replaceAll('dqo', '"') + `</div>` 
                     }
                     //console.log(row, " 11")
                     let itemCount = 0
