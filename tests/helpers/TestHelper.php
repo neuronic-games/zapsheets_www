@@ -44,8 +44,8 @@ abstract class TestHelper extends TestCase
         $this->driver->manage()->window()->setSize(
             new \Facebook\WebDriver\WebDriverDimension(
                 $options['viewport']['width'],
-                $options['viewport']['height']
-            )
+                $options['viewport']['height'],
+            ),
         );
 
         // Set implicit wait
@@ -55,9 +55,7 @@ abstract class TestHelper extends TestCase
     protected function onNotSuccessfulTest(\Throwable $t): never
     {
         if ($this->driver) {
-            $screenshotPath = getScreenshotPath(get_class($this) . '::' . $this->name());
-            $this->driver->takeScreenshot($screenshotPath);
-            fwrite(STDERR, "\nScreenshot saved: $screenshotPath\n");
+            $this->takeScreenshot();
         }
         parent::onNotSuccessfulTest($t);
     }
@@ -87,7 +85,7 @@ abstract class TestHelper extends TestCase
     {
         $by = $this->getBySelector($selector);
         $this->driver->wait($timeout / 1000)->until(
-            WebDriverExpectedCondition::visibilityOfElementLocated($by)
+            WebDriverExpectedCondition::visibilityOfElementLocated($by),
         );
         return $this->driver->findElement($by);
     }
@@ -125,7 +123,7 @@ abstract class TestHelper extends TestCase
     protected function waitForPageLoad()
     {
         $this->driver->wait()->until(
-            WebDriverExpectedCondition::jsReturnsTrue("return document.readyState === 'complete'")
+            WebDriverExpectedCondition::jsReturnsTrue("return document.readyState === 'complete'"),
         );
     }
 
@@ -174,16 +172,16 @@ abstract class TestHelper extends TestCase
     {
         $by = $this->getBySelector($selector);
         $this->driver->wait($timeout / 1000)->until(
-            WebDriverExpectedCondition::invisibilityOfElementLocated($by)
+            WebDriverExpectedCondition::invisibilityOfElementLocated($by),
         );
     }
 
     /**
      * Take a screenshot
      */
-    protected function takeScreenshot($filename = null)
+    protected function takeScreenshot($filename = null): string
     {
-        $path = $filename ?: getScreenshotPath($this->name());
+        $path = $filename ?: getScreenshotPath(get_class($this) . '::' . $this->name());
         $this->driver->takeScreenshot($path);
         return $path;
     }
