@@ -55,15 +55,22 @@ abstract class TestHelper extends TestCase
     protected function onNotSuccessfulTest(\Throwable $t): never
     {
         if ($this->driver) {
-            $this->takeScreenshot();
+            try {
+                $this->takeScreenshot();
+            } catch (\Throwable $e) {
+                fwrite(STDERR, "\nScreenshot capture failed: " . $e->getMessage() . "\n");
+            }
+            $this->driver->quit();
+            $this->driver = null;
         }
         parent::onNotSuccessfulTest($t);
     }
 
     protected function tearDown(): void
     {
-        if ($this->driver) {
+        if ($this->driver && $this->status()->isSuccess()) {
             $this->driver->quit();
+            $this->driver = null;
         }
 
         parent::tearDown();
