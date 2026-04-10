@@ -11,7 +11,7 @@ use ZapSheets\Tests\helpers\TestHelper;
  */
 class MapTest extends TestHelper
 {
-    #[DependsExternal('PushTest', 'testPushAll')]
+    #[DependsExternal('ZapSheets\Tests\EndToEnd\PushTest', 'testPushAll')]
     public function testIndex(): void
     {
         $this->navigateTo('/?id=' . $_ENV['TEST_SPREADSHEET_ID']);
@@ -36,6 +36,6 @@ class MapTest extends TestHelper
 
         $this->assertStringContainsString("Admissions", $mapListText);
 
-        $this->takeScreenshot(getScreenshotPath(get_class($this) . '::MapTest'));
+        $this->takeScreenshot();
     }
 }

@@ -52,16 +52,18 @@ abstract class TestHelper extends TestCase
         $this->driver->manage()->timeouts()->implicitlyWait(10);
     }
 
+    protected function onNotSuccessfulTest(\Throwable $t): never
+    {
+        if ($this->driver) {
+            $screenshotPath = getScreenshotPath(get_class($this) . '::' . $this->name());
+            $this->driver->takeScreenshot($screenshotPath);
+            fwrite(STDERR, "\nScreenshot saved: $screenshotPath\n");
+        }
+        parent::onNotSuccessfulTest($t);
+    }
+
     protected function tearDown(): void
     {
-        // Take screenshot on test failure
-        if (method_exists($this, 'getStatus') && $this->getStatus() === \PHPUnit\Runner\BaseTestRunner::STATUS_FAILURE) {
-            $screenshotPath = getScreenshotPath(get_class($this) . '::' . $this->getName());
-            $this->driver->takeScreenshot($screenshotPath);
-            echo "Screenshot saved to: $screenshotPath";
-        }
-
-        // Clean up WebDriver resources
         if ($this->driver) {
             $this->driver->quit();
         }
@@ -181,9 +183,8 @@ abstract class TestHelper extends TestCase
      */
     protected function takeScreenshot($filename = null)
     {
-        $path = $filename ?: getScreenshotPath(get_class($this) . '::' . $this->getName());
+        $path = $filename ?: getScreenshotPath($this->name());
         $this->driver->takeScreenshot($path);
         return $path;
     }
 }
-
