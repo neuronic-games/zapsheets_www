@@ -28,7 +28,29 @@ class PushTest extends TestHelper
             }
         );
 
-        $this->assertTrue(true);
+        $sheetDir = dirname(__DIR__, 2) . '/sheets/' . $_ENV['TEST_SPREADSHEET_ID'] . '/live';
+
+        $settings = json_decode(file_get_contents($sheetDir . '/settings.json'), true);
+        $bgImageUrl = null;
+        foreach ($settings as $setting) {
+            if ($setting['Name'] === 'BackgroundImage') {
+                $bgImageUrl = $setting['Value'];
+                break;
+            }
+        }
+        $this->assertNotEmpty($bgImageUrl, 'BackgroundImage URL not found in settings');
+
+        $bgCachePath = $sheetDir . '/cacheImages/bg.png';
+        $this->assertFileExists($bgCachePath, 'Cached background image not found');
+
+        $sourceContent = file_get_contents($bgImageUrl);
+        $this->assertNotEmpty($sourceContent, 'Failed to download BackgroundImage from source');
+
+        $this->assertSame(
+            sha1($sourceContent),
+            sha1_file($bgCachePath),
+            'Cached background image hash does not match source',
+        );
 
         $this->takeScreenshot();
     }
