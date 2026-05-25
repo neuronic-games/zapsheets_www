@@ -52,6 +52,15 @@ class PushTest extends TestHelper
             'Cached background image hash does not match source',
         );
 
+        $pushStatusPath = $sheetDir . "/pushstatus.json";
+
+        $this->assertFileExists($pushStatusPath, 'pushstatus.json not found');
+
+        $this->assertSame(
+            file_get_contents($pushStatusPath),
+            '{"push":"true"}',
+        );
+
         $this->takeScreenshot();
     }
 }
