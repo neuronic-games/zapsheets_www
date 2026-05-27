@@ -56,6 +56,7 @@ function HideEventScreen() {
         document.getElementById('eventScreen').style.display = 'none'
         document.getElementById('eventScreen').style.opacity = 0
         document.getElementById('eventScreen').style.overflow = "hidden"
+        document.getElementById('mapContainer').style.visibility = 'visible'
 
     }, 550)
 }
@@ -81,6 +82,7 @@ function ShowSplashScreen() {
  * Show event screen
  */
 function ShowEventScreen() {
+    document.getElementById('mapContainer').style.visibility = 'hidden'
     document.getElementById('eventScreen').style.display = 'flex'
     document.getElementById("eventScreen").style.opacity = 1;
 }

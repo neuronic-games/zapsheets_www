@@ -3040,12 +3040,19 @@ input[type=text]:focus {
 }
 
 .versionMap {
-    position: absolute; 
-    top: 0.5em; 
-    right: 1em; 
-    color: #FFFFFF90; 
+    position: absolute;
+    top: 0.5em;
+    right: 1em;
+    color: #FFFFFF90;
     font-family: Font-Default;
     font-size: 1.6vh;
+}
+@media screen and (orientation: portrait) {
+    .versionMap {
+        position: fixed;
+        top: 0.5em;
+        right: 1em;
+    }
 }
 
 ::-webkit-scrollbar {
