@@ -37,16 +37,7 @@
       echo 'integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="';
   } ?>
     crossorigin="anonymous"></script>
-<script src="./js-package/popper.min.js"
-  <?php if ($_ENV['ENVIRONMENT'] != 'development') {
-      echo 'integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"';
-  } ?>
-    crossorigin="anonymous"></script>
-<script src="./js-package/bootstrap.min.js"
-  <?php if ($_ENV['ENVIRONMENT'] != 'development') {
-      echo 'integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"';
-  } ?>
-    crossorigin="anonymous"></script>
+<!-- popper.min.js and bootstrap.min.js removed: both are included in bootstrap.bundle.min.js -->
 <script src="./js-package/qrcode.min.js"></script>
 <!-- New Preloader-->
 <script src="./js-package/jquery.loading-indicator.min.js"></script>
@@ -59,7 +50,7 @@
   <div id="uiSnippetContainer" style="position: absolute; width: 100%; height: 100vh;"></div>
 
   <script src="./js-package/localdata.js"></script>
-  <script src="./js-package/moment.min.js?version=1.0"></script>
+  <!-- moment.min.js already loaded in <head> above; duplicate removed -->
   <script src="./js-package/device-uuid.min.js?version=1.0"></script>
   <script src="./js-package/md5.js?version=1.0"></script>
   <script src="./js-package/createjs.min.js?version=1.0"></script>
@@ -245,7 +236,7 @@
         /////////////////////////////////////////////////////////////////////////////////
     function getZapSheetsCore(_ver) {
       var conScript = document.createElement('script');
-      conScript.id = 'controller_Script';
+      conScript.id = 'core_Script';
       conScript.type = 'text/javascript';
       conScript.src = './js-package/zapsheetsCore.js?version=' + _ver;
       document.getElementsByTagName('head')[0].appendChild(conScript);

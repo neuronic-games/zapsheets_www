@@ -13,15 +13,7 @@ function HideSplashScreen() {
         document.getElementById('splashScreen').style.opacity = 0
         document.getElementById('splashScreen').style.overflow = "hidden"
     });
-    let detectDeviceType = () =>
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-            ? 'Mobile'
-            : 'Desktop';
-    if(detectDeviceType() == 'Desktop') {
-        document.getElementById('defaultBG').style.display = 'block'
-    } else {
-        document.getElementById('defaultBG').style.display = 'block'
-    }
+    document.getElementById('defaultBG').style.display = 'block'
     setTimeout(function() {
         if(document.getElementById("splashScreen").style.opacity == 1) {
             slideStatus = "active"
@@ -297,21 +289,6 @@ function resetIdleTimer() {
     clearTimeout(idleTime);
     idleTime = setTimeout(idleOut, (idleTimeOut * 1000))
 }
-/////////////////////////////////////////////////////////////////////////////////////
-/**
- * function to get the url variables passed in url
- * @returns 
- */
-/* function getUrlVars() {
-    var vars = [], hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for (var i = 0; i < hashes.length; i++) {
-    hash = hashes[i].split('=');
-    vars.push(hash[0]);
-    vars[hash[0]] = hash[1];
-    }
-    return vars;
-} */
 /////////////////////////////////////////////////////////////////////////////
 /**
  * iOS FIX
@@ -364,7 +341,7 @@ function getGamesPrivateData() {
                     }
                     privateDataList = []
                     var mResponse = response.replace(/�/g, "")
-                    var newPrivateData = eval(mResponse)
+                    var newPrivateData = JSON.parse(mResponse)
                     for(var i=0; i<newPrivateData.length; i++) {
                         var privateDataString = JSON.stringify(newPrivateData[i]);
                         if(isJSONData(privateDataString) == false) {
@@ -403,7 +380,7 @@ function getGamesPrivateData() {
             }
             privateDataList = []
             var mResponse = response.replace(/�/g, "")
-            var newPrivateData = eval(mResponse)
+            var newPrivateData = JSON.parse(mResponse)
             for(var i=0; i<newPrivateData.length; i++) {
                 var privateDataString = JSON.stringify(newPrivateData[i]);
                 if(isJSONData(privateDataString) == false) {
@@ -516,13 +493,6 @@ function getGamesSettingData() {
                             }
                             addLanguage = row["Value"]
                         }
-                        // Add Language toggle option if defined
-                        if(row["Name"] == "AddLanguage") {
-                            if(row["Value"] == "" || row["Value"] == undefined) {
-                                row["Value"] = ""
-                            }
-                            addLanguage = row["Value"]
-                        }
                         if(row["Name"] == "Layout") {
                             if(row["Value"] == "" || row["Value"] == undefined) {
                                 //row["Value"] = "Basic Horizontal"
@@ -596,7 +566,7 @@ function getGamesSettingData() {
                         }
                         settingDataList = []
                         var mResponse = response.replace(/�/g, "")
-                        var newSettingsData = eval(mResponse)
+                        var newSettingsData = JSON.parse(mResponse)
                         for(var i=0; i<newSettingsData.length; i++) {
                             var settingsDataString = JSON.stringify(newSettingsData[i]);
                             if(isJSONData(settingsDataString) == false) {
@@ -730,10 +700,10 @@ function getGamesSettingData() {
                             mapVersionNum = value
                             if(mapVersionNum == settingVersion) {
                                 appendLoadingMessage('Loading Settings From Local Cache...');
-                                document.getElementById('versionText').innerHTML = '[' + controllerVerion + ' - ' + _version + ' - ' + settingVersion +']'
+                                document.getElementById('versionText').innerHTML = '[' + controllerVersion + ' - ' + _version + ' - ' + settingVersion +']'
                             } else {
                                 appendLoadingMessage('Loading Settings From Server...');
-                                document.getElementById('versionText').innerHTML = '' + controllerVerion + ' - ' + _version + ' - ' + settingVersion +''
+                                document.getElementById('versionText').innerHTML = '' + controllerVersion + ' - ' + _version + ' - ' + settingVersion +''
                             }
                         })
                         ////////////////////////////////////////////////////////
@@ -811,7 +781,7 @@ function getMapKioskData() {
                         }
                         kioskDataList = []
                         var mResponse = response.replace(/�/g, "")
-                        var newKiosksData = eval(mResponse)
+                        var newKiosksData = JSON.parse(mResponse)
                         for(var i=0; i<newKiosksData.length; i++) {
                             var kiosksDataString = JSON.stringify(newKiosksData[i]);
                             if(isJSONData(kiosksDataString) == false) {
@@ -856,7 +826,7 @@ function getMapKioskData() {
                     }
                     kioskDataList = []
                     var mResponse = response.replace(/�/g, "")
-                    var newKiosksData = eval(mResponse)
+                    var newKiosksData = JSON.parse(mResponse)
                     for(var i=0; i<newKiosksData.length; i++) {
                         var kiosksDataString = JSON.stringify(newKiosksData[i]);
                         //newstr += JSON.stringify(isJSON(pp))
@@ -1266,7 +1236,7 @@ function checkUserQueryString() {
                         return
                     } 
                     var mResponse = response.replace(/�/g, "")
-                    var newEventsData = eval(mResponse)
+                    var newEventsData = JSON.parse(mResponse)
                     for(var i=0; i<newEventsData.length; i++) {
                         var eventDataString = JSON.stringify(newEventsData[i]);
                         //console.log(isJSON(pp), " --- ")
@@ -1331,7 +1301,7 @@ function checkUserQueryString() {
                 ////////////////////////////////////////////////////////////////////////////////////
                 ////////////////////////////////////////////////////////////////////////////////////
                 var mResponse = response.replace(/�/g, "")
-                var newEventsData = eval(mResponse)
+                var newEventsData = JSON.parse(mResponse)
                 for(var i=0; i<newEventsData.length; i++) {
                     var eventDataString = JSON.stringify(newEventsData[i]);
                     //console.log(isJSON(pp), " --- ")
@@ -6830,7 +6800,7 @@ function loadSettingsData() {
                 }
                 settingDataList = []
                 var mResponse = response.replace(/�/g, "")
-                var newSettingsData = eval(mResponse)
+                var newSettingsData = JSON.parse(mResponse)
                 for(var i=0; i<newSettingsData.length; i++) {
                     var settingsDataString = JSON.stringify(newSettingsData[i]);
                     //newstr += JSON.stringify(isJSON(pp))
