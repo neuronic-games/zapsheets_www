@@ -1283,12 +1283,18 @@ input[type=text]:focus {
     .directory {
         position: relative;
         width: 90vw;
-        /* height: 30vh; */
-        /* height: 70vh; */
         height: 62vh;
         background-color: white;
         margin-left: 5vw;
-        overflow: auto;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    .directory #directoryList,
+    .directory #eventList {
+        overflow-y: auto;
+        flex: 1;
+        top: 0 !important;
     }
     .map {
         position: relative;
@@ -1407,12 +1413,16 @@ input[type=text]:focus {
         height: 100%;
     }
     #directoryEventTitle {
-        position: relative;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: transparent;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 96% !important;
+        width: 100% !important;
         left: 0;
+        flex-shrink: 0;
     }
 
     .languageToggle {
@@ -1543,12 +1553,16 @@ input[type=text]:focus {
         top: 44vh;
     }
     #directoryEventTitle {
-        position: relative;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: transparent;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 96% !important;
+        width: 100% !important;
         left: 0;
+        flex-shrink: 0;
     }
 }
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////*/
@@ -1679,12 +1693,16 @@ input[type=text]:focus {
         top: 30vh;
     }
     #directoryEventTitle {
-        position: relative;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: transparent;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 96% !important;
+        width: 100% !important;
         left: 0;
+        flex-shrink: 0;
     }
 }
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////*/
@@ -1838,12 +1856,16 @@ input[type=text]:focus {
         top: 30vh;
     }
     #directoryEventTitle {
-        position: relative;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: transparent;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 96% !important;
+        width: 100% !important;
         left: 0;
+        flex-shrink: 0;
     }
 }
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////*/
@@ -1946,12 +1968,16 @@ input[type=text]:focus {
     }
 
     #directoryEventTitle {
-        position: relative;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: transparent;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 96% !important;
+        width: 100% !important;
         left: 0;
+        flex-shrink: 0;
     }
 
 }
@@ -2082,12 +2108,16 @@ input[type=text]:focus {
         top: 29vh;
     }
     #directoryEventTitle {
-        position: relative;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: transparent;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 96% !important;
+        width: 100% !important;
         left: 0;
+        flex-shrink: 0;
     }
 }
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////*/
@@ -2217,12 +2247,16 @@ input[type=text]:focus {
         top: 29vh;
     }
     #directoryEventTitle {
-        position: relative;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: transparent;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 96% !important;
+        width: 100% !important;
         left: 0;
+        flex-shrink: 0;
     }
 }
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////*/
@@ -2351,12 +2385,16 @@ input[type=text]:focus {
         top: 29vh;
     }
     #directoryEventTitle {
-        position: relative;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: transparent;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 96% !important;
+        width: 100% !important;
         left: 0;
+        flex-shrink: 0;
     }
 }
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////*/
@@ -2486,12 +2524,16 @@ input[type=text]:focus {
     }
 
     #directoryEventTitle {
-        position: relative;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: transparent;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 96% !important;
+        width: 100% !important;
         left: 0;
+        flex-shrink: 0;
     }
 }
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////*/
@@ -2628,12 +2670,16 @@ input[type=text]:focus {
         top: 31vh;
     }
     #directoryEventTitle {
-        position: relative;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: transparent;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 96% !important;
+        width: 100% !important;
         left: 0;
+        flex-shrink: 0;
     }
 
 }
@@ -2764,12 +2810,16 @@ input[type=text]:focus {
         top: 33vh;
     }
     #directoryEventTitle {
-        position: relative;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: transparent;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 96% !important;
+        width: 100% !important;
         left: 0;
+        flex-shrink: 0;
     }
 }
 

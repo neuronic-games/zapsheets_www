@@ -13,7 +13,9 @@ function HideSplashScreen() {
         document.getElementById('splashScreen').style.opacity = 0
         document.getElementById('splashScreen').style.overflow = "hidden"
     });
-    document.getElementById('defaultBG').style.display = 'block'
+    if (document.getElementById('defaultBGImage').getAttribute('src') != '') {
+        document.getElementById('defaultBG').style.display = 'block'
+    }
     setTimeout(function() {
         if(document.getElementById("splashScreen").style.opacity == 1) {
             slideStatus = "active"
@@ -1056,6 +1058,8 @@ function checkUserQueryString() {
             }, 100)
             // showing background
             showBackgroundImage();
+            showLogoImage();
+            applyBackgroundColor();
             setTimeout(function () {
                 // set splash image
                 splash_img = ''
@@ -1253,6 +1257,8 @@ function checkUserQueryString() {
                     //console.log(eventsDataList, '.....')
                     // showing background
                     showBackgroundImage();
+                    showLogoImage();
+                    applyBackgroundColor();
                     CreateFirstUIScreen()
                     // CHANGE HERE FORCE RELOAD
                     return;
@@ -1297,6 +1303,8 @@ function checkUserQueryString() {
                     appendLoadingMessage('Error: No events data available.', ERROR);
                     // showing background
                     showBackgroundImage();
+                    showLogoImage();
+                    applyBackgroundColor();
                     CreateFirstUIScreen()
                     return
                 }
@@ -1321,6 +1329,8 @@ function checkUserQueryString() {
 
                 // showing background
                 showBackgroundImage();
+                showLogoImage();
+                applyBackgroundColor();
 
                 CreateFirstUIScreen()
 
@@ -2525,17 +2535,21 @@ function showBackgroundImage() {
         }
     } */
     //console.log(defBGImgPath, " ---")
-    document.getElementById('defaultBG').style.display = 'block'
-    document.getElementById('defaultBGImage').src = defBGImgPath
-    ////////////////////////////////////////////////////////////////////
-    document.getElementById('defaultBGImage').onload = function() {
-        //console.log("Background loaded")
+    if (defBGImgPath == '') {
+        document.getElementById('defaultBG').style.display = 'none'
         backgroundLoaded = true;
+    } else {
+        document.getElementById('defaultBG').style.display = 'block'
+        document.getElementById('defaultBGImage').src = defBGImgPath
+        ////////////////////////////////////////////////////////////////////
+        document.getElementById('defaultBGImage').onload = function() {
+            backgroundLoaded = true;
+        }
+        document.getElementById('defaultBGImage').onerror = () => {
+            backgroundLoaded = true;
+        };
+        ////////////////////////////////////////////////////////////////////
     }
-    document.getElementById('defaultBGImage').onerror = () => {
-        backgroundLoaded = true;
-    };
-    ////////////////////////////////////////////////////////////////////
 
 
     // Load default map image
@@ -2572,9 +2586,57 @@ function showBackgroundImage() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
+ * Apply BackgroundColor from Settings to the main container,
+ * directory panel, and map panel.
+ */
+function applyBackgroundColor() {
+    let bgColor = '';
+    $.each(settingDataList, function(index_setting, row_setting) {
+        if (row_setting['Name'] == 'BackgroundColor') {
+            if (row_setting['Value'] != '' && row_setting['Value'] != undefined) {
+                bgColor = row_setting['Value'];
+            }
+        }
+    });
+    if (bgColor == '') { return; }
+    document.getElementById('mainAppContainer').style.backgroundColor = bgColor;
+    document.getElementById('directoryContainer').style.backgroundColor = bgColor;
+    document.getElementById('mapContainer').style.backgroundColor = bgColor;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Show the logo image defined in Settings as LogoImageUrl,
+ * fixed at the bottom-left of the screen.
+ */
+function showLogoImage() {
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target;
+    let logoImgPath = '';
+    $.each(settingDataList, function (index_setting, row_setting) {
+        if (row_setting['Name'] == 'LogoImageUrl') {
+            if (row_setting['Value'] != '' && row_setting['Value'] != undefined) {
+                if (row_setting['Value'].includes("https://drive.google.com")) {
+                    let imgid = row_setting['Value'].split('https://drive.google.com')[1].split('/')[3];
+                    logoImgPath = rootFolder + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
+                } else {
+                    let name = row_setting['Value'].split('/');
+                    let imageName = name[name.length - 1].indexOf('?') ? name[name.length - 1].split('?')[0] : name[name.length - 1];
+                    logoImgPath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                }
+            }
+        }
+    });
+    let logoEl = document.getElementById('logoImage');
+    if (logoImgPath != '' && logoEl) {
+        logoEl.src = logoImgPath;
+        logoEl.style.display = 'block';
+        logoEl.onerror = function() { logoEl.style.display = 'none'; };
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
  * function to set the active init language
  * ENGLIST | SPANISH
- * @param {*} lang 
+ * @param {*} lang
  */
 function setInitLanguage(lang) {
     if(lang == 'eng') {
@@ -2882,7 +2944,12 @@ function UpdateUIBasedOnActiveLanguage() {
         } */
          // Display defauly BG ENG Version
          console.log(defBGImgPath, " >>>>")
-         document.getElementById('defaultBGImage').src = defBGImgPath
+         if (defBGImgPath != '') {
+             document.getElementById('defaultBGImage').src = defBGImgPath
+             document.getElementById('defaultBG').style.display = 'block'
+         } else {
+             document.getElementById('defaultBG').style.display = 'none'
+         }
         ////////////////////////////////////////////////////////////////////////////////
         /* // slider data
         slideShowLoaded = false
@@ -7567,7 +7634,9 @@ function showLogScreen() {
     hideloader();
     document.getElementById('mainAppContainer').style.display = 'flex';
     document.getElementById('eventScreen').style.display = 'block';
-    document.getElementById('defaultBG').style.display = 'block'
+    if (document.getElementById('defaultBGImage').getAttribute('src') != '') {
+        document.getElementById('defaultBG').style.display = 'block'
+    }
     document.getElementById('page-header').style.display = 'none'
     document.getElementById('page-footer').style.display = 'none'
     document.getElementById('spinningLoader').style.display = 'block'
