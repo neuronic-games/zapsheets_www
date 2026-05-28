@@ -62,7 +62,7 @@ if (!function_exists('getScreenshotPath')) {
 // Configure Selenium WebDriver options with geckodriver
 if (!defined('WEBDRIVER_BROWSER_OPTIONS')) {
     define('WEBDRIVER_BROWSER_OPTIONS', [
-        'headless' => false, // Set to false for debugging
+        'headless' => true, // Set to false for debugging
         'timeout' => 30000,
         'viewport' => ['width' => 1280, 'height' => 720],
         'browser' => 'firefox',
