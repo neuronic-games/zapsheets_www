@@ -37,8 +37,7 @@
       echo 'integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="';
   } ?>
     crossorigin="anonymous"></script>
-<!-- popper.min.js and bootstrap.min.js removed: both are included in bootstrap.bundle.min.js -->
-<script src="./js-package/qrcode.min.js"></script>
+		<script src="./js-package/qrcode.min.js"></script>
 <!-- New Preloader-->
 <script src="./js-package/jquery.loading-indicator.min.js"></script>
 
@@ -50,7 +49,6 @@
   <div id="uiSnippetContainer" style="position: absolute; width: 100%; height: 100vh;"></div>
 
   <script src="./js-package/localdata.js"></script>
-  <!-- moment.min.js already loaded in <head> above; duplicate removed -->
   <script src="./js-package/device-uuid.min.js?version=1.0"></script>
   <script src="./js-package/md5.js?version=1.0"></script>
   <script src="./js-package/createjs.min.js?version=1.0"></script>
