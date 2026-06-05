@@ -28,7 +28,7 @@ let imageLoadedCount = 1
 let forceReload = false;
 let backgroundLoaded = false;
 let onNewDevice = false;
-let daillyEventsAll = []
+let dailyEventsAll = []
 let dailyEventsOnly = []
 var slideStatus = "stop"
 var timerCount = 0
@@ -69,7 +69,7 @@ var target = 'live';
 var mapVersionNum = 0
 var settingVersion = 0
 // Controller version
-let controllerVerion = 5
+let controllerVersion = 5
 let appDataLoaded = false;
 
 //let homeLoader = ''
@@ -97,17 +97,8 @@ checkVersion();
  * checkVersion
  */
 function checkVersion() {
-    if(window.navigator.onLine == true) {
-        // Version files
-        getCurrentLiveVersion();
-        // Game file
-        getCurrentMainVersion();
-    } else {
-        // Version files
-        getCurrentLiveVersion();
-        // Game file
-        getCurrentMainVersion();
-    }
+    getCurrentLiveVersion();
+    getCurrentMainVersion();
 
     setTimeout(function() {
         currentRunningVersion = _version;

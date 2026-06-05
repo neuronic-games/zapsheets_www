@@ -13,13 +13,7 @@ function HideSplashScreen() {
         document.getElementById('splashScreen').style.opacity = 0
         document.getElementById('splashScreen').style.overflow = "hidden"
     });
-    let detectDeviceType = () =>
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-            ? 'Mobile'
-            : 'Desktop';
-    if(detectDeviceType() == 'Desktop') {
-        document.getElementById('defaultBG').style.display = 'block'
-    } else {
+    if (document.getElementById('defaultBGImage').getAttribute('src') != '') {
         document.getElementById('defaultBG').style.display = 'block'
     }
     setTimeout(function() {
@@ -64,6 +58,7 @@ function HideEventScreen() {
         document.getElementById('eventScreen').style.display = 'none'
         document.getElementById('eventScreen').style.opacity = 0
         document.getElementById('eventScreen').style.overflow = "hidden"
+        document.getElementById('mapContainer').style.visibility = 'visible'
 
     }, 550)
 }
@@ -89,6 +84,7 @@ function ShowSplashScreen() {
  * Show event screen
  */
 function ShowEventScreen() {
+    document.getElementById('mapContainer').style.visibility = 'hidden'
     document.getElementById('eventScreen').style.display = 'flex'
     document.getElementById("eventScreen").style.opacity = 1;
 }
@@ -297,21 +293,6 @@ function resetIdleTimer() {
     clearTimeout(idleTime);
     idleTime = setTimeout(idleOut, (idleTimeOut * 1000))
 }
-/////////////////////////////////////////////////////////////////////////////////////
-/**
- * function to get the url variables passed in url
- * @returns 
- */
-/* function getUrlVars() {
-    var vars = [], hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for (var i = 0; i < hashes.length; i++) {
-    hash = hashes[i].split('=');
-    vars.push(hash[0]);
-    vars[hash[0]] = hash[1];
-    }
-    return vars;
-} */
 /////////////////////////////////////////////////////////////////////////////
 /**
  * iOS FIX
@@ -364,7 +345,7 @@ function getGamesPrivateData() {
                     }
                     privateDataList = []
                     var mResponse = response.replace(/�/g, "")
-                    var newPrivateData = eval(mResponse)
+                    var newPrivateData = JSON.parse(mResponse)
                     for(var i=0; i<newPrivateData.length; i++) {
                         var privateDataString = JSON.stringify(newPrivateData[i]);
                         if(isJSONData(privateDataString) == false) {
@@ -403,7 +384,7 @@ function getGamesPrivateData() {
             }
             privateDataList = []
             var mResponse = response.replace(/�/g, "")
-            var newPrivateData = eval(mResponse)
+            var newPrivateData = JSON.parse(mResponse)
             for(var i=0; i<newPrivateData.length; i++) {
                 var privateDataString = JSON.stringify(newPrivateData[i]);
                 if(isJSONData(privateDataString) == false) {
@@ -516,13 +497,6 @@ function getGamesSettingData() {
                             }
                             addLanguage = row["Value"]
                         }
-                        // Add Language toggle option if defined
-                        if(row["Name"] == "AddLanguage") {
-                            if(row["Value"] == "" || row["Value"] == undefined) {
-                                row["Value"] = ""
-                            }
-                            addLanguage = row["Value"]
-                        }
                         if(row["Name"] == "Layout") {
                             if(row["Value"] == "" || row["Value"] == undefined) {
                                 //row["Value"] = "Basic Horizontal"
@@ -596,7 +570,7 @@ function getGamesSettingData() {
                         }
                         settingDataList = []
                         var mResponse = response.replace(/�/g, "")
-                        var newSettingsData = eval(mResponse)
+                        var newSettingsData = JSON.parse(mResponse)
                         for(var i=0; i<newSettingsData.length; i++) {
                             var settingsDataString = JSON.stringify(newSettingsData[i]);
                             if(isJSONData(settingsDataString) == false) {
@@ -730,10 +704,10 @@ function getGamesSettingData() {
                             mapVersionNum = value
                             if(mapVersionNum == settingVersion) {
                                 appendLoadingMessage('Loading Settings From Local Cache...');
-                                document.getElementById('versionText').innerHTML = '[' + controllerVerion + ' - ' + _version + ' - ' + settingVersion +']'
+                                document.getElementById('versionText').innerHTML = '[' + controllerVersion + ' - ' + _version + ' - ' + settingVersion +']'
                             } else {
                                 appendLoadingMessage('Loading Settings From Server...');
-                                document.getElementById('versionText').innerHTML = '' + controllerVerion + ' - ' + _version + ' - ' + settingVersion +''
+                                document.getElementById('versionText').innerHTML = '' + controllerVersion + ' - ' + _version + ' - ' + settingVersion +''
                             }
                         })
                         ////////////////////////////////////////////////////////
@@ -811,7 +785,7 @@ function getMapKioskData() {
                         }
                         kioskDataList = []
                         var mResponse = response.replace(/�/g, "")
-                        var newKiosksData = eval(mResponse)
+                        var newKiosksData = JSON.parse(mResponse)
                         for(var i=0; i<newKiosksData.length; i++) {
                             var kiosksDataString = JSON.stringify(newKiosksData[i]);
                             if(isJSONData(kiosksDataString) == false) {
@@ -856,7 +830,7 @@ function getMapKioskData() {
                     }
                     kioskDataList = []
                     var mResponse = response.replace(/�/g, "")
-                    var newKiosksData = eval(mResponse)
+                    var newKiosksData = JSON.parse(mResponse)
                     for(var i=0; i<newKiosksData.length; i++) {
                         var kiosksDataString = JSON.stringify(newKiosksData[i]);
                         //newstr += JSON.stringify(isJSON(pp))
@@ -1084,6 +1058,8 @@ function checkUserQueryString() {
             }, 100)
             // showing background
             showBackgroundImage();
+            showLogoImage();
+            applyBackgroundColor();
             setTimeout(function () {
                 // set splash image
                 splash_img = ''
@@ -1266,7 +1242,7 @@ function checkUserQueryString() {
                         return
                     } 
                     var mResponse = response.replace(/�/g, "")
-                    var newEventsData = eval(mResponse)
+                    var newEventsData = JSON.parse(mResponse)
                     for(var i=0; i<newEventsData.length; i++) {
                         var eventDataString = JSON.stringify(newEventsData[i]);
                         //console.log(isJSON(pp), " --- ")
@@ -1281,6 +1257,8 @@ function checkUserQueryString() {
                     //console.log(eventsDataList, '.....')
                     // showing background
                     showBackgroundImage();
+                    showLogoImage();
+                    applyBackgroundColor();
                     CreateFirstUIScreen()
                     // CHANGE HERE FORCE RELOAD
                     return;
@@ -1325,13 +1303,15 @@ function checkUserQueryString() {
                     appendLoadingMessage('Error: No events data available.', ERROR);
                     // showing background
                     showBackgroundImage();
+                    showLogoImage();
+                    applyBackgroundColor();
                     CreateFirstUIScreen()
                     return
                 }
                 ////////////////////////////////////////////////////////////////////////////////////
                 ////////////////////////////////////////////////////////////////////////////////////
                 var mResponse = response.replace(/�/g, "")
-                var newEventsData = eval(mResponse)
+                var newEventsData = JSON.parse(mResponse)
                 for(var i=0; i<newEventsData.length; i++) {
                     var eventDataString = JSON.stringify(newEventsData[i]);
                     //console.log(isJSON(pp), " --- ")
@@ -1349,6 +1329,8 @@ function checkUserQueryString() {
 
                 // showing background
                 showBackgroundImage();
+                showLogoImage();
+                applyBackgroundColor();
 
                 CreateFirstUIScreen()
 
@@ -2553,17 +2535,21 @@ function showBackgroundImage() {
         }
     } */
     //console.log(defBGImgPath, " ---")
-    document.getElementById('defaultBG').style.display = 'block'
-    document.getElementById('defaultBGImage').src = defBGImgPath
-    ////////////////////////////////////////////////////////////////////
-    document.getElementById('defaultBGImage').onload = function() {
-        //console.log("Background loaded")
+    if (defBGImgPath == '') {
+        document.getElementById('defaultBG').style.display = 'none'
         backgroundLoaded = true;
+    } else {
+        document.getElementById('defaultBG').style.display = 'block'
+        document.getElementById('defaultBGImage').src = defBGImgPath
+        ////////////////////////////////////////////////////////////////////
+        document.getElementById('defaultBGImage').onload = function() {
+            backgroundLoaded = true;
+        }
+        document.getElementById('defaultBGImage').onerror = () => {
+            backgroundLoaded = true;
+        };
+        ////////////////////////////////////////////////////////////////////
     }
-    document.getElementById('defaultBGImage').onerror = () => {
-        backgroundLoaded = true;
-    };
-    ////////////////////////////////////////////////////////////////////
 
 
     // Load default map image
@@ -2600,9 +2586,57 @@ function showBackgroundImage() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
+ * Apply BackgroundColor from Settings to the main container,
+ * directory panel, and map panel.
+ */
+function applyBackgroundColor() {
+    let bgColor = '';
+    $.each(settingDataList, function(index_setting, row_setting) {
+        if (row_setting['Name'] == 'BackgroundColor') {
+            if (row_setting['Value'] != '' && row_setting['Value'] != undefined) {
+                bgColor = row_setting['Value'];
+            }
+        }
+    });
+    if (bgColor == '') { return; }
+    document.getElementById('mainAppContainer').style.backgroundColor = bgColor;
+    document.getElementById('directoryContainer').style.backgroundColor = bgColor;
+    document.getElementById('mapContainer').style.backgroundColor = bgColor;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Show the logo image defined in Settings as LogoImageUrl,
+ * fixed at the bottom-left of the screen.
+ */
+function showLogoImage() {
+    let rootFolder = "./sheets/" + sheet_Id + "/" + target;
+    let logoImgPath = '';
+    $.each(settingDataList, function (index_setting, row_setting) {
+        if (row_setting['Name'] == 'LogoImageUrl') {
+            if (row_setting['Value'] != '' && row_setting['Value'] != undefined) {
+                if (row_setting['Value'].includes("https://drive.google.com")) {
+                    let imgid = row_setting['Value'].split('https://drive.google.com')[1].split('/')[3];
+                    logoImgPath = rootFolder + '/cacheImages/' + imgid + ".png?version=" + UIVersion;
+                } else {
+                    let name = row_setting['Value'].split('/');
+                    let imageName = name[name.length - 1].indexOf('?') ? name[name.length - 1].split('?')[0] : name[name.length - 1];
+                    logoImgPath = rootFolder + '/cacheImages/' + imageName + "?version=" + UIVersion;
+                }
+            }
+        }
+    });
+    let logoEl = document.getElementById('logoImage');
+    if (logoImgPath != '' && logoEl) {
+        logoEl.src = logoImgPath;
+        logoEl.style.display = 'block';
+        logoEl.onerror = function() { logoEl.style.display = 'none'; };
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
  * function to set the active init language
  * ENGLIST | SPANISH
- * @param {*} lang 
+ * @param {*} lang
  */
 function setInitLanguage(lang) {
     if(lang == 'eng') {
@@ -2910,7 +2944,12 @@ function UpdateUIBasedOnActiveLanguage() {
         } */
          // Display defauly BG ENG Version
          console.log(defBGImgPath, " >>>>")
-         document.getElementById('defaultBGImage').src = defBGImgPath
+         if (defBGImgPath != '') {
+             document.getElementById('defaultBGImage').src = defBGImgPath
+             document.getElementById('defaultBG').style.display = 'block'
+         } else {
+             document.getElementById('defaultBG').style.display = 'none'
+         }
         ////////////////////////////////////////////////////////////////////////////////
         /* // slider data
         slideShowLoaded = false
@@ -6830,7 +6869,7 @@ function loadSettingsData() {
                 }
                 settingDataList = []
                 var mResponse = response.replace(/�/g, "")
-                var newSettingsData = eval(mResponse)
+                var newSettingsData = JSON.parse(mResponse)
                 for(var i=0; i<newSettingsData.length; i++) {
                     var settingsDataString = JSON.stringify(newSettingsData[i]);
                     //newstr += JSON.stringify(isJSON(pp))
@@ -7595,7 +7634,9 @@ function showLogScreen() {
     hideloader();
     document.getElementById('mainAppContainer').style.display = 'flex';
     document.getElementById('eventScreen').style.display = 'block';
-    document.getElementById('defaultBG').style.display = 'block'
+    if (document.getElementById('defaultBGImage').getAttribute('src') != '') {
+        document.getElementById('defaultBG').style.display = 'block'
+    }
     document.getElementById('page-header').style.display = 'none'
     document.getElementById('page-footer').style.display = 'none'
     document.getElementById('spinningLoader').style.display = 'block'

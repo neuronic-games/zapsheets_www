@@ -33,24 +33,9 @@ if (typeof(Worker) !== "undefined") {
                 console.log("INTERNET ACTIVE - ")
                 // Get the app version
 
-                /* const options = {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json; charset=UTF-8"
-                    },
-                    body:JSON.stringify({'jsonPath' : ('sheets/' + sheet_Id.toString() + '/version.json')}), 
-                }; */
-
                 let jsonURL = {
                     jsonPath : 'sheets/' + sheet_Id.toString() + '/version.json'
                 }
-
-               /*  var formData = new FormData();
-                formData.append('jsonPath', JSON.stringify(jsonURL)); */
-
-                /* let sheet_vol {
-                    jsonPath : ""
-                } */
 
                 //fetch('../get_version.php', formData)
                 fetch('../get_version_cache.php', {
@@ -93,86 +78,6 @@ if (typeof(Worker) !== "undefined") {
                     // Handle any errors that occurred during the fetch
                     console.error('Fetch error:', error);
                 });
-               
-                /* $.ajax({
-                    url: 'get_version.php', 
-                    type:'POST', 
-                    data:{'jsonPath' : ('sheets/' + sheet_Id + '/version.json')}, 
-                    cache: false, 
-                    async: false,
-                    success: function (response) {
-                        console.log(response, " data")
-                        // Check prev and new version
-                        //window.ldb.get('zapMap_VersionNum', function (value) {
-                        //ldb.get(sheet_Id.toString() + '_VersionNum', function (value) {
-                            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                            console.log(JSON.stringify(value), " = Version = ", JSON.stringify(response))
-
-                            //if(JSON.stringify(value) != JSON.stringify(response)){
-                            if(parseFloat(value).toFixed(1) != parseFloat(response).toFixed(1)) {
-                                console.log('Different values')
-                                //window.ldb.set('zapMap_VersionNum', response)
-                                ldb.set(sheet_Id.toString() + '_VersionNum', response)
-                            } else {
-                                console.log("same value")
-                            }
-                           setTimeout(function() {
-                                fetchSheetDetailsPeriodically()
-                            }, 100)
-                           // return;
-
-                            //if(JSON.stringify(value) != response) {
-                            if(parseFloat(value).toFixed(1) != parseFloat(response).toFixed(1)) {
-                                //console.log("ENTER HERE NEW")
-                                //window.ldb.set('zapMap_VersionNum', response)
-                                window.ldb.set(sheet_Id.toString() + '_VersionNum', response)
-                                currentVersion = "New"
-                                //return
-                            } else {
-                                currentVersion = "Same"
-                            }
-
-                            if(JSON.stringify(response) == '"null"') {
-                                //console.log("ENTER HERE NEW 3")
-                                currentVersion = "Same"
-                            } else if(JSON.stringify(value) != JSON.stringify(response) || value == null){
-                                //console.log("ENTER HERE NEW")
-                                window.ldb.set('zapMap_VersionNum', response)
-                                currentVersion = "New"
-                                //return
-                            } else if((JSON.stringify(value) == JSON.stringify(response)) || JSON.stringify(value) == null) {
-                                //console.log("ENTER HERE NEW 2")
-                                currentVersion = "Same"
-                            }
-                            
-
-                                if(JSON.stringify(response) == '"null"') {
-                                    console.log("ENTER HERE NEW 3")
-                                    currentVersion = "Same"
-                                }
-
-
-
-                            //console.log(currentVersion, " >>>>>>>>>>>>>>>")
-                            
-                            fetchSheetDetailsPeriodically()
-                            return
-
-
-                            if(currentVersion == 'New') {
-                                // Reset All Values
-                                setTimeout(function() {
-                                    // Change loadType here for refreshing the loaded content
-                                    //window.ldb.set(sheet_Id.toString() + '_loadType', 'refresh')
-                                    //window.location.reload()
-                                }, 100)
-                            } else {
-                                fetchSheetDetailsPeriodically()
-                                
-                            }
-                        //});
-                    }
-                }) */
                     fetchSheetDetailsPeriodically()
             } else {
                 //console.log("NO INTERNET")
@@ -182,31 +87,10 @@ if (typeof(Worker) !== "undefined") {
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     function fetchSettingDataFromSpreadsheet() {
-        console.log('Sheet ID',  sheet_Id)
-        /* $.ajax({ 
-            //url: apiurl, 
-            url: 'private_data.php', 
-            type:'POST', 
-            data:{'sheetId' : sheet_Id, 'sheet' : 'Settings'}, 
-            cache: false, 
-            async: false,
-            success: function (response) {
-                console.log(response, " --- " )
-            }
-        }); */
         let jsonURL = {
             sheetId : sheet_Id,
             sheet : 'Settings'
         }
-
-       /*  var formData = new FormData();
-        formData.append('jsonPath', JSON.stringify(jsonURL)); */
-
-        /* let sheet_vol {
-            jsonPath : ""
-        } */
-
-        //fetch('../get_version.php', formData)
         fetch('../private_data_cache.php', {
             "method": "POST", 
             "headers": {
