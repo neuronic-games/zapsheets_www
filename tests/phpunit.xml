@@ -13,6 +13,9 @@
         <testsuite name="EndToEnd">
             <directory>EndToEnd</directory>
         </testsuite>
+        <testsuite name="Integration">
+            <directory>Integration</directory>
+        </testsuite>
     </testsuites>
 
     <source>

@@ -1,9 +1,16 @@
-/sheets/
+# Settings and credentials
 **/credentials.json*
 /.env
 /.env.testing
+# Data files
+/sheets/
+# Logs
 /log/
+# 3rd-party packages
 /vendor/
+# Tests
 /tests/.phpunit.cache
 /.php-cs-fixer.cache
+/.php-cs-fixer.dist.php
 /tests/screenshots/
+/.phpunit.cache/

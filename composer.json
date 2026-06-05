@@ -13,6 +13,8 @@
           "Composer\\Config::disableProcessTimeout",
           "php -S 0.0.0.0:8000"
         ],
-        "test-e2e": "cd tests && ../vendor/bin/phpunit"
+        "test-all": "cd tests && ../vendor/bin/phpunit",
+        "test-e2e": "cd tests && ../vendor/bin/phpunit EndToEnd",
+        "test-integration": "cd tests && ../vendor/bin/phpunit Integration"
     }
 }

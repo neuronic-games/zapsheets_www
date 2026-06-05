@@ -1,8 +1,9 @@
 <?php
 
+namespace ZapSheets\Tests\helpers;
+
 use PHPUnit\Framework\TestCase;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\Firefox\FirefoxOptions;
@@ -43,26 +44,33 @@ abstract class TestHelper extends TestCase
         $this->driver->manage()->window()->setSize(
             new \Facebook\WebDriver\WebDriverDimension(
                 $options['viewport']['width'],
-                $options['viewport']['height']
-            )
+                $options['viewport']['height'],
+            ),
         );
 
         // Set implicit wait
         $this->driver->manage()->timeouts()->implicitlyWait(10);
     }
 
+    protected function onNotSuccessfulTest(\Throwable $t): never
+    {
+        if ($this->driver) {
+            try {
+                $this->takeScreenshot();
+            } catch (\Throwable $e) {
+                fwrite(STDERR, "\nScreenshot capture failed: " . $e->getMessage() . "\n");
+            }
+            $this->driver->quit();
+            $this->driver = null;
+        }
+        parent::onNotSuccessfulTest($t);
+    }
+
     protected function tearDown(): void
     {
-        // Take screenshot on test failure
-        if (method_exists($this, 'getStatus') && $this->getStatus() === \PHPUnit\Runner\BaseTestRunner::STATUS_FAILURE) {
-            $screenshotPath = getScreenshotPath(get_class($this) . '::' . $this->getName());
-            $this->driver->takeScreenshot($screenshotPath);
-            echo "Screenshot saved to: $screenshotPath";
-        }
-
-        // Clean up WebDriver resources
-        if ($this->driver) {
+        if ($this->driver && $this->status()->isSuccess()) {
             $this->driver->quit();
+            $this->driver = null;
         }
 
         parent::tearDown();
@@ -84,7 +92,7 @@ abstract class TestHelper extends TestCase
     {
         $by = $this->getBySelector($selector);
         $this->driver->wait($timeout / 1000)->until(
-            WebDriverExpectedCondition::visibilityOfElementLocated($by)
+            WebDriverExpectedCondition::visibilityOfElementLocated($by),
         );
         return $this->driver->findElement($by);
     }
@@ -122,7 +130,7 @@ abstract class TestHelper extends TestCase
     protected function waitForPageLoad()
     {
         $this->driver->wait()->until(
-            WebDriverExpectedCondition::jsReturnsTrue("return document.readyState === 'complete'")
+            WebDriverExpectedCondition::jsReturnsTrue("return document.readyState === 'complete'"),
         );
     }
 
@@ -171,18 +179,17 @@ abstract class TestHelper extends TestCase
     {
         $by = $this->getBySelector($selector);
         $this->driver->wait($timeout / 1000)->until(
-            WebDriverExpectedCondition::invisibilityOfElementLocated($by)
+            WebDriverExpectedCondition::invisibilityOfElementLocated($by),
         );
     }
 
     /**
      * Take a screenshot
      */
-    protected function takeScreenshot($filename = null)
+    protected function takeScreenshot($filename = null): string
     {
-        $path = $filename ?: getScreenshotPath(get_class($this) . '::' . $this->getName());
+        $path = $filename ?: getScreenshotPath(get_class($this) . '::' . $this->name());
         $this->driver->takeScreenshot($path);
         return $path;
     }
 }
-
